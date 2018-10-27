@@ -1,6 +1,7 @@
 import React from 'react'
-import { Route, Link } from 'react-router-dom'
+import { Route } from 'react-router-dom'
 import BooksList from './BooksList'
+import Search from './Search';
 // import * as BooksAPI from './BooksAPI'
 import './App.css'
 
@@ -9,7 +10,10 @@ class App extends React.Component {
 
 	render() {
 		return (
-			<Route exact path='/' component={BooksList} />
+			<div>
+				<Route exact path='/' component={BooksList} />
+				<Route path='/search' component={Search} />
+			</div>
 		);
 	}
 
