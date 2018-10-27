@@ -1,17 +1,32 @@
 import React from 'react'
 import { Route } from 'react-router-dom'
+import PropsRoute from './PropsRoute'
 import BooksList from './BooksList'
 import Search from './Search';
-// import * as BooksAPI from './BooksAPI'
+import * as BooksAPI from './BooksAPI'
 import './App.css'
-
 
 class App extends React.Component {
 
+	state = {
+		books: []
+	};
+
+	componentDidMount() {
+		BooksAPI.getAll()
+			.then( books => {
+				this.setState(() => ({
+					books
+				}));
+		});
+	}
+
 	render() {
+		const { books } = this.state;
+
 		return (
 			<div>
-				<Route exact path='/' component={BooksList} />
+				<PropsRoute exact path='/' component={BooksList} books={books} />
 				<Route path='/search' component={Search} />
 			</div>
 		);
