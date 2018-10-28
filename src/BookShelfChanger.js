@@ -39,7 +39,7 @@ class BookShelfChanger extends React.Component {
 	}
 
 	render() {
-		const { shelf, shelves } = this.props;
+		const { shelves } = this.props;
 
 		return (
 			<select value={this.state.selectedValue} onChange={this.selectionChanged}>
@@ -55,4 +55,4 @@ class BookShelfChanger extends React.Component {
 }
 
 
-export default BookShelfChanger;
+export default BookShelfChanger
