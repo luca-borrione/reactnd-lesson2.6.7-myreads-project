@@ -1,42 +1,24 @@
+
 import React from 'react'
 import { Link } from 'react-router-dom'
 import BookShelf from './BookShelf';
-// import * as BooksAPI from './BooksAPI'
+import { getShelves, getBooksInShelf } from './utils/BooksUtils'
+import PropTypes from 'prop-types'
+import { TBook } from './types'
+
 
 class BooksList extends React.Component {
 
-	getShelfIds(books) {
-		return [
-			...new Set(books.map( book => book.shelf ))
-		];
-	}
-
-	getBooksInShelf(books, shelf) {
-		return books.filter( book => book.shelf === shelf );
-	}
-
-	getShelfTitle(shelf) {
-		switch (shelf) {
-
-			case 'currentlyReading':
-				return 'currently reading';
-
-			case 'wantToRead':
-				return 'want to read';
-
-			case 'read':
-				return 'read';
-
-			default:
-				throw new Error('unexpected shelf id: '+shelf);
-
-		}
-	}
+	static propTypes = {
+		books:  PropTypes.arrayOf(
+					PropTypes.shape(TBook).isRequired
+				).isRequired
+	};
 
 	render() {
 		const { books } = this.props;
 
-		const shelves = this.getShelfIds(books);
+		const shelves = getShelves(books);
 
 		return (
 			<div className="list-books">
@@ -45,10 +27,11 @@ class BooksList extends React.Component {
 				</div>
 				<div className="list-books-content">
 					{shelves.map( (shelf, index) => {
-						const booksInShelf = this.getBooksInShelf(books, shelf);
+						const booksInShelf = getBooksInShelf(books, shelf);
 						return (
 							<BookShelf key={index}
-								title={this.getShelfTitle(shelf)}
+								shelf={shelf}
+								shelves={shelves}
 								books={booksInShelf} />
 						)})}
 				</div>
@@ -58,6 +41,8 @@ class BooksList extends React.Component {
 			</div>
 		);
 	}
+
 }
 
-export default BooksList;
+
+export default BooksList

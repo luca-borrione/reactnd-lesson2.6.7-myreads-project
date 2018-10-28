@@ -16,9 +16,16 @@ class App extends React.Component {
 		BooksAPI.getAll()
 			.then( books => {
 				this.setState(() => ({
-					books
-				}));
-				console.log(books); // TODO: remove this
+					books: books.map( book => ({
+						authors: book.authors,
+						shelf: book.shelf,
+						thumbnail: book.imageLinks.thumbnail,
+						title: book.title
+					}))
+				}), () => {
+					console.log(this.state.books); // TODO: remove this
+				});
+
 		});
 	}
 
