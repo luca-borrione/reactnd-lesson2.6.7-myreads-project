@@ -2,7 +2,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import BookShelf from './BookShelf';
-import { getShelves, getBooksInShelf } from './utils/BooksUtils'
+import { getShelves } from './utils/BooksUtils'
 import PropTypes from 'prop-types'
 import { TBook } from './types'
 
@@ -27,7 +27,11 @@ class BooksList extends React.Component {
 				</div>
 				<div className="list-books-content">
 					{shelves.map( (shelf, index) => {
-						const booksInShelf = getBooksInShelf(books, shelf);
+
+						const booksInShelf = books.filter( book =>
+							book.shelf === shelf
+						);
+
 						return (
 							<BookShelf key={index}
 								shelf={shelf}
