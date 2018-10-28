@@ -10,7 +10,7 @@ class BooksGrid extends React.Component {
 		return (
 			<ol className="books-grid">
 				{books.map( (book, index) => (
-					<Book key={index} />
+					<Book key={index} book={book} />
 				))}
 			</ol>
 		);

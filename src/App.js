@@ -18,6 +18,7 @@ class App extends React.Component {
 				this.setState(() => ({
 					books
 				}));
+				console.log(books); // TODO: remove this
 		});
 	}
 
