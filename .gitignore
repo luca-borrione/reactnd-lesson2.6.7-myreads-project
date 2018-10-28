@@ -1,5 +1,8 @@
-node_modules
-yarn.lock
 .DS_Store
 .history
 .idea
+
+docs
+docs-dev
+node_modules
+yarn.lock

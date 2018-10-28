@@ -6,13 +6,17 @@
     "react-router-dom": "^4.3.1"
   },
   "devDependencies": {
+    "docdash": "^1.0.0",
+    "jsdoc": "^3.5.5",
     "react-scripts": "^2.0.5"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "jsdoc": "jsdoc --configure jsdoc.conf.json --recurse",
+    "jsdoc-dev": "jsdoc --configure jsdoc.conf.json --recurse --private --destination ./docs-dev"
   },
   "browserslist": [
     ">0.2%",
