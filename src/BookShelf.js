@@ -3,30 +3,31 @@ import React from 'react'
 import BooksGrid from './BooksGrid'
 import { getShelfTitle } from './utils/BooksUtils'
 import PropTypes from 'prop-types'
-import { TBook } from './types'
 
 
 class BookShelf extends React.Component {
 
 	static propTypes = {
-		books:  PropTypes.arrayOf(
-					PropTypes.shape(TBook).isRequired
+		bookIDs:  PropTypes.arrayOf(
+					PropTypes.string.isRequired
 				).isRequired,
 		shelf: PropTypes.string.isRequired,
-		shelves: PropTypes.arrayOf(PropTypes.string).isRequired
+		shelves: PropTypes.arrayOf(PropTypes.string).isRequired,
+		updateShelf: PropTypes.func.isRequired
 	};
 
 	render() {
-		const { books, shelf, shelves } = this.props;
+		const { bookIDs, shelf, shelves, updateShelf } = this.props;
 
 		return (
 			<div className="bookshelf">
 				<h2 className="bookshelf-title">{getShelfTitle(shelf)}</h2>
 				<div className="bookshelf-books">
 					<BooksGrid
-						books={books.filter( book => book.shelf === shelf )}
+						bookIDs={bookIDs}
 						shelf={shelf}
-						shelves={shelves} />
+						shelves={shelves}
+						updateShelf={updateShelf} />
 				</div>
 			</div>
 		);

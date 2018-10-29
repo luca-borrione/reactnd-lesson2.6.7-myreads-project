@@ -8,7 +8,8 @@ class BookShelfChanger extends React.Component {
 
 	static propTypes = {
 		shelf: PropTypes.string.isRequired,
-		shelves: PropTypes.arrayOf(PropTypes.string).isRequired
+		shelves: PropTypes.arrayOf(PropTypes.string).isRequired,
+		onShelfChange: PropTypes.func.isRequired
 	};
 
 	constructor(props) {
@@ -21,20 +22,17 @@ class BookShelfChanger extends React.Component {
 	};
 
 	static getDerivedStateFromProps(nextProps, prevState) {
-		// if (nextProps.shelf !== prevState.selectedValue) {
 		if (!prevState.selectedValue) {
-			console.log('from props: '+nextProps.shelf);
 			return { selectedValue: nextProps.shelf};
 		}
 		return null;
 	}
 
 	selectionChanged(event) {
-		console.log(event.target.value);
 		this.setState({
 			selectedValue: event.target.value
 		}, () => {
-			console.log(this.state.selectedValue);
+			this.props.onShelfChange(this.state.selectedValue);
 		});
 	}
 

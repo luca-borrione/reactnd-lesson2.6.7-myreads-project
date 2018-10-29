@@ -10,33 +10,70 @@ import './App.css'
 
 class App extends React.Component {
 
+	constructor(props) {
+		super(props);
+		this.updateShelf = this.updateShelf.bind(this);
+	}
+
 	state = {
-		books: []
+		books: [],
+		booksInShelf: {}
 	};
 
 	componentDidMount() {
+
 		BooksAPI.getAll()
 			.then( books => {
-				this.setState(() => ({
-					books: books.map( book => ({
-						authors: book.authors,
-						shelf: book.shelf,
-						thumbnail: book.imageLinks.thumbnail,
-						title: book.title
-					}))
-				}), () => {
-					console.log(this.state.books); // TODO: remove this
+
+				const booksInShelf = {};
+				books.forEach( book => {
+					booksInShelf[book.shelf] = [
+						...(booksInShelf[book.shelf] || []),
+						book.id
+					];
 				});
 
-		});
+				this.setState(() => ({
+					books,
+					booksInShelf
+				}), () => {
+					console.log('>> A: ',this.state); // TODO: remove this
+				});
+			});
+
+	}
+
+	updateShelf(bookID, shelf) {
+		console.log('---> updateShelf ::: ',bookID);  // TODO: remove this
+		const currentBooks = this.state.books;
+
+		const bookIndex = currentBooks.findIndex( book => book.id === bookID );
+		const book = currentBooks[bookIndex];
+
+		const nextBooks = [...currentBooks];
+		nextBooks[bookIndex].shelf = shelf;
+
+		BooksAPI.update(book, shelf)
+			.then( booksInShelf => {
+				this.setState(() => ({
+					books: nextBooks,
+					booksInShelf
+				}), () => {
+					console.log('>> B: ',this.state); // TODO: remove this
+				});
+			});
+
 	}
 
 	render() {
-		const { books } = this.state;
+		const { booksInShelf } = this.state;
 
 		return (
 			<div>
-				<PropsRoute exact path='/' component={BooksList} books={books} />
+				<PropsRoute exact path='/' component={BooksList}
+					booksInShelf={booksInShelf}
+					updateShelf={this.updateShelf} />
+
 				<Route path='/search' component={Search} />
 			</div>
 		);

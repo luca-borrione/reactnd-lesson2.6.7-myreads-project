@@ -2,23 +2,23 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import BookShelf from './BookShelf';
-import { getShelves } from './utils/BooksUtils'
 import PropTypes from 'prop-types'
-import { TBook } from './types'
 
 
 class BooksList extends React.Component {
 
 	static propTypes = {
-		books:  PropTypes.arrayOf(
-					PropTypes.shape(TBook).isRequired
-				).isRequired
+		booksInShelf: PropTypes.objectOf(
+						  PropTypes.arrayOf(PropTypes.string.isRequired).isRequired
+					  ).isRequired,
+
+		updateShelf: PropTypes.func.isRequired
 	};
 
 	render() {
-		const { books } = this.props;
+		const { booksInShelf, updateShelf } = this.props;
 
-		const shelves = getShelves(books);
+		const shelves = Object.keys(booksInShelf);
 
 		return (
 			<div className="list-books">
@@ -26,18 +26,15 @@ class BooksList extends React.Component {
 					<h1>MyReads</h1>
 				</div>
 				<div className="list-books-content">
-					{shelves.map( (shelf, index) => {
+					{shelves.map( (shelf, index) => (
 
-						const booksInShelf = books.filter( book =>
-							book.shelf === shelf
-						);
+						<BookShelf key={index}
+							shelf={shelf}
+							shelves={shelves}
+							bookIDs={booksInShelf[shelf]}
+							updateShelf={updateShelf} />
 
-						return (
-							<BookShelf key={index}
-								shelf={shelf}
-								shelves={shelves}
-								books={booksInShelf} />
-						)})}
+					))}
 				</div>
 				<div className="open-search">
 					<Link to='/search'>Add a book</Link>
