@@ -26,7 +26,7 @@
 
 <nav>
     
-    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="BooksUtils.html">BooksUtils</a><ul class='methods'><li data-type='method'><a href="BooksUtils.html#.getShelfTitle">getShelfTitle</a></li><li data-type='method'><a href="BooksUtils.html#.getShelves">getShelves</a></li></ul></li><li><a href="StringUtils.html">StringUtils</a><ul class='methods'><li data-type='method'><a href="StringUtils.html#.makeTitle">makeTitle</a></li><li data-type='method'><a href="StringUtils.html#.ucFirst">ucFirst</a></li><li data-type='method'><a href="StringUtils.html#.ucWords">ucWords</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#showSearchPage">showSearchPage</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="BooksUtils.html">BooksUtils</a><ul class='methods'><li data-type='method'><a href="BooksUtils.html#.getShelfTitle">getShelfTitle</a></li></ul></li><li><a href="StringUtils.html">StringUtils</a><ul class='methods'><li data-type='method'><a href="StringUtils.html#.makeTitle">makeTitle</a></li><li data-type='method'><a href="StringUtils.html#.ucFirst">ucFirst</a></li><li data-type='method'><a href="StringUtils.html#.ucWords">ucWords</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#showSearchPage">showSearchPage</a></li></ul>
 </nav>
 
 <div id="main">
@@ -234,7 +234,7 @@ const title = getShelfTitle('wantToRead');</code></pre>
 
             
 
-            <td class="description last"><p>the shelf id</p></td>
+            <td class="description last"><p>The shelf unique name</p></td>
         </tr>
 
     
@@ -259,9 +259,7 @@ const title = getShelfTitle('wantToRead');</code></pre>
 <dl>
     <dt>
         <div class="param-desc">
-        <ul>
-<li>throws an exception if an unexpected shelf id has been passed</li>
-</ul>
+        <p>Throws an exception if an unexpected shelf id has been passed</p>
         </div>
     </dt>
     <dd></dd>
@@ -289,9 +287,7 @@ const title = getShelfTitle('wantToRead');</code></pre>
 
         
 <div class="param-desc">
-    <ul>
-<li>the shelf title with the expected text cases</li>
-</ul>
+    <p>The shelf title with the expected text cases</p>
 </div>
 
 
@@ -303,220 +299,6 @@ const title = getShelfTitle('wantToRead');</code></pre>
     <dd>
         
 <span class="param-type">string</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-        
-            
-
-    
-
-    <h4 class="name" id=".getShelves"><span class="type-signature">(static) </span>getShelves<span class="signature">(books)</span><span class="type-signature"> &rarr; {Array.&lt;string>}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    <p>Returns a list of unique shelf ids as they are stored
-in a given list of book objects fetched using the BooksAPI</p>
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>const books = [{shelf: 'currentlyReading'},
-				  {shelf: 'currentlyReading'},
-				  {shelf: 'wantToRead'},
-				  {shelf: 'wantToRead'},
-				  {shelf: 'wantToRead'}];
-
-// returns: ['currentlyReading', 'wantToRead']
-const shelves = getShelves(books);</code></pre>
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>books</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Array.&lt;Object></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>a list of literal book objects</p>
-                <h6>Properties</h6>
-                
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>shelf</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>the shelf id as it comes from the BooksAPI</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-            </td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    <ul>
-<li>list of unique shelf ids</li>
-</ul>
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Array.&lt;string></span>
 
 
     </dd>
@@ -545,7 +327,7 @@ const shelves = getShelves(books);</code></pre>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Oct 28 2018 20:41:08 GMT+0000 (GMT) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon Oct 29 2018 06:49:04 GMT+0000 (GMT) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
