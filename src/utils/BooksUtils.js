@@ -1,4 +1,7 @@
 
+import { makeTitle } from './StringUtils'
+import App from '../App'
+
 /**
  * @namespace BooksUtils
  * @description
@@ -6,8 +9,6 @@
  * with the literal book objects handled in the BooksAPI
  * in a consistent way across the app.
  */
-
-import { makeTitle } from './StringUtils'
 
 const BooksUtils = {};
 
@@ -51,6 +52,5 @@ export const getShelfTitle = BooksUtils.getShelfTitle = shelf => {
 
 	return makeTitle(title);
 };
-
 
 export default BooksUtils

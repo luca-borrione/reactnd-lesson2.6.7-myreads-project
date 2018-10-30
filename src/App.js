@@ -12,67 +12,51 @@ class App extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.updateShelf = this.updateShelf.bind(this);
+		this.updateBook = this.updateBook.bind(this);
+		this.getBook = this.getBook.bind(this);
 	}
 
 	state = {
-		books: [],
-		booksInShelf: {}
+		books: []
 	};
 
 	componentDidMount() {
 
 		BooksAPI.getAll()
 			.then( books => {
-
-				const booksInShelf = {};
-				books.forEach( book => {
-					booksInShelf[book.shelf] = [
-						...(booksInShelf[book.shelf] || []),
-						book.id
-					];
-				});
-
-				this.setState(() => ({
-					books,
-					booksInShelf
-				}), () => {
-					console.log('>> A: ',this.state); // TODO: remove this
+				this.setState({
+					books
 				});
 			});
 
 	}
 
-	updateShelf(bookID, shelf) {
-		console.log('---> updateShelf ::: ',bookID);  // TODO: remove this
-		const currentBooks = this.state.books;
+	updateBook(bookID, shelf) {
+		const { books } = this.state.books;
 
-		const bookIndex = currentBooks.findIndex( book => book.id === bookID );
-		const book = currentBooks[bookIndex];
+		const bookIndex = books.findIndex( book => book.id === bookID );
 
-		const nextBooks = [...currentBooks];
+		const nextBooks = [...books];
 		nextBooks[bookIndex].shelf = shelf;
 
-		BooksAPI.update(book, shelf)
-			.then( booksInShelf => {
-				this.setState(() => ({
-					books: nextBooks,
-					booksInShelf
-				}), () => {
-					console.log('>> B: ',this.state); // TODO: remove this
-				});
-			});
+		this.setState({
+			books: nextBooks
+		});
+	}
 
+	getBook(bookID) {
+		return this.state.books.find( book => book.id === bookID );
 	}
 
 	render() {
-		const { booksInShelf } = this.state;
+		const { books } = this.state;
 
 		return (
 			<div>
 				<PropsRoute exact path='/' component={BooksList}
-					booksInShelf={booksInShelf}
-					updateShelf={this.updateShelf} />
+					books={books}
+					updateBook={this.updateBook}
+					getBook={this.getBook} />
 
 				<Route path='/search' component={Search} />
 			</div>

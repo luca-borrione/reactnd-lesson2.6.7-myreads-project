@@ -13,11 +13,12 @@ class BookShelf extends React.Component {
 				).isRequired,
 		shelf: PropTypes.string.isRequired,
 		shelves: PropTypes.arrayOf(PropTypes.string).isRequired,
-		updateShelf: PropTypes.func.isRequired
+		updateShelf: PropTypes.func.isRequired,
+		getBook: PropTypes.func.isRequired
 	};
 
 	render() {
-		const { bookIDs, shelf, shelves, updateShelf } = this.props;
+		const { bookIDs, shelf, shelves, updateShelf, getBook } = this.props;
 
 		return (
 			<div className="bookshelf">
@@ -27,7 +28,8 @@ class BookShelf extends React.Component {
 						bookIDs={bookIDs}
 						shelf={shelf}
 						shelves={shelves}
-						updateShelf={updateShelf} />
+						updateShelf={updateShelf}
+						getBook={getBook} />
 				</div>
 			</div>
 		);

@@ -1,7 +1,6 @@
 
 import React from 'react'
 import BookShelfChanger from './BookShelfChanger'
-import * as BooksAPI from './BooksAPI'
 import { makeTitle, ucWords } from './utils/StringUtils'
 import PropTypes from 'prop-types'
 
@@ -10,7 +9,8 @@ class Book extends React.Component {
 
 	static propTypes = {
 		shelves: PropTypes.arrayOf(PropTypes.string).isRequired,
-		updateShelf: PropTypes.func.isRequired
+		updateShelf: PropTypes.func.isRequired,
+		getBook: PropTypes.func.isRequired
 	};
 
 	constructor(props) {
@@ -28,27 +28,16 @@ class Book extends React.Component {
 
 	static getDerivedStateFromProps(nextProps, prevState) {
 		if (nextProps.id !== prevState.id) {
-			console.log('Book ID from props: '+nextProps.id);
-			return { id: nextProps.id};
+			const book = nextProps.getBook(nextProps.id);
+			return {
+				authors: book.authors,
+				id: book.id,
+				shelf: book.shelf,
+				thumbnail: book.imageLinks.thumbnail,
+				title: book.title
+			};
 		}
 		return null;
-	}
-
-	componentDidMount() {
-		console.log('>> BOOK did mount will fetch: ', this.state.id);
-		BooksAPI.get(this.state.id)
-			.then( book => {
-				this.setState(() => ({
-					authors: book.authors,
-					id: book.id,
-					shelf: book.shelf,
-					thumbnail: book.imageLinks.thumbnail,
-					title: book.title
-				}), () => {
-					console.log('>> BOOK DONE: ',this.state); // TODO: remove this
-				});
-			});
-
 	}
 
 	onShelfChange(shelf) {

@@ -3,22 +3,67 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import BookShelf from './BookShelf';
 import PropTypes from 'prop-types'
+import * as BooksAPI from './BooksAPI'
 
 
 class BooksList extends React.Component {
 
 	static propTypes = {
-		booksInShelf: PropTypes.objectOf(
-						  PropTypes.arrayOf(PropTypes.string.isRequired).isRequired
-					  ).isRequired,
-
-		updateShelf: PropTypes.func.isRequired
+		books:  PropTypes.arrayOf(
+					PropTypes.shape({
+						id: PropTypes.string.isRequired,
+						shelf: PropTypes.string.isRequired
+			 		 }),
+				).isRequired,
+		updateBook: PropTypes.func.isRequired,
+		getBook: PropTypes.func.isRequired
 	};
 
-	render() {
-		const { booksInShelf, updateShelf } = this.props;
+	constructor(props) {
+		super(props);
+		this.updateShelf = this.updateShelf.bind(this);
+	}
 
-		const shelves = Object.keys(booksInShelf);
+	static getDerivedStateFromProps(nextProps) {
+		const books = nextProps.books;
+		const bookIDsInShelf = {};
+
+		books.forEach( book => {
+			bookIDsInShelf[book.shelf] = [
+				...(bookIDsInShelf[book.shelf] || []),
+				book.id
+			];
+		});
+
+		return {
+			bookIDsInShelf: bookIDsInShelf
+		}
+	}
+
+	state = {
+		bookIDsInShelf: {}
+	}
+
+	updateShelf(bookID, shelf) {
+		const { getBook, updateBook } = this.props;
+		const book = getBook(bookID);
+
+		BooksAPI.update(book, shelf)
+			.then( bookIDsInShelf => {
+				this.setState(() => ({
+					bookIDsInShelf
+				}), () => {
+					updateBook(bookID, shelf);
+				});
+			});
+
+	}
+
+	render() {
+		const { bookIDsInShelf } = this.state;
+		const { getBook } = this.props;
+
+		const shelves = Object.keys(bookIDsInShelf);
 
 		return (
 			<div className="list-books">
@@ -31,8 +76,9 @@ class BooksList extends React.Component {
 						<BookShelf key={index}
 							shelf={shelf}
 							shelves={shelves}
-							bookIDs={booksInShelf[shelf]}
-							updateShelf={updateShelf} />
+							bookIDs={bookIDsInShelf[shelf]}
+							updateShelf={this.updateShelf}
+							getBook={getBook} />
 
 					))}
 				</div>
