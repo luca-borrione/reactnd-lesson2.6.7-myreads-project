@@ -1,6 +1,5 @@
 
 import { makeTitle } from './StringUtils'
-import App from '../App'
 
 /**
  * @namespace BooksUtils
