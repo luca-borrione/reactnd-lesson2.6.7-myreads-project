@@ -1,35 +1,37 @@
 
 import React from 'react'
 import BooksGrid from './BooksGrid'
-import { getShelfTitle } from './utils/BooksUtils'
 import PropTypes from 'prop-types'
+import { TBook } from './types'
 
 
 class BookShelf extends React.Component {
 
 	static propTypes = {
-		bookIDs:  PropTypes.arrayOf(
-					PropTypes.string.isRequired
+		books:	PropTypes.arrayOf(
+					PropTypes.shape({
+						...TBook,
+						shelf: PropTypes.string.isRequired
+					}),
 				).isRequired,
-		shelf: PropTypes.string.isRequired,
-		shelves: PropTypes.arrayOf(PropTypes.string).isRequired,
-		updateShelf: PropTypes.func.isRequired,
-		getBook: PropTypes.func.isRequired
+		shelfTitle: PropTypes.string.isRequired,
+		availableShelves: PropTypes.objectOf(PropTypes.string.isRequired).isRequired,
+		updateShelf: PropTypes.func.isRequired
 	};
 
 	render() {
-		const { bookIDs, shelf, shelves, updateShelf, getBook } = this.props;
+		const { books, shelfTitle, availableShelves, updateShelf } = this.props;
 
 		return (
 			<div className="bookshelf">
-				<h2 className="bookshelf-title">{getShelfTitle(shelf)}</h2>
+				<h2 className="bookshelf-title">{shelfTitle}</h2>
 				<div className="bookshelf-books">
+
 					<BooksGrid
-						bookIDs={bookIDs}
-						shelf={shelf}
-						shelves={shelves}
-						updateShelf={updateShelf}
-						getBook={getBook} />
+						books={books}
+						availableShelves={availableShelves}
+						moveBookToShelf={updateShelf} />
+
 				</div>
 			</div>
 		);

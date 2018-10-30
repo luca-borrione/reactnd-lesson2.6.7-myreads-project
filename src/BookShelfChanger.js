@@ -7,8 +7,8 @@ import { makeTitle } from './utils/StringUtils'
 class BookShelfChanger extends React.Component {
 
 	static propTypes = {
-		shelf: PropTypes.string.isRequired,
-		shelves: PropTypes.arrayOf(PropTypes.string).isRequired,
+		shelf: PropTypes.string,
+		availableShelves: PropTypes.objectOf(PropTypes.string.isRequired).isRequired,
 		onShelfChange: PropTypes.func.isRequired
 	};
 
@@ -18,12 +18,14 @@ class BookShelfChanger extends React.Component {
 	}
 
 	state = {
-		selectedValue: null
+		selectedValue: ''
 	};
 
 	static getDerivedStateFromProps(nextProps, prevState) {
-		if (!prevState.selectedValue) {
-			return { selectedValue: nextProps.shelf};
+		if (prevState.selectedValue === '') {
+			return {
+				selectedValue: nextProps.shelf || 'none'
+			};
 		}
 		return null;
 	}
@@ -37,14 +39,14 @@ class BookShelfChanger extends React.Component {
 	}
 
 	render() {
-		const { shelves } = this.props;
+		const { availableShelves } = this.props;
 
 		return (
 			<select value={this.state.selectedValue} onChange={this.selectionChanged}>
 				<option value="move" disabled>Move to...</option>
-				{shelves.map( (shelf, index) => (
+				{Object.entries(availableShelves).map( ([ shelfID, shelfTitle ], index) => (
 					<option key={index}
-						value={shelf}>{makeTitle(getShelfTitle(shelf))}</option>
+						value={shelfID}>{shelfTitle}</option>
 				))}
 				<option value="none">None</option>
 			</select>

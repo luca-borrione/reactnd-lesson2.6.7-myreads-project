@@ -2,30 +2,30 @@
 import React from 'react'
 import Book from './Book'
 import PropTypes from 'prop-types'
+import { TBook } from './types'
+
 
 class BooksGrid extends React.Component {
 
 	static propTypes = {
-		bookIDs: PropTypes.arrayOf(
-					 PropTypes.string.isRequired
-				 ).isRequired,
-		shelves: PropTypes.arrayOf(PropTypes.string).isRequired,
-		updateShelf: PropTypes.func.isRequired,
-		getBook: PropTypes.func.isRequired
+		books:	PropTypes.arrayOf(
+					PropTypes.shape(TBook).isRequired
+				).isRequired,
+		moveBookToShelf: PropTypes.func.isRequired,
+		availableShelves: PropTypes.objectOf(PropTypes.string.isRequired).isRequired
 	};
 
 	render() {
-		const { bookIDs, shelves, updateShelf, getBook } = this.props;
+		const { books, moveBookToShelf, availableShelves } = this.props;
 
 		return (
 			<ol className="books-grid">
-				{bookIDs.map( (bookID, index) => (
+				{books.map( (book, index) => (
 
 					<Book key={index}
-						id={bookID}
-						shelves={shelves}
-						updateShelf={updateShelf}
-						getBook={getBook} />
+						book={book}
+						availableShelves={availableShelves}
+						moveBookToShelf={moveBookToShelf} />
 
 				))}
 			</ol>

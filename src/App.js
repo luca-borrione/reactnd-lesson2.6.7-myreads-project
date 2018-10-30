@@ -10,6 +10,12 @@ import './App.css'
 
 class App extends React.Component {
 
+	static AVAILABLE_SHELVES = Object.freeze({
+		currentlyReading: 'Currently Reading',
+		wantToRead: 'Want to Read',
+		read: 'Read'
+	});
+
 	constructor(props) {
 		super(props);
 		this.updateBook = this.updateBook.bind(this);
@@ -17,15 +23,16 @@ class App extends React.Component {
 	}
 
 	state = {
-		books: []
+		booksInShelves: []
 	};
 
 	componentDidMount() {
 
 		BooksAPI.getAll()
-			.then( books => {
+			.then( booksInShelves => {
+				console.log('booksInShelves', booksInShelves);
 				this.setState({
-					books
+					booksInShelves
 				});
 			});
 
@@ -49,16 +56,18 @@ class App extends React.Component {
 	}
 
 	render() {
-		const { books } = this.state;
+		const { booksInShelves } = this.state;
+		const availableShelves = this.constructor.AVAILABLE_SHELVES;
 
 		return (
 			<div>
 				<PropsRoute exact path='/' component={BooksList}
-					books={books}
-					updateBook={this.updateBook}
-					getBook={this.getBook} />
+					availableShelves={availableShelves}
+					booksInShelves={booksInShelves}
+					updateBook={this.updateBook} />
 
-				<Route path='/search' component={Search} />
+				<PropsRoute path='/search' component={Search}
+					availableShelves={availableShelves} />
 			</div>
 		);
 	}

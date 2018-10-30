@@ -44,6 +44,10 @@ export const getShelfTitle = BooksUtils.getShelfTitle = shelf => {
 			title = 'read';
 			break;
 
+		case 'none':
+			title = 'read';
+			break;
+
 		default:
 			throw new Error('unexpected shelf id: '+shelf);
 

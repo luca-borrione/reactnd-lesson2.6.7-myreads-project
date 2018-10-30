@@ -3,14 +3,15 @@ import React from 'react'
 import BookShelfChanger from './BookShelfChanger'
 import { makeTitle, ucWords } from './utils/StringUtils'
 import PropTypes from 'prop-types'
+import { TBook } from './types'
 
 
 class Book extends React.Component {
 
 	static propTypes = {
-		shelves: PropTypes.arrayOf(PropTypes.string).isRequired,
-		updateShelf: PropTypes.func.isRequired,
-		getBook: PropTypes.func.isRequired
+		book: PropTypes.shape(TBook).isRequired,
+		moveBookToShelf: PropTypes.func.isRequired,
+		availableShelves: PropTypes.objectOf(PropTypes.string.isRequired).isRequired
 	};
 
 	constructor(props) {
@@ -18,42 +19,19 @@ class Book extends React.Component {
 		this.onShelfChange = this.onShelfChange.bind(this);
 	}
 
-	state = {
-		authors: [],
-		id: '',
-		shelf: '',
-		thumbnail: '',
-		title: ''
-	};
-
-	static getDerivedStateFromProps(nextProps, prevState) {
-		if (nextProps.id !== prevState.id) {
-			const book = nextProps.getBook(nextProps.id);
-			return {
-				authors: book.authors,
-				id: book.id,
-				shelf: book.shelf,
-				thumbnail: book.imageLinks.thumbnail,
-				title: book.title
-			};
-		}
-		return null;
-	}
-
 	onShelfChange(shelf) {
-		const { id, updateShelf } = this.props;
-		updateShelf(id, shelf);
+		const { book, moveBookToShelf } = this.props;
+		moveBookToShelf(book, shelf);
 	}
 
 	render() {
-		const { shelves } = this.props;
-		const {
-			authors,
-			shelf,
-			thumbnail,
-			title
-		} = this.state;
+		const { book, availableShelves } = this.props;
+		let thumbnail = 'https://books.google.co.uk/googlebooks/images/no_cover_thumb.gif';
+		if (book.imageLinks && book.imageLinks.thumbnail) {
+			thumbnail = book.imageLinks.thumbnail;
+		}
 
+		console.log(">> book: ",book);
 		return (
 			<li>
 				<div className="book">
@@ -61,20 +39,21 @@ class Book extends React.Component {
 						<div className="book-cover" style={{
 							width: 128,
 							height: 193,
+							backgroundSize: 'cover',
 							backgroundImage: 'url('+ thumbnail +')'
 						}}></div>
 						<div className="book-shelf-changer">
 
 							<BookShelfChanger
-								shelf={shelf}
-								shelves={shelves}
+								shelf={book.shelf}
+								availableShelves={availableShelves}
 								onShelfChange={this.onShelfChange} />
 
 						</div>
 					</div>
-					<div className="book-title">{makeTitle(title)}</div>
+					<div className="book-title">{makeTitle(book.title)}</div>
 					<div className="book-authors">
-						{authors.map( (author, index) => (
+						{(book.authors || []).map( (author, index) => (
 							<span className="author" key={index}>{ucWords(author)}</span>
 						))}
 					</div>
