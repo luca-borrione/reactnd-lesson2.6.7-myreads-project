@@ -37,6 +37,7 @@ class BooksList extends React.Component {
 
 							)
 						}
+						return null;
 					})};
 				</div>
 				<div className="open-search">

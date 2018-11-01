@@ -13,7 +13,7 @@ class App extends React.Component {
 	constructor(props) {
 		super(props);
 		this.updateBookShelf = this.updateBookShelf.bind(this);
-		this.getShelf = this.getShelf.bind(this);
+		this.getBookShelf = this.getBookShelf.bind(this);
 	}
 
 	state = {
@@ -80,7 +80,7 @@ class App extends React.Component {
 		});
 	}
 
-	getShelf(bookID) {
+	getBookShelf(bookID) {
 		const { booksInShelves } = this.state;
 		const shelf = booksInShelves.find( ({id}) => id === bookID );
 		return shelf || NO_SHELF;
@@ -96,7 +96,7 @@ class App extends React.Component {
 					updateBookShelf={this.updateBookShelf} />
 
 				<PropsRoute path='/search' component={Search}
-					getShelf={this.getShelf}
+					getBookShelf={this.getBookShelf}
 					updateBookShelf={this.updateBookShelf} />
 			</div>
 		);
