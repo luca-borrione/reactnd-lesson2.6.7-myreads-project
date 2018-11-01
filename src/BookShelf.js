@@ -9,18 +9,14 @@ class BookShelf extends React.Component {
 
 	static propTypes = {
 		books:	PropTypes.arrayOf(
-					PropTypes.shape({
-						...TBook,
-						shelf: PropTypes.string.isRequired
-					}),
+					PropTypes.shape(TBook).isRequired
 				).isRequired,
 		shelfTitle: PropTypes.string.isRequired,
-		availableShelves: PropTypes.objectOf(PropTypes.string.isRequired).isRequired,
-		updateShelf: PropTypes.func.isRequired
+		updateBookShelf: PropTypes.func.isRequired
 	};
 
 	render() {
-		const { books, shelfTitle, availableShelves, updateShelf } = this.props;
+		const { books, shelfTitle, updateBookShelf } = this.props;
 
 		return (
 			<div className="bookshelf">
@@ -29,8 +25,7 @@ class BookShelf extends React.Component {
 
 					<BooksGrid
 						books={books}
-						availableShelves={availableShelves}
-						moveBookToShelf={updateShelf} />
+						updateBookShelf={updateBookShelf} />
 
 				</div>
 			</div>

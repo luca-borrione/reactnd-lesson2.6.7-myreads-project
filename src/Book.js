@@ -10,8 +10,7 @@ class Book extends React.Component {
 
 	static propTypes = {
 		book: PropTypes.shape(TBook).isRequired,
-		moveBookToShelf: PropTypes.func.isRequired,
-		availableShelves: PropTypes.objectOf(PropTypes.string.isRequired).isRequired
+		updateBookShelf: PropTypes.func.isRequired
 	};
 
 	constructor(props) {
@@ -20,18 +19,17 @@ class Book extends React.Component {
 	}
 
 	onShelfChange(shelf) {
-		const { book, moveBookToShelf } = this.props;
-		moveBookToShelf(book, shelf);
+		const { book, updateBookShelf } = this.props;
+		updateBookShelf(book, shelf);
 	}
 
 	render() {
-		const { book, availableShelves } = this.props;
+		const { book } = this.props;
 		let thumbnail = 'https://books.google.co.uk/googlebooks/images/no_cover_thumb.gif';
 		if (book.imageLinks && book.imageLinks.thumbnail) {
 			thumbnail = book.imageLinks.thumbnail;
 		}
 
-		console.log(">> book: ",book);
 		return (
 			<li>
 				<div className="book">
@@ -46,7 +44,6 @@ class Book extends React.Component {
 
 							<BookShelfChanger
 								shelf={book.shelf}
-								availableShelves={availableShelves}
 								onShelfChange={this.onShelfChange} />
 
 						</div>

@@ -1,25 +1,19 @@
 
 import React from 'react'
-import { Route } from 'react-router-dom'
 import PropsRoute from './PropsRoute'
 import BooksList from './BooksList'
 import Search from './Search';
 import * as BooksAPI from './BooksAPI'
+import { NO_SHELF } from './Constants'
 import './App.css'
 
 
 class App extends React.Component {
 
-	static AVAILABLE_SHELVES = Object.freeze({
-		currentlyReading: 'Currently Reading',
-		wantToRead: 'Want to Read',
-		read: 'Read'
-	});
-
 	constructor(props) {
 		super(props);
-		this.updateBook = this.updateBook.bind(this);
-		this.getBook = this.getBook.bind(this);
+		this.updateBookShelf = this.updateBookShelf.bind(this);
+		this.getShelf = this.getShelf.bind(this);
 	}
 
 	state = {
@@ -30,7 +24,6 @@ class App extends React.Component {
 
 		BooksAPI.getAll()
 			.then( booksInShelves => {
-				console.log('booksInShelves', booksInShelves);
 				this.setState({
 					booksInShelves
 				});
@@ -38,36 +31,73 @@ class App extends React.Component {
 
 	}
 
-	updateBook(bookID, shelf) {
-		const { books } = this.state.books;
+	updateBookShelf(book, shelf) {
 
-		const bookIndex = books.findIndex( book => book.id === bookID );
+		BooksAPI.update(book, shelf)
+			.then( nextBookIDsInShelves => {
+				const { booksInShelves } = this.state;
 
-		const nextBooks = [...books];
-		nextBooks[bookIndex].shelf = shelf;
+				if (shelf === NO_SHELF) {
+					this.removeBook(book);
+				} else {
+					const bookIndex = booksInShelves.findIndex( ({ id }) => id === book.id );
+
+					if (bookIndex === -1) {
+						this.addBookToShelf(book, shelf);
+					} else {
+						this.moveBookToShelf(booksInShelves[bookIndex], shelf);
+					}
+				}
+			});
+
+	}
+
+	removeBook(book) {
+		// Remove existing book
+		this.setState( ({ booksInShelves }) => ({
+			booksInShelves: booksInShelves.filter( ({ id }) => id !== book.id )
+		}));
+	}
+
+	addBookToShelf(book, shelf) {
+		const { booksInShelves } = this.state;
+		const nextBooksInShelves = [...booksInShelves, book];
+		book.shelf = shelf;
 
 		this.setState({
-			books: nextBooks
+			booksInShelves: nextBooksInShelves
 		});
 	}
 
-	getBook(bookID) {
-		return this.state.books.find( book => book.id === bookID );
+	moveBookToShelf(book, shelf) {
+		const { booksInShelves } = this.state;
+		// Move existing book to a different shelf
+		const nextBooksInShelves = [...booksInShelves];
+		book.shelf = shelf;
+
+		this.setState({
+			booksInShelves: nextBooksInShelves
+		});
+	}
+
+	getShelf(bookID) {
+		const { booksInShelves } = this.state;
+		const shelf = booksInShelves.find( ({id}) => id === bookID );
+		return shelf || NO_SHELF;
 	}
 
 	render() {
 		const { booksInShelves } = this.state;
-		const availableShelves = this.constructor.AVAILABLE_SHELVES;
 
 		return (
 			<div>
 				<PropsRoute exact path='/' component={BooksList}
-					availableShelves={availableShelves}
 					booksInShelves={booksInShelves}
-					updateBook={this.updateBook} />
+					updateBookShelf={this.updateBookShelf} />
 
 				<PropsRoute path='/search' component={Search}
-					availableShelves={availableShelves} />
+					getShelf={this.getShelf}
+					updateBookShelf={this.updateBookShelf} />
 			</div>
 		);
 	}

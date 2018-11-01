@@ -9,7 +9,7 @@ import PropTypes from 'prop-types'
  * book literal object fetched using the BooksAPI
  * @property {string[]} [authors] - List of the authors names
  * @property {string} id - The book unique id
- * @property {string} [shelf] - The shelf unique name
+ * @property {string} shelf - The shelf unique name
  * @property {string} [thumbnail] - URL for the cover preview image
  * @property {string} title - The book's title
  */
@@ -17,7 +17,7 @@ import PropTypes from 'prop-types'
 export const TBook = {
 	authors: PropTypes.arrayOf(PropTypes.string.isRequired),
 	id: PropTypes.string.isRequired,
-	shelf: PropTypes.string,
+	shelf: PropTypes.string.isRequired,
 	thumbnail: PropTypes.string,
 	title: PropTypes.string.isRequired
 };

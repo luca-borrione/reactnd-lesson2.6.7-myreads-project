@@ -8,63 +8,51 @@ import * as BooksAPI from './BooksAPI'
 class Search extends React.Component {
 
 	static propTypes = {
-		availableShelves: PropTypes.objectOf(PropTypes.string.isRequired).isRequired
+		updateBookShelf: PropTypes.func.isRequired,
+		getShelf: PropTypes.func.isRequired
 	};
 
 	constructor(props) {
 		super(props);
-		this.onChange = this.onChange.bind(this);
-		this.moveBookToShelf = this.moveBookToShelf.bind(this);
+		this.onSearchChange = this.onSearchChange.bind(this);
 	}
 
 	state = {
 		books: [],
-		value: ''
+		searchedValue: ''
 	};
 
-	onChange(event) {
+	onSearchChange(event) {
 		this.setState({
-			value: event.target.value
+			searchedValue: event.target.value
 		}, () => {
-			BooksAPI.search(this.state.value, 20)
+			BooksAPI.search(this.state.searchedValue, 20)
 				.then( books => {
-					console.log('>> ** searched', books);
-					if (books.error) {
-						books = books.items;
+					if (!books || books.error) {
+						books = [];
 					}
 					this.setState({
-						books
+						books: books.map( book => {
+							book.shelf = this.props.getShelf(book.id);
+							return book;
+						})
 					});
 				});
 		});
 	}
 
-	moveBookToShelf(book, shelf) {
-		console.log('>> moving: ', book, shelf);
-	}
-
 	render() {
-		const { books, value } = this.state;
-		const { availableShelves } = this.props;
-
-		console.log('>> BOOKS', books);
+		const { books, searchedValue } = this.state;
+		const { updateBookShelf } = this.props;
 
 		return (
 			<div className="search-books">
 				<div className="search-books-bar">
 					<Link to='/' className="close-search">Close</Link>
 					<div className="search-books-input-wrapper">
-					{/*
-						NOTES: The search from BooksAPI is limited to a particular set of search terms.
-						You can find these search terms here:
-						https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
-
-						However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
-						you don't find a specific author or title. Every search is limited by search terms.
-					*/}
-					<input type="text" placeholder="Search by title or author"
-						value={value}
-						onChange={this.onChange} />
+						<input type="text" placeholder="Search by title or author"
+							value={searchedValue}
+							onChange={this.onSearchChange} />
 
 					</div>
 				</div>
@@ -72,8 +60,7 @@ class Search extends React.Component {
 
 					<BooksGrid
 						books={books}
-						availableShelves={availableShelves}
-						moveBookToShelf={this.moveBookToShelf}  />
+						updateBookShelf={updateBookShelf}  />
 
 				</div>
 			</div>

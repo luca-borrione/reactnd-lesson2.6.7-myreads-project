@@ -3,49 +3,21 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import BookShelf from './BookShelf';
 import PropTypes from 'prop-types'
-import * as BooksAPI from './BooksAPI'
 import { TBook } from './types';
+import { AVAILABLE_SHELVES } from './Constants'
 
 
 class BooksList extends React.Component {
 
 	static propTypes = {
 		booksInShelves:	PropTypes.arrayOf(
-							PropTypes.shape({
-								...TBook,
-								shelf: PropTypes.string.isRequired
-			 		 		}),
+							PropTypes.shape(TBook).isRequired
 						).isRequired,
-		updateBook: PropTypes.func.isRequired,
-		availableShelves: PropTypes.objectOf(PropTypes.string.isRequired).isRequired
+		updateBookShelf: PropTypes.func.isRequired
 	};
 
-	constructor(props) {
-		super(props);
-		this.updateShelf = this.updateShelf.bind(this);
-	}
-
-	updateShelf(bookID, shelf) {
-		const { getBook, updateBook } = this.props;
-		const book = getBook(bookID);
-
-		BooksAPI.update(book, shelf)
-			.then( bookIDsInShelf => {
-				this.setState(() => ({
-					bookIDsInShelf
-				}), () => {
-					updateBook(bookID, shelf);
-				});
-			});
-
-	}
-
-	getBooksInShelf(shelf) {
-		return this.props.booksInShelves.map( book => book.shelf === shelf );
-	}
-
 	render() {
-		const { availableShelves, getBook } = this.props;
+		const { booksInShelves, updateBookShelf } = this.props;
 
 		return (
 			<div className="list-books">
@@ -53,17 +25,19 @@ class BooksList extends React.Component {
 					<h1>MyReads</h1>
 				</div>
 				<div className="list-books-content">
-					{Object.entries(availableShelves).map( ([ shelfID, shelfTitle ], index) => {
-						const booksInShelf = this.props.booksInShelves.filter( book => book.shelf === shelfID );
+					{Object.entries(AVAILABLE_SHELVES).map( ([ shelfID, shelfTitle ], index) => {
+						const booksInShelf = booksInShelves.filter( ({ shelf }) => shelf === shelfID );
+						if (booksInShelf.length > 0) {
+							return (
 
-						return (
-							<BookShelf key={index}
-								shelfTitle={shelfTitle}
-								availableShelves={availableShelves}
-								books={booksInShelf}
-								updateShelf={this.updateShelf} />
+								<BookShelf key={index}
+									books={booksInShelf}
+									shelfTitle={shelfTitle}
+									updateBookShelf={updateBookShelf} />
 
-						)})}
+							)
+						}
+					})};
 				</div>
 				<div className="open-search">
 					<Link to='/search'>Add a book</Link>

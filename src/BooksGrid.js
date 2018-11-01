@@ -11,12 +11,11 @@ class BooksGrid extends React.Component {
 		books:	PropTypes.arrayOf(
 					PropTypes.shape(TBook).isRequired
 				).isRequired,
-		moveBookToShelf: PropTypes.func.isRequired,
-		availableShelves: PropTypes.objectOf(PropTypes.string.isRequired).isRequired
+		updateBookShelf: PropTypes.func.isRequired
 	};
 
 	render() {
-		const { books, moveBookToShelf, availableShelves } = this.props;
+		const { books, updateBookShelf } = this.props;
 
 		return (
 			<ol className="books-grid">
@@ -24,8 +23,7 @@ class BooksGrid extends React.Component {
 
 					<Book key={index}
 						book={book}
-						availableShelves={availableShelves}
-						moveBookToShelf={moveBookToShelf} />
+						updateBookShelf={updateBookShelf} />
 
 				))}
 			</ol>
