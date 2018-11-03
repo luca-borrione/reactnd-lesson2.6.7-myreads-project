@@ -3,20 +3,51 @@ import React from 'react'
 import BooksGrid from './BooksGrid'
 import PropTypes from 'prop-types'
 import { TBook } from './types'
+import { SHELF_TITLE } from './Constants'
 
-
+/**
+ * @class BookShelf
+ * @extends React.Component
+ * @classdesc
+ * Prints the shelf title and shows the list of all the books in the shelf
+ * @hideconstructor
+ */
 class BookShelf extends React.Component {
 
+	/**
+	 * @property {Object} propTypes - Intended types passed to the component
+	 * @property {TBook[]} propTypes.books - List of all the books in the shelf
+	 * @property {function} propTypes.updateBookShelf
+	 * 	Method of the [App]{@link App#updateBookShelf} component for updating the list of books
+	 * 	in the shelves
+	 * @static
+	 */
 	static propTypes = {
-		books:	PropTypes.arrayOf(
-					PropTypes.shape(TBook).isRequired
-				).isRequired,
-		shelfTitle: PropTypes.string.isRequired,
+		books: PropTypes.arrayOf(
+			   		PropTypes.shape(TBook).isRequired
+			   ).isRequired,
 		updateBookShelf: PropTypes.func.isRequired
 	};
 
+
+	/**
+	 * @description
+	 * - Prints the shelf's title
+	 * - Shows the list of books in the shelf by rendering the [BooksGrid]{@link BooksGrid} component
+	 * @returns {ReactElement}
+	 * @throws {Error} if the books passed to the component are contained in multiple shelves an exception will be thrown
+	 */
 	render() {
-		const { books, shelfTitle, updateBookShelf } = this.props;
+		const { books, updateBookShelf } = this.props;
+
+		const shelfKeys = [
+			...new Set(books.map( book => book.shelf ))
+		];
+
+		if (shelfKeys.length > 1) {
+			throw new Error('the books passed are contained in multiple shelves', shelfKeys);
+		}
+		const shelfTitle = SHELF_TITLE[shelfKeys[0]];
 
 		return (
 			<div className="bookshelf">

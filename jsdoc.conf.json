@@ -5,7 +5,6 @@
  },
  "opts": {
 	 "destination": "./docs",
-	 "template1": "./node_modules/minami",
 	 "template": "./node_modules/docdash"
  },
  "templates": {

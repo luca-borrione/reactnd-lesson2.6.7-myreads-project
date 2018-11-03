@@ -26,7 +26,7 @@
 
 <nav>
     
-    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="BooksUtils.html">BooksUtils</a><ul class='methods'><li data-type='method'><a href="BooksUtils.html#.getShelfTitle">getShelfTitle</a></li></ul></li><li><a href="StringUtils.html">StringUtils</a><ul class='methods'><li data-type='method'><a href="StringUtils.html#.makeTitle">makeTitle</a></li><li data-type='method'><a href="StringUtils.html#.ucFirst">ucFirst</a></li><li data-type='method'><a href="StringUtils.html#.ucWords">ucWords</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#showSearchPage">showSearchPage</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="App.html">App</a><ul class='methods'><li data-type='method'><a href="App.html#addBookToShelf">addBookToShelf</a></li><li data-type='method'><a href="App.html#fetchAllBooks">fetchAllBooks</a></li><li data-type='method'><a href="App.html#getBookShelf">getBookShelf</a></li><li data-type='method'><a href="App.html#moveBookToShelf">moveBookToShelf</a></li><li data-type='method'><a href="App.html#removeBook">removeBook</a></li><li data-type='method'><a href="App.html#render">render</a></li><li data-type='method'><a href="App.html#updateBookShelf">updateBookShelf</a></li></ul></li><li><a href="Book.html">Book</a><ul class='methods'><li data-type='method'><a href="Book.html#onShelfChange">onShelfChange</a></li><li data-type='method'><a href="Book.html#render">render</a></li></ul></li><li><a href="BooksGrid.html">BooksGrid</a><ul class='methods'><li data-type='method'><a href="BooksGrid.html#render">render</a></li></ul></li><li><a href="BookShelf.html">BookShelf</a><ul class='methods'><li data-type='method'><a href="BookShelf.html#render">render</a></li></ul></li><li><a href="BookShelfChanger.html">BookShelfChanger</a><ul class='methods'><li data-type='method'><a href="BookShelfChanger.html#render">render</a></li><li data-type='method'><a href="BookShelfChanger.html#selectionChanged">selectionChanged</a></li></ul></li><li><a href="BooksList.html">BooksList</a><ul class='methods'><li data-type='method'><a href="BooksList.html#render">render</a></li></ul></li><li><a href="Search.html">Search</a><ul class='methods'><li data-type='method'><a href="Search.html#clearBooksGrid">clearBooksGrid</a></li><li data-type='method'><a href="Search.html#onSearchTyping">onSearchTyping</a></li><li data-type='method'><a href="Search.html#render">render</a></li><li data-type='method'><a href="Search.html#search">search</a></li></ul></li></ul><h3>Namespaces</h3><ul><li><a href="Constants.html">Constants</a></li><li><a href="StringUtils.html">StringUtils</a><ul class='methods'><li data-type='method'><a href="StringUtils.html#.makeTitle">makeTitle</a></li><li data-type='method'><a href="StringUtils.html#.ucFirst">ucFirst</a></li><li data-type='method'><a href="StringUtils.html#.ucWords">ucWords</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#TShelfKey">TShelfKey</a></li></ul>
 </nav>
 
 <div id="main">
@@ -116,7 +116,7 @@
 
         
             
-<h4 class="name" id="showSearchPage"><span class="type-signature"></span>showSearchPage<span class="type-signature"></span></h4>
+<h4 class="name" id="TShelfKey"><span class="type-signature">(constant) </span>TShelfKey<span class="type-signature"></span></h4>
 
 
 
@@ -159,13 +159,133 @@
 
 
 
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>CURRENTLY_READING</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>currentlyReading</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>WANT_TO_READ</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>wantToRead</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>RED</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>read</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>NONE</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>none</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
 
 
 <div class="description">
-    <p>TODO: Instead of using this state variable to keep track of which page
-we're on, use the URL in the browser's address bar. This will ensure that
-users can use the browser's back and forward buttons to navigate between
-pages, as well as provide a good URL they can bookmark and share.</p>
+    <p>Collection of shelves keys as they are coming from remote
+as value of the shelf property of the book literal object
+when fetching all the books</p>
 </div>
 
 
@@ -180,6 +300,445 @@ pages, as well as provide a good URL they can bookmark and share.</p>
 
     
 
+    
+        <h3 class="subsection-title">Type Definitions</h3>
+
+        
+                
+<h4 class="name" id="TBook">TBook</h4>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>authors</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;string></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>List of the authors names</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The book unique id</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>shelf</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The shelf unique name</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>thumbnail</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>URL for the cover preview image</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>title</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The book's title</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<div class="description">
+    <p>Custom type to define a book internally.
+It's filled with properties coming from the
+book literal object fetched using the BooksAPI</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+            
+                
+<h4 class="name" id="TShelfTitle">TShelfTitle</h4>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>TShelfKey.CURRENTLY_READING</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#TShelfKey">TShelfKey</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Currently Reading</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>TShelfKey.WANT_TO_READ</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#TShelfKey">TShelfKey</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Want to Read</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>TShelfKey.READ</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#TShelfKey">TShelfKey</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Read</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>TShelfKey.NONE</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#TShelfKey">TShelfKey</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>None</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+            
     
 
     
@@ -197,7 +756,7 @@ pages, as well as provide a good URL they can bookmark and share.</p>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon Oct 29 2018 06:49:04 GMT+0000 (GMT) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Nov 03 2018 18:30:18 GMT+0000 (GMT) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>

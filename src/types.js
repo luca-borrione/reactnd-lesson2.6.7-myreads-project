@@ -14,11 +14,28 @@ import PropTypes from 'prop-types'
  * @property {string} title - The book's title
  */
 
-export const TBook = {
+export const TBook = Object.freeze({
 	authors: PropTypes.arrayOf(PropTypes.string.isRequired),
 	id: PropTypes.string.isRequired,
 	shelf: PropTypes.string.isRequired,
 	thumbnail: PropTypes.string,
 	title: PropTypes.string.isRequired
-};
+});
 
+/**
+ * @enum TShelfKey
+ * @description
+ * Collection of shelves keys as they are coming from remote
+ * as value of the shelf property of the book literal object
+ * when fetching all the books
+ * @property {string} CURRENTLY_READING - currentlyReading
+ * @property {string} WANT_TO_READ - wantToRead
+ * @property {string} RED - read
+ * @property {string} NONE - none
+ */
+export const TShelfKey = Object.freeze({
+	CURRENTLY_READING: 'currentlyReading',
+	WANT_TO_READ: 'wantToRead',
+	READ: 'read',
+	NONE: 'none'
+});

@@ -4,11 +4,26 @@ import { Link } from 'react-router-dom'
 import BookShelf from './BookShelf';
 import PropTypes from 'prop-types'
 import { TBook } from './types';
-import { AVAILABLE_SHELVES } from './Constants'
+import { SHELF_TITLE } from './Constants'
 
-
+/**
+ * @class BooksList
+ * @extends React.Component
+ * @classdesc
+ * Shows all the books listed by shelf title.
+ * @hideconstructor
+ */
 class BooksList extends React.Component {
 
+	/**
+	 * @property {Object} propTypes - Intended types passed to the component
+	 * @property {TBook[]} propTypes.booksInShelves
+	 * 	List of all the books in the shelves, stored in the App state [booksInShelves]{@link App#state}
+	 * @property {function} propTypes.updateBookShelf
+	 * 	Method of the [App]{@link App#updateBookShelf} component for updating the list
+	 * 	of books in the shelves
+	 * @static
+	 */
 	static propTypes = {
 		booksInShelves:	PropTypes.arrayOf(
 							PropTypes.shape(TBook).isRequired
@@ -16,6 +31,14 @@ class BooksList extends React.Component {
 		updateBookShelf: PropTypes.func.isRequired
 	};
 
+
+	/**
+	 * @description
+	 * - Iterates the available [shelf titles]{@link Constants.SHELF_TITLE}
+	 * to list the books in a shelf by rendering the [BookShelf]{@link BookShelf} component
+	 * - Add the plus icon to add new books
+	 * @returns {ReactElement}
+	 */
 	render() {
 		const { booksInShelves, updateBookShelf } = this.props;
 
@@ -25,14 +48,13 @@ class BooksList extends React.Component {
 					<h1>MyReads</h1>
 				</div>
 				<div className="list-books-content">
-					{Object.entries(AVAILABLE_SHELVES).map( ([ shelfID, shelfTitle ], index) => {
-						const booksInShelf = booksInShelves.filter( ({ shelf }) => shelf === shelfID );
+					{Object.keys(SHELF_TITLE).map( (shelfKey, index) => {
+						const booksInShelf = booksInShelves.filter( ({ shelf }) => shelf === shelfKey );
 						if (booksInShelf.length > 0) {
 							return (
 
 								<BookShelf key={index}
 									books={booksInShelf}
-									shelfTitle={shelfTitle}
 									updateBookShelf={updateBookShelf} />
 
 							)
