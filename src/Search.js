@@ -10,8 +10,7 @@ import debounce from 'lodash.debounce'
  * @class Search
  * @extends React.Component
  * @classdesc
- * - Shows a textfield in which the user can type keywords to search books.<br>
- * - Lists the books resulting from the search undernit the textfield.
+ * Allows the user to perform a search for new books
  * @hideconstructor
  */
 class Search extends React.Component {
@@ -59,7 +58,7 @@ class Search extends React.Component {
 
 	/**
 	 * @description
-	 * Will clear the books list by emptying the books array in the state
+	 * Clears the books list by emptying the books array in the state
 	 * @returns {void}
 	 */
 	clearBooksGrid() {

@@ -9,7 +9,7 @@ import { TBook } from './types'
  * @class Book
  * @extends React.Component
  * @classdesc
- * Prints a list of books
+ * Prints the preview of a book
  * @hideconstructor
  */
 class Book extends React.Component {
