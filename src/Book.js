@@ -70,6 +70,7 @@ class Book extends React.Component {
 						<div className="book-shelf-changer">
 
 							<BookShelfChanger
+								key={`${book.id}-changer`}
 								shelf={book.shelf}
 								onShelfChange={this.onShelfChange} />
 

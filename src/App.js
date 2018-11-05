@@ -1,8 +1,10 @@
 
 import React from 'react'
+import { Route, Switch } from 'react-router-dom'
 import PropsRoute from './PropsRoute'
 import BooksList from './BooksList'
 import Search from './Search';
+import NotFoundPage from './NotFoundPage'
 import * as BooksAPI from './BooksAPI'
 import { TShelfKey } from './types'
 import './App.css'
@@ -42,17 +44,21 @@ class App extends React.Component {
 	/**
 	 * @method
 	 * @description
-	 * Retrieves the list of all the books currently in a shelf from remote
-	 * @returns {void}
+	 * Asynchronously retrieves the list of all the books currently in a shelf from remote,
+	 * then it stores them internally in the [state]{@link App#state} as booksInShelves collection.
+	 * @returns {Promise}
 	 * @private
 	 */
-	fetchAllBooks() {
-		BooksAPI.getAll()
-			.then( booksInShelves => {
-				this.setState({
-					booksInShelves
-				});
+	async fetchAllBooks() {
+		const booksInShelves = await BooksAPI.getAll();
+
+		return new Promise( resolve => {
+			this.setState({
+				booksInShelves
+			}, () => {
+				resolve(booksInShelves);
 			});
+		});
 	}
 
 
@@ -64,82 +70,35 @@ class App extends React.Component {
 	 * @param {TShelfKey} shelf - The shelf key the user selected
 	 * @returns {void}
 	 */
-	updateBookShelf(book, shelf) {
+	async updateBookShelf(book, shelf) {
+		await BooksAPI.update(book, shelf);
 
-		BooksAPI.update(book, shelf)
-			.then( nextBookIDsInShelves => {
-				const { booksInShelves } = this.state;
+		const { booksInShelves } = this.state;
+		let nextBooksInShelves;
 
-				if (shelf === TShelfKey.NONE) {
-					this.removeBook(book);
-				} else {
-					const bookIndex = booksInShelves.findIndex( ({ id }) => id === book.id );
+		if (shelf === TShelfKey.NONE) {
+			// Removing book
+			nextBooksInShelves = booksInShelves.filter( ({ id }) => id !== book.id );
+		} else {
+			const bookIndex = booksInShelves.findIndex( ({ id }) => id === book.id );
 
-					if (bookIndex === -1) {
-						this.addBookToShelf(book, shelf);
-					} else {
-						this.moveBookToShelf(booksInShelves[bookIndex], shelf);
-					}
-				}
+			if (bookIndex === -1) {
+				// Adding a new book
+				book.shelf = shelf;
+				nextBooksInShelves = [...booksInShelves, book];
+			} else {
+				// Moving an existing book to a new shelf
+				booksInShelves[bookIndex].shelf = shelf;
+				nextBooksInShelves = booksInShelves;
+			}
+		}
+
+		return new Promise( resolve => {
+			this.setState({
+				booksInShelves: nextBooksInShelves
+			}, () => {
+				resolve(nextBooksInShelves);
 			});
-
-	}
-
-
-	/**
-	 * @description
-	 * Updates the internal state so that an existing given book is removed
-	 * from the [booksInShelves]{@link App#state} collection.
-	 * @link {state.booksInShelves}
-	 * @param {TBook} book - The book the user selected
-	 * @returns {void}
-	 * @private
-	 */
-	removeBook(book) {
-		this.setState( ({ booksInShelves }) => ({
-			booksInShelves: booksInShelves.filter( ({ id }) => id !== book.id )
-		}));
-	}
-
-
-	/**
-	 * @description
-	 * Updates the internal state so that a new given book
-	 * is added to the [booksInShelves]{@link App#state} collection
-	 * as associated to a given shelf
-	 * @param {TBook} book - The book the user selected
-	 * @param {TShelfKey} shelf - The shelf key the user selected
-	 * @returns {void}
-	 * @private
-	 */
-	addBookToShelf(book, shelf) {
-		const { booksInShelves } = this.state;
-		const nextBooksInShelves = [...booksInShelves, book];
-		book.shelf = shelf;
-
-		this.setState({
-			booksInShelves: nextBooksInShelves
-		});
-	}
-
-
-	/**
-	 * @description
-	 * Updates the internal state so that a given book
-	 * already present in the [booksInShelves]{@link App#state} collection
-	 * is moved to a new shelf
-	 * @param {TBook} book - The book the user selected
-	 * @param {TShelfKey} shelf - The shelf key the user selected
-	 * @returns {void}
-	 * @private
-	 */
-	moveBookToShelf(book, shelf) {
-		const { booksInShelves } = this.state;
-		const nextBooksInShelves = [...booksInShelves];
-		book.shelf = shelf;
-
-		this.setState({
-			booksInShelves: nextBooksInShelves
 		});
 	}
 
@@ -154,8 +113,8 @@ class App extends React.Component {
 	 */
 	getBookShelf(bookID) {
 		const { booksInShelves } = this.state;
-		const shelf = booksInShelves.find( ({id}) => id === bookID );
-		return shelf || TShelfKey.NONE;
+		const book = booksInShelves.find( ({id}) => id === bookID );
+		return book ? book.shelf : TShelfKey.NONE;
 	}
 
 
@@ -170,7 +129,7 @@ class App extends React.Component {
 		const { booksInShelves } = this.state;
 
 		return (
-			<div>
+			<Switch>
 				<PropsRoute exact path='/' component={BooksList}
 					booksInShelves={booksInShelves}
 					updateBookShelf={this.updateBookShelf} />
@@ -178,7 +137,9 @@ class App extends React.Component {
 				<PropsRoute path='/search' component={Search}
 					getBookShelf={this.getBookShelf}
 					updateBookShelf={this.updateBookShelf} />
-			</div>
+
+				<Route component={NotFoundPage} />
+			</Switch>
 		);
 	}
 
