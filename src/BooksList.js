@@ -26,8 +26,8 @@ class BooksList extends React.Component {
 	 */
 	static propTypes = {
 		booksInShelves:	PropTypes.arrayOf(
-							PropTypes.shape(TBook).isRequired
-						).isRequired,
+			PropTypes.shape(TBook).isRequired
+		).isRequired,
 		updateBookShelf: PropTypes.func.isRequired
 	};
 
@@ -63,7 +63,7 @@ class BooksList extends React.Component {
 					})};
 				</div>
 				<div className="open-search">
-					<Link to='/search'>Add a book</Link>
+					<Link to='/search' id="goto-search">Add a book</Link>
 				</div>
 			</div>
 		);

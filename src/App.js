@@ -1,10 +1,6 @@
 
 import React from 'react'
-import { Route, Switch } from 'react-router-dom'
-import PropsRoute from './PropsRoute'
-import BooksList from './BooksList'
-import Search from './Search';
-import NotFoundPage from './NotFoundPage'
+import Navigation from './Navigation'
 import * as BooksAPI from './BooksAPI'
 import { TShelfKey } from './types'
 import './App.css'
@@ -50,7 +46,10 @@ class App extends React.Component {
 	 * @private
 	 */
 	async fetchAllBooks() {
+		console.log('>>1');
 		const booksInShelves = await BooksAPI.getAll();
+		console.log('>>2');
+		console.log(booksInShelves);
 
 		return new Promise( resolve => {
 			this.setState({
@@ -129,17 +128,11 @@ class App extends React.Component {
 		const { booksInShelves } = this.state;
 
 		return (
-			<Switch>
-				<PropsRoute exact path='/' component={BooksList}
-					booksInShelves={booksInShelves}
-					updateBookShelf={this.updateBookShelf} />
+			<Navigation
+				booksInShelves={booksInShelves}
+				getBookShelf={this.getBookShelf}
+				updateBookShelf={this.updateBookShelf} />
 
-				<PropsRoute path='/search' component={Search}
-					getBookShelf={this.getBookShelf}
-					updateBookShelf={this.updateBookShelf} />
-
-				<Route component={NotFoundPage} />
-			</Switch>
 		);
 	}
 

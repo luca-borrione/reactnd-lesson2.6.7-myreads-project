@@ -18,6 +18,7 @@ const getBooksInShelves = () =>
 
 
 export const getAll = BooksAPI.getAll = () => {
+	console.log('==> there');
 	const booksInShelves = getBooksInShelves();
 
 	return new Promise( resolve => {

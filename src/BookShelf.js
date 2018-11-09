@@ -24,8 +24,8 @@ class BookShelf extends React.Component {
 	 */
 	static propTypes = {
 		books: PropTypes.arrayOf(
-			   		PropTypes.shape(TBook).isRequired
-			   ).isRequired,
+			PropTypes.shape(TBook).isRequired
+		).isRequired,
 		updateBookShelf: PropTypes.func.isRequired
 	};
 
