@@ -1,9 +1,8 @@
-
-import React from 'react'
-import Navigation from './Navigation'
-import * as BooksAPI from './BooksAPI'
-import { TShelfKey } from './types'
-import './App.css'
+import React from 'react';
+import Navigation from './Navigation';
+import * as BooksAPI from './BooksAPI';
+import { TShelfKey } from './types';
+import './App.css';
 
 /**
  * @class App
@@ -14,6 +13,13 @@ import './App.css'
  * @hideconstructor
  */
 class App extends React.Component {
+
+	static STATUS = {
+		INITIAL: 'STATUS.INITIAL',
+		BUSY: 'STATUS.BUSY',
+		READY: 'STATUS.READY',
+		ERROR: 'STATUS.ERROR'
+	};
 
 	constructor(props) {
 		super(props);
@@ -28,12 +34,22 @@ class App extends React.Component {
 	 * @private
 	 */
 	state = {
+		status: this.constructor.STATUS.INITIAL,
 		booksInShelves: []
+	};
+
+
+	async = {
+		fetchAllBooks: null
 	};
 
 
 	componentDidMount() {
 		this.fetchAllBooks();
+		// this.async.mounting = new Promise( async resolve => {
+		// 	await this.fetchAllBooks();
+		// 	resolve();
+		// });
 	}
 
 
@@ -45,18 +61,33 @@ class App extends React.Component {
 	 * @returns {Promise}
 	 * @private
 	 */
-	async fetchAllBooks() {
-		console.log('>>1');
-		const booksInShelves = await BooksAPI.getAll();
-		console.log('>>2');
-		console.log(booksInShelves);
+	fetchAllBooks() {
+		console.log('||| 2');
+		return this.async.fetchAllBooks = new Promise( async resolve => {
+			const { STATUS } = this.constructor;
+			let booksInShelves = [];
 
-		return new Promise( resolve => {
-			this.setState({
+			await this.setState({
+				status: STATUS.BUSY,
 				booksInShelves
-			}, () => {
-				resolve(booksInShelves);
 			});
+
+			try {
+				booksInShelves = await BooksAPI.getAll();
+				await this.setState({
+					status: STATUS.READY,
+					booksInShelves
+				});
+
+			} catch (error) {
+				console.error(error);
+				await this.setState({
+					status: STATUS.ERROR,
+					booksInShelves
+				});
+			}
+
+			resolve(booksInShelves);
 		});
 	}
 
@@ -70,35 +101,54 @@ class App extends React.Component {
 	 * @returns {void}
 	 */
 	async updateBookShelf(book, shelf) {
-		await BooksAPI.update(book, shelf);
+		const { STATUS } = this.constructor;
+		let booksInShelves = [];
 
-		const { booksInShelves } = this.state;
-		let nextBooksInShelves;
+		await this.setState({
+			status: STATUS.BUSY
+		});
 
-		if (shelf === TShelfKey.NONE) {
-			// Removing book
-			nextBooksInShelves = booksInShelves.filter( ({ id }) => id !== book.id );
-		} else {
-			const bookIndex = booksInShelves.findIndex( ({ id }) => id === book.id );
+		try {
+			await BooksAPI.update(book, shelf);
 
-			if (bookIndex === -1) {
-				// Adding a new book
-				book.shelf = shelf;
-				nextBooksInShelves = [...booksInShelves, book];
+			const { booksInShelves: currBooksInShelves} = this.state;
+
+			if (shelf === TShelfKey.NONE) {
+				// Removing book
+				booksInShelves = currBooksInShelves.filter( ({ id }) => id !== book.id );
 			} else {
-				// Moving an existing book to a new shelf
-				booksInShelves[bookIndex].shelf = shelf;
-				nextBooksInShelves = booksInShelves;
+				const bookIndex = currBooksInShelves.findIndex( ({ id }) => id === book.id );
+
+				if (bookIndex === -1) {
+					// Adding a new book
+					book.shelf = shelf;
+					booksInShelves = [...currBooksInShelves, book];
+				} else {
+					// Moving an existing book to a new shelf
+					currBooksInShelves[bookIndex].shelf = shelf;
+					booksInShelves = currBooksInShelves;
+				}
 			}
+
+
+			// await new Promise(resolve => {
+			// 	setTimeout(()=>{ console.log('TIMEOUT'); resolve(); }, 10000);
+			// });
+
+			await this.setState({
+				status: STATUS.READy,
+				booksInShelves
+			});
+
+		} catch (error) {
+			console.error(error);
+			await this.setState({
+				status: STATUS.ERROR,
+				booksInShelves
+			});
 		}
 
-		return new Promise( resolve => {
-			this.setState({
-				booksInShelves: nextBooksInShelves
-			}, () => {
-				resolve(nextBooksInShelves);
-			});
-		});
+		return booksInShelves;
 	}
 
 
@@ -116,26 +166,42 @@ class App extends React.Component {
 		return book ? book.shelf : TShelfKey.NONE;
 	}
 
+	shouldComponentUpdate(nextProps, nextState) {
+		const { STATUS } = this.constructor;
+		return nextState.status !== STATUS.INITIAL;
+	}
 
 	/**
 	 * @description
 	 * Renders
 	 * - [BooksList]{@link BooksList} when the browser path is '/'
-	 * - [Search]{@link Search} when the browser path is '/search'
+	 * - [SearchPage]{@link SearchPage} when the browser path is '/search'
 	 * @returns {ReactElement}
 	 */
 	render() {
-		const { booksInShelves } = this.state;
+		const { STATUS } = this.constructor;
+		const { booksInShelves, status } = this.state;
 
-		return (
-			<Navigation
-				booksInShelves={booksInShelves}
-				getBookShelf={this.getBookShelf}
-				updateBookShelf={this.updateBookShelf} />
+		console.log('>> APP RENDERED <<', status);
 
-		);
+		if (status === STATUS.ERROR) {
+
+			return (
+				<div className="panel-error">Something went wrong. Please try again later.</div>
+			);
+
+		} else {
+
+			return (
+				<Navigation
+					booksInShelves={booksInShelves}
+					getBookShelf={this.getBookShelf}
+					updateBookShelf={this.updateBookShelf} />
+			);
+
+		}
 	}
 
 }
 
-export default App
+export default App;

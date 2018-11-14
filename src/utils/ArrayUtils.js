@@ -1,6 +1,5 @@
-const ArrayUtils = {};
 
-export const diff = ArrayUtils.diff = (...arrays) => {
+export const diff = (...arrays) => {
 	return [].concat(...arrays.map( (arr, i) => {
 		const others = arrays.slice(0);
 		others.splice(i, 1);
@@ -9,7 +8,7 @@ export const diff = ArrayUtils.diff = (...arrays) => {
 	}));
 };
 
-export const diffByKey = ArrayUtils.diffByKey = (key, ...arrays) => {
+export const diffByKey = (key, ...arrays) => {
 	return [].concat(...arrays.map( (arr, i) => {
 		const others = arrays.slice(0);
 		others.splice(i, 1);

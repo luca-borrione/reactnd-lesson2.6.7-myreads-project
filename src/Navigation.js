@@ -1,11 +1,10 @@
-
-import React from 'react'
-import PropTypes from 'prop-types'
-import { Route, Switch } from 'react-router-dom'
-import PropsRoute from './PropsRoute'
-import BooksList from './BooksList'
-import Search from './Search';
-import NotFoundPage from './NotFoundPage'
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Route, Switch } from 'react-router-dom';
+import PropsRoute from './PropsRoute';
+import BooksList from './BooksList';
+import SearchPage from './SearchPage';
+import NotFoundPage from './NotFoundPage';
 import { TBook } from './types';
 
 
@@ -19,7 +18,7 @@ const Navigation = props => {
 				booksInShelves={booksInShelves}
 				updateBookShelf={updateBookShelf} />
 
-			<PropsRoute path='/search' component={Search}
+			<PropsRoute path='/search' component={SearchPage}
 				getBookShelf={getBookShelf}
 				updateBookShelf={updateBookShelf} />
 
@@ -37,4 +36,4 @@ Navigation.propTypes = {
 	updateBookShelf: PropTypes.func.isRequired
 };
 
-export default Navigation
+export default Navigation;

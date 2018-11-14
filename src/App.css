@@ -175,3 +175,42 @@ body, .app {
   text-align: center;
   font-size: 0.8em;
 }
+
+/* messaging */
+.panel-info, .panel-success, .panel-warning, .panel-error, .panel-validation {
+	border: 0.0625em solid;
+	margin: 0.625em 0;
+	padding: 0.9375em 0.625em 0.9375em 3.125em;
+	background-repeat: no-repeat;
+	background-position: 0.625em center;
+	z-index: 1000;
+}
+.search-books [class|="panel"] {
+	position: relative;
+	top: 3.3125em;
+}
+.panel-info {
+	color: #00529B;
+	background-color: #BDE5F8;
+	background-image: url('https://i.imgur.com/ilgqWuX.png');
+}
+.panel-success {
+	color: #4F8A10;
+	background-color: #DFF2BF;
+	background-image: url('https://i.imgur.com/Q9BGTuy.png');
+}
+.panel-warning {
+	color: #9F6000;
+	background-color: #FEEFB3;
+	background-image: url('https://i.imgur.com/Z8q7ww7.png');
+}
+.panel-error{
+	color: #D8000C;
+	background-color: #FFBABA;
+	background-image: url('https://i.imgur.com/GnyDvKN.png');
+}
+.panel-validation{
+	color: #D63301;
+	background-color: #FFCCBA;
+	background-image: url('https://i.imgur.com/GnyDvKN.png');
+}

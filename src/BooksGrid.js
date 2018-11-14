@@ -1,8 +1,8 @@
-
-import React from 'react'
-import Book from './Book'
-import PropTypes from 'prop-types'
-import { TBook } from './types'
+import React from 'react';
+import Book from './Book';
+import PropTypes from 'prop-types';
+import { TBook } from './types';
+import { diff as ArrayDiff } from './utils/ArrayUtils';
 
 /**
  * @class BooksGrid
@@ -28,14 +28,34 @@ class BooksGrid extends React.Component {
 		updateBookShelf: PropTypes.func.isRequired
 	};
 
+	state = {
+		books: []
+	};
+
+	// The shelf key coming from the props becomes stored internally as state
+	static getDerivedStateFromProps(nextProps, prevState) {
+		if (ArrayDiff(prevState.books, nextProps.books).length > 0) {
+			return {
+				books: nextProps.books
+			};
+		}
+		return null;
+	}
+
+
+	shouldComponentUpdate(nextProps, nextState) {
+		return ArrayDiff(this.state.books, nextState.books).length > 0;
+	}
+
 	/**
 	 * @description
 	 * Shows the given list of books by rendering the [Book]{@link Book} component
 	 * @returns {ReactElement}
 	 */
 	render() {
-		const { books, updateBookShelf } = this.props;
-
+		const { books } = this.state;
+		const { updateBookShelf } = this.props;
+		console.log('>> GRID RENDERED <<', books);
 		return (
 			<ol className="books-grid">
 				{books.map( (book, index) => (

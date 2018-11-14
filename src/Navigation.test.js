@@ -1,12 +1,10 @@
-
 import ReactDOM from 'react-dom';
-import React from "react";
 import { Route, MemoryRouter } from "react-router-dom";
-import Navigation from '../Navigation'
+import Navigation from './Navigation'
 import ReactTestUtils from 'react-dom/test-utils';
-import BooksList from "../BooksList";
-import Search from "../Search";
-import NotFoundPage from "../NotFoundPage";
+import BooksList from "./BooksList";
+import SearchPage from "./SearchPage";
+import NotFoundPage from "./NotFoundPage";
 
 describe('Navigation', () => {
 
@@ -99,7 +97,7 @@ describe('Navigation', () => {
 	const extended = (() => {
 		const innerHTML = {
 			BooksList: getRenderedHTML(BooksList),
-			Search: getRenderedHTML(Search),
+			SearchPage: getRenderedHTML(SearchPage),
 			NotFoundPage: getRenderedHTML(NotFoundPage),
 		};
 
@@ -156,7 +154,7 @@ describe('Navigation', () => {
 				({ location, div }) => {
 
 					expect(location.pathname).toBe('/search');
-					expect(div).toBeRenderedAs('Search');
+					expect(div).toBeRenderedAs('SearchPage');
 
 					const node = div.querySelector("#goto-home");
 					ReactTestUtils.Simulate.click(node, {
