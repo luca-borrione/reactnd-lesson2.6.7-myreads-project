@@ -1,9 +1,8 @@
-
-import React from 'react'
-import BooksGrid from './BooksGrid'
-import PropTypes from 'prop-types'
-import { TBook } from './types'
-import { SHELF_TITLE } from './Constants'
+import React from 'react';
+import BooksGrid from './BooksGrid';
+import PropTypes from 'prop-types';
+import { TBook } from './types';
+import { ERROR, SHELF_TITLE } from './Constants';
 
 /**
  * @class BookShelf
@@ -45,7 +44,7 @@ class BookShelf extends React.Component {
 		];
 
 		if (shelfKeys.length > 1) {
-			throw new Error('the books passed are contained in multiple shelves', shelfKeys);
+			throw new Error(ERROR.BOOKS_IN_MULTI_SHELVES, shelfKeys);
 		}
 		const shelfTitle = SHELF_TITLE[shelfKeys[0]];
 
@@ -66,4 +65,4 @@ class BookShelf extends React.Component {
 }
 
 
-export default BookShelf
+export default BookShelf;

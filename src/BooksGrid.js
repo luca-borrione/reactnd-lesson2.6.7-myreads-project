@@ -71,4 +71,4 @@ class BooksGrid extends React.Component {
 }
 
 
-export default BooksGrid
+export default BooksGrid;

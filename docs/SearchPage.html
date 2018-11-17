@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>App - Documentation</title>
+    <title>SearchPage - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -31,7 +31,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">App</h1>
+    <h1 class="page-title">SearchPage</h1>
     
 
     
@@ -44,11 +44,10 @@
 <header>
     
         <h2>
-        App
+        SearchPage
         </h2>
         
-            <div class="class-description"><p>Keeps the source of truth of all the books contained in the shelves.<br>
-Defines the routes of the application.</p></div>
+            <div class="class-description"><p>Allows the user to perform a search for new books</p></div>
         
     
 </header>
@@ -79,6 +78,185 @@ Defines the routes of the application.</p></div>
 
     
         <h3 class="subsection-title">Members</h3>
+
+        
+            
+<h4 class="name" id="propTypes"><span class="type-signature"></span>propTypes<span class="type-signature"></span></h4>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>propTypes</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Intended types passed to the component</p>
+                <h6>Properties</h6>
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>getBookShelf</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Method of the <a href="App.html#getBookShelf">App</a> component for retrieving the shelf key
+    associated with a book by book id.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>updateBookShelf</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Method of the App]<a href="App.html#updateBookShelf">App#updateBookShelf</a> component for updating the list
+    of books in the shelves</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
 
         
             
@@ -192,7 +370,7 @@ Defines the routes of the application.</p></div>
 
         <tr>
             
-                <td class="name"><code>booksInShelves</code></td>
+                <td class="name"><code>books</code></td>
             
 
             <td class="type">
@@ -208,7 +386,30 @@ Defines the routes of the application.</p></div>
 
             
 
-            <td class="description last"><p>List of all the books present in all the shelves</p></td>
+            <td class="description last"><p>List of books resulting from the search</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>searchedValue</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>SearchPage keywords typed by the user in the textfield</p></td>
         </tr>
 
     
@@ -239,252 +440,6 @@ Defines the routes of the application.</p></div>
 
     
         <h3 class="subsection-title">Methods</h3>
-
-        
-            
-
-    
-
-    <h4 class="name" id="fetchAllBooks"><span class="type-signature">(private) </span>fetchAllBooks<span class="signature">()</span><span class="type-signature"> &rarr; {Promise}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    <p>Asynchronously retrieves the list of all the books currently in a shelf from remote,
-then it stores them internally in the <a href="App.html#state">state</a> as booksInShelves collection.</p>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="getBookShelf"><span class="type-signature"></span>getBookShelf<span class="signature">(bookID)</span><span class="type-signature"> &rarr; {<a href="global.html#TShelfKey">TShelfKey</a>}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    <p>Retrieves the current shelf associated with a book, based on a given book id.
-If the book is not present in the <a href="App.html#state">booksInShelves</a> collection
-then the shelf is NONE.</p>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>bookID</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>The book id as described in <a href="global.html#TBook">TBook.id</a></p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type"><a href="global.html#TShelfKey">TShelfKey</a></span>
-
-
-    </dd>
-</dl>
-
-    
-
 
         
             
@@ -538,10 +493,10 @@ then the shelf is NONE.</p>
 
 
 <div class="description">
-    <p>Renders</p>
-<ul>
-<li><a href="BooksList.html">BooksList</a> when the browser path is '/'</li>
-<li><a href="SearchPage.html">SearchPage</a> when the browser path is '/search'</li>
+    <ul>
+<li>Shows a textfield in which the user can type keywords to search books.<br></li>
+<li>Lists the books resulting from the search undernit the textfield by rendering
+the <a href="BooksGrid.html">BooksGrid</a> component</li>
 </ul>
 </div>
 
@@ -579,176 +534,6 @@ then the shelf is NONE.</p>
     <dd>
         
 <span class="param-type">ReactElement</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="updateBookShelf"><span class="type-signature">(async) </span>updateBookShelf<span class="signature">(book, shelf)</span><span class="type-signature"> &rarr; {void}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    <p>Updates the remote list of books in the shelves,
-then it changes the internal <a href="App.html#state">booksInShelves</a>  collection in the state accordingly.</p>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>book</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#TBook">TBook</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>The book the user selected</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>shelf</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#TShelfKey">TShelfKey</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>The shelf key the user selected</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">void</span>
 
 
     </dd>

@@ -1,29 +1,20 @@
 import ReactDOM from 'react-dom';
 import { MemoryRouter } from 'react-router';
 import renderer from 'react-test-renderer';
-import SearchPage from './SearchPage';
+import BooksList from './BooksList';
 import { shallow } from 'enzyme';
 
-describe('SearchPage', () => {
+describe('BooksList', () => {
 
-	// beforeEach(() => {
-	// 	jest.resetModules();
-	// });
-
-	// afterEach(() => {
-	// 	jest.clearAllMocks();
-	// 	jest.restoreAllMocks();
-	// });
-
-	const getBookShelf = () => {};
+	const booksInShelves = [];
 	const updateBookShelf = () => {};
 
 	it('renders without crashing', () => {
 		const div = document.createElement('div');
 		ReactDOM.render(
 			<MemoryRouter>
-				<SearchPage
-					getBookShelf={getBookShelf}
+				<BooksList
+					booksInShelves={booksInShelves}
 					updateBookShelf={updateBookShelf} />
 			</MemoryRouter>, div);
 		ReactDOM.unmountComponentAtNode(div);
@@ -33,8 +24,8 @@ describe('SearchPage', () => {
 	it('renders correctly', () => {
 		const tree = renderer.create(
 			<MemoryRouter>
-				<SearchPage
-					getBookShelf={getBookShelf}
+				<BooksList
+					booksInShelves={booksInShelves}
 					updateBookShelf={updateBookShelf} />
 			</MemoryRouter>
 		)
@@ -44,14 +35,14 @@ describe('SearchPage', () => {
 	});
 
 
-	it("includes a link to '/'", () => {
+	it("includes a link to '/search'", () => {
 		const wrapper = shallow(
-			<SearchPage
-				getBookShelf={getBookShelf}
+			<BooksList
+				booksInShelves={booksInShelves}
 				updateBookShelf={updateBookShelf} />
 		);
 
 		const link = wrapper.find('Link');
-		expect(link.prop('to')).toBe('/');
+		expect(link.prop('to')).toBe('/search');
 	});
 });

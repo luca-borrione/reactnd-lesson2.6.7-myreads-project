@@ -1,9 +1,8 @@
-
-import React from 'react'
-import { Link } from 'react-router-dom'
-import SearchBar from './SearchBar'
-import BooksGrid from './BooksGrid'
-import PropTypes from 'prop-types'
+import React from 'react';
+import { Link } from 'react-router-dom';
+import SearchBar from './SearchBar';
+import BooksGrid from './BooksGrid';
+import PropTypes from 'prop-types';
 
 /**
  * @class SearchPage

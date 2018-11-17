@@ -1,10 +1,9 @@
-
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React from 'react';
+import { Link } from 'react-router-dom';
 import BookShelf from './BookShelf';
 import PropTypes from 'prop-types'
 import { TBook } from './types';
-import { SHELF_TITLE } from './Constants'
+import { SHELF_TITLE } from './Constants';
 
 /**
  * @class BooksList
@@ -72,4 +71,4 @@ class BooksList extends React.Component {
 }
 
 
-export default BooksList
+export default BooksList;

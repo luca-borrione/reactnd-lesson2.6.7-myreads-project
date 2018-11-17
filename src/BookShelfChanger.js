@@ -1,7 +1,7 @@
-
-import React from 'react'
-import PropTypes from 'prop-types'
-import { SHELF_TITLE } from './Constants'
+import React from 'react';
+import PropTypes from 'prop-types';
+import { SHELF_TITLE } from './Constants';
+import { TBook } from './types';
 
 /**
  * @class BookShelfChanger
@@ -19,14 +19,14 @@ class BookShelfChanger extends React.Component {
 	 * @static
 	 */
 	static propTypes = {
-		shelf: PropTypes.string.isRequired,
-		onShelfChange: PropTypes.func.isRequired
+		book: PropTypes.shape(TBook).isRequired,
+		updateBookShelf: PropTypes.func.isRequired
 	};
 
 
 	constructor(props) {
 		super(props);
-		this.selectionChanged = this.selectionChanged.bind(this);
+		this.onSelectChange = this.onSelectChange.bind(this);
 	}
 
 
@@ -44,7 +44,7 @@ class BookShelfChanger extends React.Component {
 	static getDerivedStateFromProps(nextProps, prevState) {
 		if (prevState.selectedValue === '') {
 			return {
-				selectedValue: nextProps.shelf
+				selectedValue: nextProps.book.shelf
 			};
 		}
 		return null;
@@ -54,18 +54,19 @@ class BookShelfChanger extends React.Component {
 	/**
 	 * @description
 	 * Handles the change event of the user selection.<br>
-	 * Firstly it updates the internal state, then it triggers the onShelfChange method
-	 * of the parent [Book]{@link Book} component to handle the new shelf value.
+	 * Firstly it updates the internal state, then it triggers the
+	 * [updateBookShelf]{@link App#updateBookShelf} method of the App component
+	 * to update the list of books in the shelves
 	 * @param {SyntheticEvent} event
 	 * @returns {void}
 	 */
-	selectionChanged(event) {
-		const { onShelfChange } = this.props;
+	onSelectChange(event) {
+		const { book, updateBookShelf } = this.props;
 
 		this.setState({
 			selectedValue: event.target.value
 		}, () => {
-			onShelfChange(this.state.selectedValue);
+			updateBookShelf(book, this.state.selectedValue);
 		});
 	}
 
@@ -77,7 +78,7 @@ class BookShelfChanger extends React.Component {
 	 */
 	render() {
 		return (
-			<select value={this.state.selectedValue} onChange={this.selectionChanged}>
+			<select value={this.state.selectedValue} onChange={this.onSelectChange}>
 				<option value="move" disabled>Move to...</option>
 				{Object.entries(SHELF_TITLE).map( ([ shelfKey, shelfTitle ], index) => (
 					<option key={index} value={shelfKey}>{shelfTitle}</option>
@@ -88,4 +89,4 @@ class BookShelfChanger extends React.Component {
 }
 
 
-export default BookShelfChanger
+export default BookShelfChanger;

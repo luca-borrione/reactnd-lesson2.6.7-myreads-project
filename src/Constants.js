@@ -1,11 +1,7 @@
+/** @module Constants */
 
-import { TShelfKey } from './types'
+import { TShelfKey } from './types';
 
-/**
- * @namespace Constants
- */
-
-const Constants = {};
 
 
 /**
@@ -16,17 +12,16 @@ const Constants = {};
  * @property {TShelfKey} TShelfKey.NONE - None
  */
 /**
- * @memberof Constants
- * @name SHELF_TITLE
  * @type {TShelfTitle}
  * @constant
  */
-export const SHELF_TITLE = Constants.SHELF_TITLE = Object.freeze({
+export const SHELF_TITLE = Object.freeze({
 	[TShelfKey.CURRENTLY_READING]: 'Currently Reading',
 	[TShelfKey.WANT_TO_READ]: 'Want to Read',
 	[TShelfKey.READ]: 'Read',
 	[TShelfKey.NONE]: 'None',
 });
 
-
-export default Constants
+export const ERROR = {
+	BOOKS_IN_MULTI_SHELVES: 'the books passed are contained in multiple shelves'
+};

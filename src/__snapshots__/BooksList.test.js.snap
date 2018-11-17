@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BooksList renders correctly 1`] = `
+<div
+  className="list-books"
+>
+  <div
+    className="list-books-title"
+  >
+    <h1>
+      MyReads
+    </h1>
+  </div>
+  <div
+    className="list-books-content"
+  >
+    ;
+  </div>
+  <div
+    className="open-search"
+  >
+    <a
+      href="/search"
+      id="goto-search"
+      onClick={[Function]}
+    >
+      Add a book
+    </a>
+  </div>
+</div>
+`;

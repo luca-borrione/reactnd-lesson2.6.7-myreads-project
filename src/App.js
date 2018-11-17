@@ -46,10 +46,6 @@ class App extends React.Component {
 
 	componentDidMount() {
 		this.fetchAllBooks();
-		// this.async.mounting = new Promise( async resolve => {
-		// 	await this.fetchAllBooks();
-		// 	resolve();
-		// });
 	}
 
 

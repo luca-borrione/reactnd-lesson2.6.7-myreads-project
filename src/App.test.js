@@ -1,7 +1,9 @@
 import ReactDOM from 'react-dom';
-import { shallow } from 'enzyme';
+import { mount, shallow } from 'enzyme';
+import renderer from 'react-test-renderer';
 import { MemoryRouter } from 'react-router';
 import App from './App';
+import Navigation from './Navigation';
 import * as BooksAPI from './BooksAPI'; // mocked
 import { diffByKey as ArrayDiffByKey } from './utils/ArrayUtils';
 import { TShelfKey } from './types';
@@ -42,113 +44,133 @@ describe('App', () => {
 	});
 
 
-	it('fetches the books correctly and stores them as state', async () => {
-		const expected = {
-			books: await BooksAPI.getAll()
-		};
-		const wrapper = shallow(<App />);
-		const component = wrapper.instance();
-		await component.async.fetchAllBooks;
+	it('renders correctly', () => {
+		const tree = renderer.create(
+			<MemoryRouter>
+				<App />
+			</MemoryRouter>).toJSON();
+		expect(tree).toMatchSnapshot();
+	});
 
-		const diffArr = ArrayDiffByKey('id', expected.books, wrapper.state().booksInShelves);
-		expect(diffArr).toHaveLength(0);
+	it('should contain Navigation as a child', () => {
+		const wrapper = mount(
+			<MemoryRouter>
+				<App />
+			</MemoryRouter>);
+		expect(wrapper.find(Navigation)).toBeTruthy();
 	});
 
 
+	describe('state behaviour', () => {
 
-	it('properly removes a book and updates the state accordingly', async () => {
-		const wrapper = shallow(<App />);
-		const component = wrapper.instance();
-		await component.async.fetchAllBooks;
-		const initialBooksInShelves = wrapper.state().booksInShelves;
-
-		const book = initialBooksInShelves[0]; // will remove the first book
-		await component.updateBookShelf(book, TShelfKey.NONE);
-		const booksInShelves = wrapper.state().booksInShelves;
-
-		expect.assertions(3);
-		{
-			// 1. One book has ben removed
-			expect(booksInShelves).toHaveLength(initialBooksInShelves.length - 1);
-
-			// 2. The expected book has been removed
-			const diffArr = ArrayDiffByKey('id', booksInShelves, initialBooksInShelves);
-			const removedBook = diffArr[0];
+		it('fetches the books correctly and stores them as state', async () => {
 			const expected = {
-				id: book.id
+				books: await BooksAPI.getAll()
 			};
-			expect(removedBook).toEqual(expect.objectContaining(expected));
-		}
-		{
-			// 3. The removed book is now stored as NOT associated with any shelf
-			const removedBook = await BooksAPI.get(book.id);
+			const wrapper = shallow(<App />);
+			const component = wrapper.instance();
+			await component.async.fetchAllBooks;
+
+			const diffArr = ArrayDiffByKey('id', expected.books, wrapper.state().booksInShelves);
+			expect(diffArr).toHaveLength(0);
+		});
+
+
+		it('properly removes a book and updates the state accordingly', async () => {
+			const wrapper = shallow(<App />);
+			const component = wrapper.instance();
+			await component.async.fetchAllBooks;
+			const initialBooksInShelves = wrapper.state().booksInShelves;
+
+			const book = initialBooksInShelves[0]; // will remove the first book
+			await component.updateBookShelf(book, TShelfKey.NONE);
+			const booksInShelves = wrapper.state().booksInShelves;
+
+			expect.assertions(3);
+			{
+				// 1. One book has ben removed
+				expect(booksInShelves).toHaveLength(initialBooksInShelves.length - 1);
+
+				// 2. The expected book has been removed
+				const diffArr = ArrayDiffByKey('id', booksInShelves, initialBooksInShelves);
+				const removedBook = diffArr[0];
+				const expected = {
+					id: book.id
+				};
+				expect(removedBook).toEqual(expect.objectContaining(expected));
+			}
+			{
+				// 3. The removed book is now stored as NOT associated with any shelf
+				const removedBook = await BooksAPI.get(book.id);
+				const expected = {
+					id: book.id,
+					shelf: TShelfKey.NONE
+				};
+				expect(removedBook).toEqual(expect.objectContaining(expected));
+			}
+		});
+
+
+		it('properly adds a new book and updates the state accordingly', async () => {
+			const wrapper = shallow(<App />);
+			const component = wrapper.instance();
+			await component.async.fetchAllBooks;
+			const initialBooksInShelves = wrapper.state().booksInShelves;
+
+			// A new book is added
 			const expected = {
-				id: book.id,
-				shelf: TShelfKey.NONE
+				id: '1OJ8EhvuPXAC',
+				shelf: TShelfKey.WANT_TO_READ // Moving from NONE
 			};
-			expect(removedBook).toEqual(expect.objectContaining(expected));
-		}
-	});
+			const book = await BooksAPI.get(expected.id);
+			await component.updateBookShelf(book, expected.shelf);
+			const booksInShelves = wrapper.state().booksInShelves;
+
+			expect.assertions(3);
+			{
+				// 1. One book has ben added
+				expect(booksInShelves).toHaveLength(initialBooksInShelves.length + 1);
+
+				// 2. The expected book has been added
+				const diffArr = ArrayDiffByKey('id', booksInShelves, initialBooksInShelves);
+				const addedBook = diffArr[0];
+				expect(addedBook).toEqual(expect.objectContaining(expected));
+			}
+			{
+				// 3. The added book is now stored as expected
+				const addedBook = await BooksAPI.get(expected.id);
+				expect(addedBook).toEqual(expect.objectContaining(expected));
+			}
+		});
 
 
-	it('properly adds a new book and updates the state accordingly', async () => {
-		const wrapper = shallow(<App />);
-		const component = wrapper.instance();
-		await component.async.fetchAllBooks;
-		const initialBooksInShelves = wrapper.state().booksInShelves;
+		it('properly moves a book to a different shelf and updates the state accordingly', async () => {
+			const wrapper = shallow(<App />);
+			const component = wrapper.instance();
+			await component.async.fetchAllBooks;
+			const initialBooksInShelves = wrapper.state().booksInShelves;
 
-		// A new book is added
-		const expected = {
-			id: '1OJ8EhvuPXAC',
-			shelf: TShelfKey.WANT_TO_READ // Moving from NONE
-		};
-		const book = await BooksAPI.get(expected.id);
-		await component.updateBookShelf(book, expected.shelf);
-		const booksInShelves = wrapper.state().booksInShelves;
+			// A book needs to move to a different shelf
+			const expected = {
+				id: 'nggnmAEACAAJ',
+				shelf: TShelfKey.READ // moving from CURRENTLY_READING
+			};
+			const book = await BooksAPI.get(expected.id);
+			await component.updateBookShelf(book, expected.shelf);
+			const booksInShelves = wrapper.state().booksInShelves;
 
-		expect.assertions(3);
-		{
-			// 1. One book has ben added
-			expect(booksInShelves).toHaveLength(initialBooksInShelves.length + 1);
+			expect.assertions(2);
+			{
+				// 1. No book has been added or removed
+				expect(booksInShelves).toHaveLength(initialBooksInShelves.length);
+			}
+			{
+				// 2. The expected book has been moved
+				const movedBook = await BooksAPI.get(expected.id);
+				expect(movedBook).toEqual(expect.objectContaining(expected));
+			}
+		});
 
-			// 2. The expected book has been added
-			const diffArr = ArrayDiffByKey('id', booksInShelves, initialBooksInShelves);
-			const addedBook = diffArr[0];
-			expect(addedBook).toEqual(expect.objectContaining(expected));
-		}
-		{
-			// 3. The added book is now stored as expected
-			const addedBook = await BooksAPI.get(expected.id);
-			expect(addedBook).toEqual(expect.objectContaining(expected));
-		}
-	});
-
-
-	it('properly moves a book to a different shelf and updates the state accordingly', async () => {
-		const wrapper = shallow(<App />);
-		const component = wrapper.instance();
-		await component.async.fetchAllBooks;
-		const initialBooksInShelves = wrapper.state().booksInShelves;
-
-		// A book needs to move to a different shelf
-		const expected = {
-			id: 'nggnmAEACAAJ',
-			shelf: TShelfKey.READ // moving from CURRENTLY_READING
-		};
-		const book = await BooksAPI.get(expected.id);
-		await component.updateBookShelf(book, expected.shelf);
-		const booksInShelves = wrapper.state().booksInShelves;
-
-		expect.assertions(2);
-		{
-			// 1. No book has been added or removed
-			expect(booksInShelves).toHaveLength(initialBooksInShelves.length);
-		}
-		{
-			// 2. The expected book has been moved
-			const movedBook = await BooksAPI.get(expected.id);
-			expect(movedBook).toEqual(expect.objectContaining(expected));
-		}
 	});
 
 
