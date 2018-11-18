@@ -43,7 +43,6 @@ export const get = bookId => {
 		setTimeout(() => {
 			resolve(book);
 		}, delay);
-
 	});
 };
 
@@ -96,35 +95,6 @@ export const search = (query, maxResults) => {
 		setTimeout(() => {
 			resolve(result);
 		}, delay);
-
 	});
-
-	// console.log(result);
-	// existingBook.shelf = shelf;
-
-	// const booksInShelves = getBooksInShelves();
-
-	// return new Promise( resolve => {
-	// 	const delay = getDelay();
-	// 	console.log('delay: '+delay);
-
-	// 	setTimeout(() => {
-	// 		resolve(formatUpdatedBooks(booksInShelves));
-	// 	}, delay);
-
-	// });
-
 };
-
-
-export const search1 = (query, maxResults) =>
-  fetch(`${api}/search`, {
-    method: 'POST',
-    headers: {
-      ...headers,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ query, maxResults })
-  }).then(res => res.json())
-    .then(data => data.books)
 

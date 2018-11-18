@@ -4,8 +4,9 @@ import React from 'react'
 const NotFoundPage = props => {
 
 	return (
-		<div>
-			NOT FOUND
+		<div className="notfound-page-wrap">
+			<h1>404</h1>
+			<h2>Not Found</h2>
 		</div>
 	);
 

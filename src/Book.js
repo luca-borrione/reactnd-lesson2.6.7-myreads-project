@@ -48,14 +48,12 @@ class Book extends React.Component {
 							backgroundSize: 'cover',
 							backgroundImage: 'url('+ thumbnail +')'
 						}}></div>
-						<div className="book-shelf-changer">
 
-							<BookShelfChanger
-								key={`${book.id}-changer`}
-								book={book}
-								updateBookShelf={updateBookShelf} />
+						<BookShelfChanger
+							key={`${book.id}-changer`}
+							book={book}
+							updateBookShelf={updateBookShelf} />
 
-						</div>
 					</div>
 					<div className="book-title">{makeTitle(book.title)}</div>
 					<div className="book-authors">

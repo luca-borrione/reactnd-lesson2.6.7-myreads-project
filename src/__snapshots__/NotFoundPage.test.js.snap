@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NotFoundPage renders correctly 1`] = `
+<div
+  className="notfound-page-wrap"
+>
+  <h1>
+    404
+  </h1>
+  <h2>
+    Not Found
+  </h2>
+</div>
+`;

@@ -25,7 +25,7 @@ console.log('==> here');
 }
 
 export const update = (book, shelf) =>
-  fetch(`${api}/books/${book.id}`, {
+  fetch(`${api}/books/${book.id}1`, {
     method: 'PUT',
     headers: {
       ...headers,

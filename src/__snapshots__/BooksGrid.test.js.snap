@@ -3,5 +3,76 @@
 exports[`BooksGrid renders correctly 1`] = `
 <ol
   className="books-grid"
-/>
+>
+  <li>
+    <div
+      className="book"
+    >
+      <div
+        className="book-top"
+      >
+        <div
+          className="book-cover"
+          style={
+            Object {
+              "backgroundImage": "url(http://books.google.com/books/content?id=nggnmAEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api)",
+              "backgroundSize": "cover",
+              "height": 193,
+              "width": 128,
+            }
+          }
+        />
+        <div
+          className="book-shelf-changer"
+        >
+          <select
+            onChange={[Function]}
+            value="currentlyReading"
+          >
+            <option
+              disabled={true}
+              value="move"
+            >
+              Move to...
+            </option>
+            <option
+              value="currentlyReading"
+            >
+              Currently Reading
+            </option>
+            <option
+              value="wantToRead"
+            >
+              Want to Read
+            </option>
+            <option
+              value="read"
+            >
+              Read
+            </option>
+            <option
+              value="none"
+            >
+              None
+            </option>
+          </select>
+        </div>
+      </div>
+      <div
+        className="book-title"
+      >
+        The Linux Command Line
+      </div>
+      <div
+        className="book-authors"
+      >
+        <span
+          className="author"
+        >
+          William E. Shotts, Jr.
+        </span>
+      </div>
+    </div>
+  </li>
+</ol>
 `;

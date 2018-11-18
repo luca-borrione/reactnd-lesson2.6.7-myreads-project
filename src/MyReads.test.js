@@ -1,12 +1,12 @@
 import ReactDOM from 'react-dom';
-import { mount, shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import renderer from 'react-test-renderer';
 import { MemoryRouter } from 'react-router';
-import BooksList from './BooksList';
+import MyReads from './MyReads';
 import * as BooksAPI from './BooksAPI'; // mocked
 import { TShelfKey } from './types';
 
-describe('BooksList', () => {
+describe('MyReads', () => {
 
 	let book;
 	const updateBookShelf = () => {};
@@ -30,7 +30,7 @@ describe('BooksList', () => {
 		};
 		const div = document.createElement('div');
 		ReactDOM.render(
-			withRouter(<BooksList {...props} />), div);
+			withRouter(<MyReads {...props} />), div);
 		ReactDOM.unmountComponentAtNode(div);
 	});
 
@@ -41,54 +41,46 @@ describe('BooksList', () => {
 			updateBookShelf
 		};
 		const tree = renderer.create(
-			withRouter(<BooksList {...props} />)
+			withRouter(<MyReads {...props} />)
 		).toJSON();
 
 		expect(tree).toMatchSnapshot();
 	});
 
 
-	it("includes a link to '/search'", () => {
+	it('should contain BookLoader and not BooksList as a child if the booksInShelves are not fetched yet', () => {
+		const props = {
+			booksInShelves: null,
+			updateBookShelf
+		};
+
+		const wrapper = mount(
+			withRouter(<MyReads {...props} />)
+		);
+
+		expect(wrapper.find('BooksList')).toHaveLength(0);
+		expect(wrapper.find('BookLoader')).toHaveLength(1);
+	});
+
+
+	it('should contain BooksList and not BookLoader as a child if the booksInShelves have been fetched', () => {
 		const props = {
 			booksInShelves: [book],
 			updateBookShelf
 		};
-		const wrapper = shallow(
-			<BooksList {...props} />
-		);
 
-		const link = wrapper.find('Link');
-		expect(link.prop('to')).toBe('/search');
-	});
-
-
-	it('should not contain BookShelf as a child if the booksInShelves is empty', () => {
-		const props = {
-			booksInShelves: [],
-			updateBookShelf
-		};
 		const wrapper = mount(
-			withRouter(<BooksList {...props} />)
+			withRouter(<MyReads {...props} />)
 		);
-		expect(wrapper.find('BookShelf')).toHaveLength(0);
-	});
 
-
-	it('should contain BookShelf as a child if the booksInShelves contains at least one book', async () => {
-		const props = {
-			booksInShelves: [book],
-			updateBookShelf
-		};
-		const wrapper = mount(
-			withRouter(<BooksList {...props} />)
-		);
-		expect(wrapper.find('BookShelf')).toHaveLength(1);
+		expect(wrapper.find('BooksList')).toHaveLength(1);
+		expect(wrapper.find('BookLoader')).toHaveLength(0);
 	});
 
 
 	describe('props behaviour', () => {
 
-		it('passes the prop updateBookShelf method as it is to the BookShelf child', () => {
+		it('passes the prop updateBookShelf method as it is to the BooksList child', () => {
 			const props = {
 				booksInShelves: [book],
 				updateBookShelf: jest.fn()
@@ -96,10 +88,10 @@ describe('BooksList', () => {
 			const shelf = TShelfKey.WANT_TO_READ;
 
 			const wrapper = mount(
-				withRouter(<BooksList {...props} />)
+				withRouter(<MyReads {...props} />)
 			);
 
-			wrapper.find('BookShelf').instance().props.updateBookShelf(book, shelf);
+			wrapper.find('BooksList').instance().props.updateBookShelf(book, shelf);
 			expect(props.updateBookShelf).toHaveBeenCalledTimes(1);
 			expect(props.updateBookShelf).toHaveBeenCalledWith(book, shelf);
 		});

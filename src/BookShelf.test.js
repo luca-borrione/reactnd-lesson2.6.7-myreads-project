@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom';
 import renderer from 'react-test-renderer';
-import { shallow } from 'enzyme';
+import { mount, shallow } from 'enzyme';
 import BookShelf from './BookShelf';
 import * as BooksAPI from './BooksAPI'; // mocked
 import { TShelfKey } from './types';
@@ -8,69 +8,91 @@ import { ERROR } from './Constants';
 
 describe('BookShelf', () => {
 
-	beforeEach(() => {
-		BooksAPI.__resetBooks();
+	let book;
+	let allBooks;
+
+	const updateBookShelf = () => {};
+
+	beforeEach( async () => {
+		if (!book) {
+			book = await BooksAPI.get('nggnmAEACAAJ');
+		}
+		if (!allBooks) {
+			allBooks = await BooksAPI.getAll();
+		}
 	});
 
 
-	let books = [];
-	const updateBookShelf = () => {};
-
-
 	it('renders without crashing', () => {
+		const props = {
+			books: [book],
+			updateBookShelf
+		};
 		const div = document.createElement('div');
-		ReactDOM.render(
-			<BookShelf
-				books={books}
-				updateBookShelf={updateBookShelf} />, div);
+		ReactDOM.render(<BookShelf {...props} />, div);
 		ReactDOM.unmountComponentAtNode(div);
 	});
 
 
 	it('renders correctly', () => {
-		const tree = renderer.create(
-			<BookShelf
-				books={books}
-				updateBookShelf={updateBookShelf} />
-		)
-		.toJSON();
+		const props = {
+			books: [book],
+			updateBookShelf
+		};
+		const tree = renderer.create(<BookShelf {...props} />)
+			.toJSON();
 
 		expect(tree).toMatchSnapshot();
 	});
 
 
 	it('expects books containing the same shelf', async () => {
-		const allBooks = await BooksAPI.getAll();
-
-		books = allBooks.filter( ({ shelf }) =>
-					shelf === TShelfKey.WANT_TO_READ);
-
-		const fn = () => {
-			shallow(
-				<BookShelf
-					books={books}
-					updateBookShelf={updateBookShelf} />
-			);
+		const props = {
+			books: allBooks.filter( ({ shelf }) => shelf === TShelfKey.WANT_TO_READ),
+			updateBookShelf
 		};
 
+		const fn = () => shallow(<BookShelf {...props} />);
 		expect(fn).not.toThrowError();
 	});
 
+
 	it('throws an error if it receives books containing different shelves', async () => {
-		const allBooks = await BooksAPI.getAll();
-
-		books = allBooks
-					.filter( ({ shelf }) =>
-						shelf === TShelfKey.WANT_TO_READ || shelf === TShelfKey.CURRENTLY_READING );
-
-		const fn = () => {
-			shallow(
-				<BookShelf
-					books={books}
-					updateBookShelf={updateBookShelf} />
-			);
+		const props = {
+			books: allBooks.filter( ({ shelf }) => shelf === TShelfKey.WANT_TO_READ
+												|| shelf === TShelfKey.CURRENTLY_READING),
+			updateBookShelf
 		};
 
+		const fn = () => shallow(<BookShelf {...props} />);
 		expect(fn).toThrowError(ERROR.BOOKS_IN_MULTI_SHELVES);
+	});
+
+	it('should contain BooksGrid as a child', () => {
+		const props = {
+			books: [book],
+			updateBookShelf
+		};
+		const wrapper = mount(<BookShelf {...props} />);
+		expect(wrapper.find('BooksGrid')).toHaveLength(1);
+	});
+
+
+	describe('props behaviour', () => {
+
+		it('passes the prop updateBookShelf method as it is to the BooksGrid child', () => {
+			const props = {
+				books: [book],
+				updateBookShelf: jest.fn()
+			};
+			const shelf = TShelfKey.WANT_TO_READ;
+
+			const wrapper = mount(<BookShelf {...props} />);
+
+			wrapper.find('BooksGrid').instance().props.updateBookShelf(book, shelf);
+			expect(props.updateBookShelf).toHaveBeenCalledTimes(1);
+			expect(props.updateBookShelf).toHaveBeenCalledWith(book, shelf);
+		});
+
 	});
 });

@@ -2,24 +2,26 @@ import ReactDOM from 'react-dom';
 import { mount } from 'enzyme';
 import renderer from 'react-test-renderer';
 import Book from './Book';
-import BookShelfChanger from './BookShelfChanger';
 import * as BooksAPI from './BooksAPI'; // mocked
 import { TShelfKey } from './types';
 
 describe('Book', () => {
 
-	let props = {
-		book: null,
-		updateBookShelf: () => {}
-	};
+	let book;
+
+	const updateBookShelf = () => {};
 
 	beforeEach( async () => {
-		if (!props.book) {
-			props.book = await BooksAPI.get('nggnmAEACAAJ');
+		if (!book) {
+			book = await BooksAPI.get('nggnmAEACAAJ');
 		}
 	});
 
 	it('renders without crashing', () => {
+		const props = {
+			book,
+			updateBookShelf
+		};
 		const div = document.createElement('div');
 		ReactDOM.render(<Book {...props} />, div);
 		ReactDOM.unmountComponentAtNode(div);
@@ -27,28 +29,35 @@ describe('Book', () => {
 
 
 	it('renders correctly', () => {
+		const props = {
+			book,
+			updateBookShelf
+		};
 		const tree = renderer.create(<Book {...props} />).toJSON();
 		expect(tree).toMatchSnapshot();
 	});
 
 
 	it('should contain BookShelfChanger as a child', () => {
+		const props = {
+			book,
+			updateBookShelf
+		};
 		const wrapper = mount(<Book {...props} />);
-		expect(wrapper.find(BookShelfChanger)).toBeTruthy();
+		expect(wrapper.find('BookShelfChanger')).toHaveLength(1);
 	});
 
 
-	describe('props', () => {
+	describe('props behaviour', () => {
 
-		it('passes the prop updateBookShelf method to the BookShelfChanger child as it is', () => {
-			props = {
-				...props,
+		it('passes the prop updateBookShelf method as it is to the BookShelfChanger child', () => {
+			const props = {
+				book,
 				updateBookShelf: jest.fn()
 			};
-			const book = props.book;
 			const shelf = TShelfKey.WANT_TO_READ;
 			const wrapper = mount(<Book {...props} />);
-			wrapper.find(BookShelfChanger).instance().props.updateBookShelf(book, shelf);
+			wrapper.find('BookShelfChanger').instance().props.updateBookShelf(book, shelf);
 			expect(props.updateBookShelf).toHaveBeenCalledTimes(1);
 			expect(props.updateBookShelf).toHaveBeenCalledWith(book, shelf);
 		});

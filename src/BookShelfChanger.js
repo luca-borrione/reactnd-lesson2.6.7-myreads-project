@@ -12,6 +12,12 @@ import { TBook } from './types';
  */
 class BookShelfChanger extends React.Component {
 
+	static STATUS = {
+		INITIAL: 'STATUS.INITIAL',
+		BUSY: 'STATUS.BUSY',
+		READY: 'STATUS.READY'
+	};
+
 	/**
 	 * @property {Object} propTypes - Intended types passed to the component
 	 * @property {TShelfKey} shelf - The shelf key currently associated with the book
@@ -36,7 +42,8 @@ class BookShelfChanger extends React.Component {
 	 * @private
 	 */
 	state = {
-		selectedValue: ''
+		selectedValue: '',
+		status: this.constructor.STATUS.INITIAL
 	};
 
 
@@ -44,7 +51,8 @@ class BookShelfChanger extends React.Component {
 	static getDerivedStateFromProps(nextProps, prevState) {
 		if (prevState.selectedValue === '') {
 			return {
-				selectedValue: nextProps.book.shelf
+				selectedValue: nextProps.book.shelf,
+				status: BookShelfChanger.STATUS.READY
 			};
 		}
 		return null;
@@ -61,13 +69,21 @@ class BookShelfChanger extends React.Component {
 	 * @returns {void}
 	 */
 	onSelectChange(event) {
+		const { STATUS } = this.constructor;
 		const { book, updateBookShelf } = this.props;
 
 		this.setState({
-			selectedValue: event.target.value
+			selectedValue: event.target.value,
+			status: STATUS.BUSY
 		}, () => {
 			updateBookShelf(book, this.state.selectedValue);
 		});
+	}
+
+
+	shouldComponentUpdate(nextProps, nextState) {
+		const { STATUS } = this.constructor;
+		return nextState.status !== STATUS.INITIAL;
 	}
 
 
@@ -77,13 +93,23 @@ class BookShelfChanger extends React.Component {
 	 * @returns {ReactElement}
 	 */
 	render() {
+		const { STATUS } = this.constructor;
+		const { status } = this.state;
+
+		console.log('>> CHANGER RENDERED <<', status);
+
 		return (
-			<select value={this.state.selectedValue} onChange={this.onSelectChange}>
-				<option value="move" disabled>Move to...</option>
-				{Object.entries(SHELF_TITLE).map( ([ shelfKey, shelfTitle ], index) => (
-					<option key={index} value={shelfKey}>{shelfTitle}</option>
-				))}
-			</select>
+			<div className="book-shelf-changer">
+				{status === STATUS.BUSY && (
+					<div id="loading"></div>
+				)}
+				<select value={this.state.selectedValue} onChange={this.onSelectChange}>
+					<option value="move" disabled>Move to...</option>
+					{Object.entries(SHELF_TITLE).map( ([ shelfKey, shelfTitle ], index) => (
+						<option key={index} value={shelfKey}>{shelfTitle}</option>
+					))}
+				</select>
+			</div>
 		);
 	}
 }

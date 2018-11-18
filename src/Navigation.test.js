@@ -2,7 +2,7 @@ import ReactDOM from 'react-dom';
 import { Route, MemoryRouter } from "react-router-dom";
 import Navigation from './Navigation'
 import ReactTestUtils from 'react-dom/test-utils';
-import BooksList from "./BooksList";
+import MyReads from "./MyReads";
 import SearchPage from "./SearchPage";
 import NotFoundPage from "./NotFoundPage";
 
@@ -96,7 +96,7 @@ describe('Navigation', () => {
 
 	const extended = (() => {
 		const innerHTML = {
-			BooksList: getRenderedHTML(BooksList),
+			MyReads: getRenderedHTML(MyReads),
 			SearchPage: getRenderedHTML(SearchPage),
 			NotFoundPage: getRenderedHTML(NotFoundPage),
 		};
@@ -142,7 +142,7 @@ describe('Navigation', () => {
 				({ location, div }) => {
 
 					expect(location.pathname).toBe('/');
-					expect(div).toBeRenderedAs('BooksList');
+					expect(div).toBeRenderedAs('MyReads');
 
 					const node = div.querySelector("#goto-search");
 					ReactTestUtils.Simulate.click(node, {
@@ -166,7 +166,7 @@ describe('Navigation', () => {
 				({ history, location, div }) => {
 
 					expect(location.pathname).toBe('/');
-					expect(div).toBeRenderedAs('BooksList');
+					expect(div).toBeRenderedAs('MyReads');
 
 					history.push("/random");
 				},

@@ -23,5 +23,6 @@ export const SHELF_TITLE = Object.freeze({
 });
 
 export const ERROR = {
-	BOOKS_IN_MULTI_SHELVES: 'the books passed are contained in multiple shelves'
+	BOOKS_IN_MULTI_SHELVES: 'the books passed are contained in multiple shelves',
+	UNEXPECTED_STATUS: 'unexpected status'
 };

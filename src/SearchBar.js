@@ -15,6 +15,11 @@ class SearchBar extends React.Component {
 	static SEARCH_LIMIT = 20;
 	static DEBOUNCING_TIME = 250; // milliseconds
 
+	static BOOKS_STATUS = {
+		READY: 'BOOKS_STATUS.READY',
+		ERROR: 'BOOKS_STATUS.ERROR'
+	};
+
 	/**
 	 * @property {Object} propTypes - Intended types passed to the component
 	 * @property {TBook[]} propTypes.books - List of the books to show
@@ -92,15 +97,16 @@ class SearchBar extends React.Component {
 	}
 
 	fetchBooks(keywords) {
+		const { BOOKS_STATUS } = this.constructor;
 		return new Promise( async (resolve, reject) => {
 				this.search(keywords, resolve, reject);
 			}).then( async books => {
-				books.status = 'ready';
+				books.status = BOOKS_STATUS.READY;
 				return books;
 			}).catch( error => {
 				console.error('ERROR: ', error);
 				const books = [];
-				books.status = 'error';
+				books.status = BOOKS_STATUS.ERROR;
 				return books;
 			});
 	}

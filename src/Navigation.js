@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch } from 'react-router-dom';
 import PropsRoute from './PropsRoute';
-import BooksList from './BooksList';
+import MyReads from './MyReads';
 import SearchPage from './SearchPage';
 import NotFoundPage from './NotFoundPage';
 import { TBook } from './types';
@@ -14,7 +14,7 @@ const Navigation = props => {
 
 	return (
 		<Switch>
-			<PropsRoute exact path='/' component={BooksList}
+			<PropsRoute exact path='/' component={MyReads}
 				booksInShelves={booksInShelves}
 				updateBookShelf={updateBookShelf} />
 

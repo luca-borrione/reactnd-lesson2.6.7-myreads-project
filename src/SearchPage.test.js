@@ -1,57 +1,75 @@
 import ReactDOM from 'react-dom';
-import { MemoryRouter } from 'react-router';
+import { mount, shallow } from 'enzyme';
 import renderer from 'react-test-renderer';
+import { MemoryRouter } from 'react-router';
 import SearchPage from './SearchPage';
-import { shallow } from 'enzyme';
+import * as BooksAPI from './BooksAPI'; // mocked
 
 describe('SearchPage', () => {
-
-	// beforeEach(() => {
-	// 	jest.resetModules();
-	// });
-
-	// afterEach(() => {
-	// 	jest.clearAllMocks();
-	// 	jest.restoreAllMocks();
-	// });
 
 	const getBookShelf = () => {};
 	const updateBookShelf = () => {};
 
+	const withRouter = Component => (
+		<MemoryRouter>
+			{Component}
+		</MemoryRouter>
+	);
+
+	let books;
+
+	beforeEach( async () => {
+		if (!books) {
+			books = await BooksAPI.search('t');
+		}
+	});
+
 	it('renders without crashing', () => {
+		const props = {
+			getBookShelf,
+			updateBookShelf
+		};
 		const div = document.createElement('div');
 		ReactDOM.render(
-			<MemoryRouter>
-				<SearchPage
-					getBookShelf={getBookShelf}
-					updateBookShelf={updateBookShelf} />
-			</MemoryRouter>, div);
+			withRouter(<SearchPage {...props} />), div);
 		ReactDOM.unmountComponentAtNode(div);
 	});
 
 
 	it('renders correctly', () => {
+		const props = {
+			getBookShelf,
+			updateBookShelf
+		};
 		const tree = renderer.create(
-			<MemoryRouter>
-				<SearchPage
-					getBookShelf={getBookShelf}
-					updateBookShelf={updateBookShelf} />
-			</MemoryRouter>
-		)
-		.toJSON();
+			withRouter(<SearchPage {...props} />)
+		).toJSON();
 
 		expect(tree).toMatchSnapshot();
 	});
 
 
 	it("includes a link to '/'", () => {
-		const wrapper = shallow(
-			<SearchPage
-				getBookShelf={getBookShelf}
-				updateBookShelf={updateBookShelf} />
-		);
-
+		const props = {
+			getBookShelf,
+			updateBookShelf
+		};
+		const wrapper = shallow(<SearchPage {...props} />);
 		const link = wrapper.find('Link');
 		expect(link.prop('to')).toBe('/');
+	});
+
+
+	it('should contain SearchBar as a child', () => {
+		const props = {
+			getBookShelf,
+			updateBookShelf
+		};
+
+		const wrapper = mount(
+			withRouter(<SearchPage {...props} />)
+		);
+
+		expect(wrapper.find('SearchBar')).toHaveLength(1);
 	});
 });

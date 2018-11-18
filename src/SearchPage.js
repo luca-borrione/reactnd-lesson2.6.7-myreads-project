@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import SearchBar from './SearchBar';
+import PanelError from './PanelError';
 import BooksGrid from './BooksGrid';
 import PropTypes from 'prop-types';
 
@@ -41,8 +42,7 @@ class SearchPage extends React.Component {
 	 * @private
 	 */
 	state = {
-		books: [],
-		error: ''
+		books: []
 	};
 
 
@@ -60,6 +60,7 @@ class SearchPage extends React.Component {
 	 * @returns {ReactElement}
 	 */
 	render() {
+		const { BOOKS_STATUS } = SearchBar;
 		const { books } = this.state;
 		const { getBookShelf, updateBookShelf } = this.props;
 
@@ -74,15 +75,17 @@ class SearchPage extends React.Component {
 						showResult={this.showResult} />
 				</div>
 
-				{books.status === 'error' && (
-					<div className="panel-error">Something went wrong. Please try again later.</div>
-				)}
-
-				<div className="search-books-results">
-					<BooksGrid
-						books={books}
-						updateBookShelf={updateBookShelf}  />
-				</div>
+				{books.status === BOOKS_STATUS.ERROR
+					? (
+						<PanelError />
+					)
+					: (
+						<div className="search-books-results">
+							<BooksGrid
+								books={books}
+								updateBookShelf={updateBookShelf}  />
+						</div>
+					)}
 			</div>
 		);
 	}

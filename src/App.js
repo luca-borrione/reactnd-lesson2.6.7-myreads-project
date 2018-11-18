@@ -1,8 +1,11 @@
 import React from 'react';
 import Navigation from './Navigation';
+import BookLoader from './BookLoader';
+import PanelError from './PanelError';
 import * as BooksAPI from './BooksAPI';
 import { TShelfKey } from './types';
 import './App.css';
+import { ERROR } from './Constants';
 
 /**
  * @class App
@@ -35,7 +38,7 @@ class App extends React.Component {
 	 */
 	state = {
 		status: this.constructor.STATUS.INITIAL,
-		booksInShelves: []
+		booksInShelves: null
 	};
 
 
@@ -63,13 +66,14 @@ class App extends React.Component {
 			const { STATUS } = this.constructor;
 			let booksInShelves = [];
 
-			await this.setState({
-				status: STATUS.BUSY,
-				booksInShelves
-			});
-
 			try {
 				booksInShelves = await BooksAPI.getAll();
+
+				// NOTE: uncomment to test the initial loader animation
+				// await new Promise(resolve => {
+				// 	setTimeout(()=>{ resolve(); }, 10000);
+				// });
+
 				await this.setState({
 					status: STATUS.READY,
 					booksInShelves
@@ -99,6 +103,8 @@ class App extends React.Component {
 	async updateBookShelf(book, shelf) {
 		const { STATUS } = this.constructor;
 		let booksInShelves = [];
+
+		console.log('+ updateBookShelf', book, shelf);
 
 		await this.setState({
 			status: STATUS.BUSY
@@ -132,9 +138,11 @@ class App extends React.Component {
 			// });
 
 			await this.setState({
-				status: STATUS.READy,
+				status: STATUS.READY,
 				booksInShelves
 			});
+
+			console.log('A DONE');
 
 		} catch (error) {
 			console.error(error);
@@ -142,6 +150,8 @@ class App extends React.Component {
 				status: STATUS.ERROR,
 				booksInShelves
 			});
+
+			console.log('B DONE');
 		}
 
 		return booksInShelves;
@@ -164,7 +174,7 @@ class App extends React.Component {
 
 	shouldComponentUpdate(nextProps, nextState) {
 		const { STATUS } = this.constructor;
-		return nextState.status !== STATUS.INITIAL;
+		return nextState.status !== STATUS.BUSY;
 	}
 
 	/**
@@ -180,21 +190,21 @@ class App extends React.Component {
 
 		console.log('>> APP RENDERED <<', status);
 
-		if (status === STATUS.ERROR) {
+		switch (status) {
+			case STATUS.INITIAL:
+				return <BookLoader />;
 
-			return (
-				<div className="panel-error">Something went wrong. Please try again later.</div>
-			);
+			case STATUS.ERROR:
+				return <PanelError />;
 
-		} else {
+			case STATUS.READY:
+				return <Navigation
+							booksInShelves={booksInShelves}
+							getBookShelf={this.getBookShelf}
+							updateBookShelf={this.updateBookShelf} />;
 
-			return (
-				<Navigation
-					booksInShelves={booksInShelves}
-					getBookShelf={this.getBookShelf}
-					updateBookShelf={this.updateBookShelf} />
-			);
-
+			default:
+				throw new Error(ERROR.UNEXPECTED_STATUS, status);
 		}
 	}
 

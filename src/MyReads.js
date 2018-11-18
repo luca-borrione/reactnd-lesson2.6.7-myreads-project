@@ -1,18 +1,18 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import BookShelf from './BookShelf';
+import BookLoader from './BookLoader';
 import PropTypes from 'prop-types'
 import { TBook } from './types';
-import { SHELF_TITLE } from './Constants';
+import BooksList from './BooksList';
 
 /**
- * @class BooksList
+ * @class MyReads
  * @extends React.Component
  * @classdesc
- * Shows all the books listed by shelf title.
+ * Displays the 'MyReads' title and then either it shows a loader while fetching the books list
+ * or it just shows the books list if fetched.
  * @hideconstructor
  */
-class BooksList extends React.Component {
+class MyReads extends React.Component {
 
 	/**
 	 * @property {Object} propTypes - Intended types passed to the component
@@ -42,29 +42,23 @@ class BooksList extends React.Component {
 		const { booksInShelves, updateBookShelf } = this.props;
 
 		return (
-			<div>
-				<div className="list-books-content">
-					{Object.keys(SHELF_TITLE).map( (shelfKey, index) => {
-						const booksInShelf = booksInShelves.filter( ({ shelf }) => shelf === shelfKey );
-						if (booksInShelf.length > 0) {
-							return (
-
-								<BookShelf key={index}
-									books={booksInShelf}
-									updateBookShelf={updateBookShelf} />
-
-							)
-						}
-						return null;
-					})}
+			<div className="list-books">
+				<div className="list-books-title">
+					<h1>MyReads</h1>
 				</div>
-				<div className="open-search">
-					<Link to='/search' id="goto-search">Add a book</Link>
-				</div>
+				{Array.isArray(booksInShelves)
+					? (
+						<BooksList
+							booksInShelves={booksInShelves}
+							updateBookShelf={updateBookShelf} />
+					)
+					: (
+						<BookLoader />
+					)}
 			</div>
 		);
 	}
 
 }
 
-export default BooksList;
+export default MyReads;

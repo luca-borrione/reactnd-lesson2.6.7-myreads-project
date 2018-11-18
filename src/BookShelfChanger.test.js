@@ -7,19 +7,22 @@ import { TShelfKey } from './types';
 
 describe('BookShelfChanger', () => {
 
-	let props = {
-		book: null,
-		updateBookShelf: () => {}
-	};
+	let book;
+
+	const updateBookShelf = () => {};
 
 	beforeEach( async () => {
-		if (!props.book) {
-			props.book = await BooksAPI.get('nggnmAEACAAJ');
+		if (!book) {
+			book = await BooksAPI.get('nggnmAEACAAJ');
 		}
 	});
 
 
 	it('renders without crashing', () => {
+		const props = {
+			book,
+			updateBookShelf
+		};
 		const div = document.createElement('div');
 		ReactDOM.render(<BookShelfChanger {...props} />, div);
 		ReactDOM.unmountComponentAtNode(div);
@@ -27,32 +30,40 @@ describe('BookShelfChanger', () => {
 
 
 	it('renders correctly', () => {
+		const props = {
+			book,
+			updateBookShelf
+		};
 		const tree = renderer.create(<BookShelfChanger {...props} />,).toJSON();
 		expect(tree).toMatchSnapshot();
 	});
 
 
-	it('changes the selectedValue state when a new shelf is selected and triggers the prop updateBookShelf method', () => {
-		props = {
-			...props,
-			updateBookShelf: jest.fn()
-		};
+	describe('state behaviour', () => {
 
-		const initialShelf = props.book.shelf;
-		const shelf = TShelfKey.WANT_TO_READ;
+		it('changes the selectedValue state when a new shelf is selected and triggers the prop updateBookShelf method', () => {
+			const props = {
+				book,
+				updateBookShelf: jest.fn()
+			};
 
-		const wrapper = mount(<BookShelfChanger {...props} />);
-		const component = wrapper.instance();
-		expect(component.state.selectedValue).toBe(initialShelf);
+			const initialShelf = book.shelf;
+			const shelf = TShelfKey.WANT_TO_READ;
 
-		const select = wrapper.find('select');
-		select.simulate('change', {
-			target: { value : shelf}
+			const wrapper = mount(<BookShelfChanger {...props} />);
+			const component = wrapper.instance();
+			expect(component.state.selectedValue).toBe(initialShelf);
+
+			const select = wrapper.find('select');
+			select.simulate('change', {
+				target: { value : shelf}
+			});
+			expect(component.state.selectedValue).toBe(shelf);
+
+			expect(props.updateBookShelf).toHaveBeenCalledTimes(1);
+			expect(props.updateBookShelf).toHaveBeenCalledWith(props.book, shelf);
 		});
-		expect(component.state.selectedValue).toBe(shelf);
 
-		expect(props.updateBookShelf).toHaveBeenCalledTimes(1);
-		expect(props.updateBookShelf).toHaveBeenCalledWith(props.book, shelf);
 	});
 
 });
