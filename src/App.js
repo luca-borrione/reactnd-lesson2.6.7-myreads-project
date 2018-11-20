@@ -11,12 +11,23 @@ import { ERROR } from './Constants';
  * @class App
  * @extends React.Component
  * @classdesc
- * Keeps the source of truth of all the books contained in the shelves.<br>
- * Defines the routes of the application.
+ * When first loaded it automatically fetches all the books in the shelves
+ * and it stores them internally as a state.<br>
+ * This becomes the source of truth across the different sections of the app.
  * @hideconstructor
  */
 class App extends React.Component {
 
+	/**
+	 * @enum Status
+	 * @description
+	 * Collection of possible status
+	 * @property {string} INITIAL - STATUS.INITIAL
+	 * @property {string} BUSY - STATUS.BUSY
+	 * @property {string} READY - STATUS.READY
+	 * @property {string} ERROR - STATUS.ERROR
+	 * @static
+	 */
 	static STATUS = {
 		INITIAL: 'STATUS.INITIAL',
 		BUSY: 'STATUS.BUSY',
@@ -32,7 +43,10 @@ class App extends React.Component {
 
 
 	/**
-	 * @property {Object} state
+	 * @member
+	 * @description
+	 * Component state
+	 * @property {Status} status
 	 * @property {TBook[]} state.booksInShelves - List of all the books present in all the shelves
 	 * @private
 	 */
@@ -42,6 +56,12 @@ class App extends React.Component {
 	};
 
 
+	/**
+	 * @member
+	 * @description
+	 * Collection of promises useful when making unit tests.
+	 * @property {Promise} fetchAllBooks - waiting for the books in the shelves to be fetched
+	 */
 	async = {
 		fetchAllBooks: null
 	};
@@ -79,7 +99,7 @@ class App extends React.Component {
 				});
 
 			} catch (error) {
-				console.error(error);
+				console.error(error); // NOTE: this is intentional
 				await this.setState({
 					status: STATUS.ERROR,
 					booksInShelves
@@ -97,7 +117,7 @@ class App extends React.Component {
 	 * then it changes the internal [booksInShelves]{@link App#state}  collection in the state accordingly.
 	 * @param {TBook} book - The book the user selected
 	 * @param {TShelfKey} shelf - The shelf key the user selected
-	 * @returns {void}
+	 * @returns {TBook[]} booksInShelves
 	 */
 	async updateBookShelf(book, shelf) {
 		const { STATUS } = this.constructor;
@@ -160,7 +180,7 @@ class App extends React.Component {
 	 * @description
 	 * Retrieves the current shelf associated with a book, based on a given book id.
 	 * If the book is not present in the [booksInShelves]{@link App#state} collection
-	 * then the shelf is NONE.
+	 * the shelf will be NONE.
 	 * @param {string} bookID - The book id as described in [TBook.id]{@link TBook}
 	 * @returns {TShelfKey}
 	 */
@@ -178,8 +198,10 @@ class App extends React.Component {
 	/**
 	 * @description
 	 * Renders
-	 * - [BooksList]{@link BooksList} when the browser path is '/'
-	 * - [SearchPage]{@link SearchPage} when the browser path is '/search'
+	 * - [BookLoader]{@link BookLoader} when the status is INITIAL
+	 * - [Navigation]{@link Navigation} when the status is READY
+	 * - [PanelError]{@link PanelError} when the status is ERROR
+	 * @throws Error for an unexpected status
 	 * @returns {ReactElement}
 	 */
 	render() {

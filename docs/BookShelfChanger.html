@@ -26,7 +26,7 @@
 
 <nav>
     
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="App.html">App</a><ul class='methods'><li data-type='method'><a href="App.html#fetchAllBooks">fetchAllBooks</a></li><li data-type='method'><a href="App.html#getBookShelf">getBookShelf</a></li><li data-type='method'><a href="App.html#render">render</a></li><li data-type='method'><a href="App.html#updateBookShelf">updateBookShelf</a></li></ul></li><li><a href="Book.html">Book</a><ul class='methods'><li data-type='method'><a href="Book.html#render">render</a></li></ul></li><li><a href="BooksGrid.html">BooksGrid</a><ul class='methods'><li data-type='method'><a href="BooksGrid.html#render">render</a></li></ul></li><li><a href="BookShelf.html">BookShelf</a><ul class='methods'><li data-type='method'><a href="BookShelf.html#render">render</a></li></ul></li><li><a href="BookShelfChanger.html">BookShelfChanger</a><ul class='methods'><li data-type='method'><a href="BookShelfChanger.html#onSelectChange">onSelectChange</a></li><li data-type='method'><a href="BookShelfChanger.html#render">render</a></li></ul></li><li><a href="BooksList.html">BooksList</a><ul class='methods'><li data-type='method'><a href="BooksList.html#render">render</a></li></ul></li><li><a href="MyReads.html">MyReads</a><ul class='methods'><li data-type='method'><a href="MyReads.html#render">render</a></li></ul></li><li><a href="SearchPage.html">SearchPage</a><ul class='methods'><li data-type='method'><a href="SearchPage.html#render">render</a></li></ul></li></ul><h3>Modules</h3><ul><li><a href="module-Constants.html">Constants</a></li><li><a href="module-StringUtils.html">StringUtils</a><ul class='methods'><li data-type='method'><a href="module-StringUtils.html#~makeTitle">makeTitle</a></li><li data-type='method'><a href="module-StringUtils.html#~ucFirst">ucFirst</a></li><li data-type='method'><a href="module-StringUtils.html#~ucWords">ucWords</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#TShelfKey">TShelfKey</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="App.html">App</a><ul class='methods'><li data-type='method'><a href="App.html#fetchAllBooks">fetchAllBooks</a></li><li data-type='method'><a href="App.html#getBookShelf">getBookShelf</a></li><li data-type='method'><a href="App.html#render">render</a></li><li data-type='method'><a href="App.html#updateBookShelf">updateBookShelf</a></li></ul></li><li><a href="Book.html">Book</a><ul class='methods'><li data-type='method'><a href="Book.html#render">render</a></li></ul></li><li><a href="BooksGrid.html">BooksGrid</a><ul class='methods'><li data-type='method'><a href="BooksGrid.html#render">render</a></li></ul></li><li><a href="BookShelf.html">BookShelf</a><ul class='methods'><li data-type='method'><a href="BookShelf.html#render">render</a></li></ul></li><li><a href="BookShelfChanger.html">BookShelfChanger</a><ul class='methods'><li data-type='method'><a href="BookShelfChanger.html#onSelectChange">onSelectChange</a></li><li data-type='method'><a href="BookShelfChanger.html#render">render</a></li></ul></li><li><a href="BooksList.html">BooksList</a><ul class='methods'><li data-type='method'><a href="BooksList.html#render">render</a></li></ul></li><li><a href="MyReads.html">MyReads</a><ul class='methods'><li data-type='method'><a href="MyReads.html#render">render</a></li></ul></li><li><a href="SearchPage.html">SearchPage</a><ul class='methods'><li data-type='method'><a href="SearchPage.html#render">render</a></li></ul></li></ul><h3>Modules</h3><ul><li><a href="module-ArrayUtils.html">ArrayUtils</a><ul class='methods'><li data-type='method'><a href="module-ArrayUtils.html#~diff">diff</a></li><li data-type='method'><a href="module-ArrayUtils.html#~diffByKey">diffByKey</a></li></ul></li><li><a href="module-Constants.html">Constants</a></li><li><a href="module-StringUtils.html">StringUtils</a><ul class='methods'><li data-type='method'><a href="module-StringUtils.html#~makeTitle">makeTitle</a></li><li data-type='method'><a href="module-StringUtils.html#~ucfirst">ucfirst</a></li><li data-type='method'><a href="module-StringUtils.html#~ucwords">ucwords</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#TShelfKey">TShelfKey</a></li></ul>
 </nav>
 
 <div id="main">
@@ -302,13 +302,13 @@
 
         <tr>
             
-                <td class="name"><code>state</code></td>
+                <td class="name"><code>selectedValue</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type"><a href="global.html#TShelfKey">TShelfKey</a></span>
 
 
             
@@ -318,8 +318,96 @@
 
             
 
-            <td class="description last">
-                <h6>Properties</h6>
+            <td class="description last"><p>Shelf key associated with the current selection</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>status</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Status</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="STATUS"><span class="type-signature">(private) </span>STATUS<span class="type-signature"></span></h4>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
 
 <table class="props">
     <thead>
@@ -343,13 +431,13 @@
 
         <tr>
             
-                <td class="name"><code>selectedValue</code></td>
+                <td class="name"><code>INITIAL</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type"><a href="global.html#TShelfKey">TShelfKey</a></span>
+<span class="param-type">string</span>
 
 
             
@@ -359,14 +447,53 @@
 
             
 
-            <td class="description last"><p>Shelf key associated with the current selection</p></td>
+            <td class="description last"><p>STATUS.INITIAL</p></td>
         </tr>
 
     
-    </tbody>
-</table>
 
+        <tr>
+            
+                <td class="name"><code>BUSY</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
             </td>
+
+            
+
+            
+
+            <td class="description last"><p>STATUS.BUSY</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>READY</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>STATUS.READY</p></td>
         </tr>
 
     
@@ -377,6 +504,10 @@
 
 
 
+
+<div class="description">
+    <p>Collection of possible status</p>
+</div>
 
 
 
@@ -657,7 +788,7 @@ to update the list of books in the shelves</p>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon Nov 19 2018 21:31:45 GMT+0000 (GMT) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Nov 20 2018 07:01:22 GMT+0000 (GMT) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>

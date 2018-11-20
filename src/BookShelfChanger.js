@@ -12,6 +12,15 @@ import { TBook } from './types';
  */
 class BookShelfChanger extends React.Component {
 
+	/**
+	 * @enum Status
+	 * @description
+	 * Collection of possible status
+	 * @property {string} INITIAL - STATUS.INITIAL
+	 * @property {string} BUSY - STATUS.BUSY
+	 * @property {string} READY - STATUS.READY
+	 * @private
+	 */
 	static STATUS = {
 		INITIAL: 'STATUS.INITIAL',
 		BUSY: 'STATUS.BUSY',
@@ -37,8 +46,9 @@ class BookShelfChanger extends React.Component {
 
 
 	/**
-	 * @property {Object} state
-	 * @property {TShelfKey} state.selectedValue - Shelf key associated with the current selection
+	 * @member
+	 * @property {TShelfKey} selectedValue - Shelf key associated with the current selection
+	 * @property {Status} status
 	 * @private
 	 */
 	state = {
