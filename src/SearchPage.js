@@ -47,7 +47,6 @@ class SearchPage extends React.Component {
 
 
 	async showResult(books) {
-		console.log('----> showResult:', books);
 		await this.setState({ books });
 	}
 
@@ -63,8 +62,6 @@ class SearchPage extends React.Component {
 		const { BOOKS_STATUS } = SearchBar;
 		const { books } = this.state;
 		const { getBookShelf, updateBookShelf } = this.props;
-
-		console.log('>>> SEARCH RENDERED <<< ', books, this.state);
 
 		return (
 			<div className="search-books">

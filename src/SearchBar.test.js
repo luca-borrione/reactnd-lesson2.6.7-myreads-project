@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom';
-import renderer from 'react-test-renderer';
+import TestRenderer from 'react-test-renderer';
 import * as BooksAPI from './BooksAPI'; // mocked
 import SearchBar from './SearchBar';
 import { mount, shallow } from 'enzyme';
@@ -7,37 +7,30 @@ import debounce from 'lodash.debounce';
 
 describe('SearchBar', () => {
 
-	beforeEach(() => {
-		jest.resetModules();
-		BooksAPI.__resetBooks();
-	});
+	const getBookShelf = () => {};
+	const showResult = () => {};
+	const props = {
+		getBookShelf,
+		showResult
+	};
+
 
 	afterEach(() => {
 		jest.clearAllMocks();
-		jest.restoreAllMocks();
 	});
-
-	const getBookShelf = () => {};
-	const showResult = () => {};
 
 
 	it('renders without crashing', () => {
 		const div = document.createElement('div');
-		ReactDOM.render(
-			<SearchBar
-				getBookShelf={getBookShelf}
-				showResult={showResult} />, div);
+		ReactDOM.render(<SearchBar {...props} />, div);
 		ReactDOM.unmountComponentAtNode(div);
 	});
 
 
 	it('renders correctly', () => {
-		const tree = renderer.create(
-			<SearchBar
-				getBookShelf={getBookShelf}
-				showResult={showResult} />,
-		)
-		.toJSON();
+		const tree = TestRenderer
+			.create(<SearchBar {...props} />)
+			.toJSON();
 
 		expect(tree).toMatchSnapshot();
 	});
@@ -46,9 +39,7 @@ describe('SearchBar', () => {
 	it('contains a debounced search method', () => {
 		const api = jest.spyOn(BooksAPI, 'search');
 		const wrapper = shallow(
-			<SearchBar
-				getBookShelf={getBookShelf}
-				showResult={showResult} />
+			<SearchBar {...props} />
 		);
 		const component = wrapper.instance();
 
@@ -56,17 +47,21 @@ describe('SearchBar', () => {
 		component.search(query);
 		expect(debounce).toHaveBeenCalledTimes(1);
 		expect(api).toHaveBeenCalledTimes(1);
+
+		api.mockRestore();
 	});
 
 
 	it("fetches books when typing keywords in the search field and will pass them to prop showResult", async () => {
+		const props = {
+			getBookShelf,
+			showResult: jest.fn()
+		};
 		const query = 't';
 		const showResult = jest.fn();
 
 		const mounted = mount(
-			<SearchBar
-				getBookShelf={getBookShelf}
-				showResult={showResult} />
+			<SearchBar {...props} />
 		);
 		const component = mounted.instance();
 
@@ -77,8 +72,8 @@ describe('SearchBar', () => {
 		const books = await component.async.onTyping;
 
 		expect(component.state.keywords).toBe(query);
-		expect(showResult).toHaveBeenCalledTimes(1);
 		expect(books).toHaveLength(5);
-		expect(showResult).toHaveBeenCalledWith(books);
+		expect(props.showResult).toHaveBeenCalledTimes(1);
+		expect(props.showResult).toHaveBeenCalledWith(books);
 	});
 });

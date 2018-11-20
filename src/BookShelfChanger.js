@@ -96,8 +96,6 @@ class BookShelfChanger extends React.Component {
 		const { STATUS } = this.constructor;
 		const { status } = this.state;
 
-		console.log('>> CHANGER RENDERED <<', status);
-
 		return (
 			<div className="book-shelf-changer">
 				{status === STATUS.BUSY && (

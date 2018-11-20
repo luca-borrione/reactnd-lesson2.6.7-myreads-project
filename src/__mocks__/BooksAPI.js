@@ -18,28 +18,19 @@ const getBooksInShelves = () =>
 
 
 export const getAll = () => {
-	console.log('==> there getAll');
 	const booksInShelves = getBooksInShelves();
-
 	return new Promise( resolve => {
 		const delay = getDelay();
-		console.log('delay: '+delay);
-
 		setTimeout(() => {
 			resolve(booksInShelves);
 		}, delay);
-
 	});
 };
 
 export const get = bookId => {
-	console.log('==> there get');
 	const book = allBooks.find( ({ id }) => id === bookId );
-
 	return new Promise( resolve => {
 		const delay = getDelay();
-		console.log('delay: '+delay);
-
 		setTimeout(() => {
 			resolve(book);
 		}, delay);
@@ -62,26 +53,18 @@ const formatUpdatedBooks = (books) => {
 };
 
 export const update = (book, shelf) => {
-	console.log('==> there update');
 	const existingBook = allBooks.find( ({ id }) => id === book.id );
 	existingBook.shelf = shelf;
-
 	const booksInShelves = getBooksInShelves();
-
 	return new Promise( resolve => {
 		const delay = getDelay();
-		console.log('delay: '+delay);
-
 		setTimeout(() => {
 			resolve(formatUpdatedBooks(booksInShelves));
 		}, delay);
-
 	});
-
 };
 
 export const search = (query, maxResults) => {
-	console.log('==> there search');
 	const re = new RegExp(`^${query}`, 'i');
 	const result = allBooks.filter( ({ title, authors }) => {
 		return re.test(title);
@@ -90,8 +73,6 @@ export const search = (query, maxResults) => {
 
 	return new Promise( resolve => {
 		const delay = getDelay();
-		console.log('delay: '+delay);
-
 		setTimeout(() => {
 			resolve(result);
 		}, delay);

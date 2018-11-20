@@ -1,5 +1,4 @@
 import React from 'react';
-import BookLoader from './BookLoader';
 import PropTypes from 'prop-types'
 import { TBook } from './types';
 import BooksList from './BooksList';
@@ -46,15 +45,11 @@ class MyReads extends React.Component {
 				<div className="list-books-title">
 					<h1>MyReads</h1>
 				</div>
-				{Array.isArray(booksInShelves)
-					? (
-						<BooksList
-							booksInShelves={booksInShelves}
-							updateBookShelf={updateBookShelf} />
-					)
-					: (
-						<BookLoader />
-					)}
+
+				<BooksList
+					booksInShelves={booksInShelves}
+					updateBookShelf={updateBookShelf} />
+
 			</div>
 		);
 	}

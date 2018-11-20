@@ -1,20 +1,21 @@
 import ReactDOM from 'react-dom';
 import TestRenderer from 'react-test-renderer';
-import NotFoundPage from './NotFoundPage';
+import PanelError from './PanelError';
 
-describe('NotFoundPage', () => {
+describe('PanelError', () => {
 
 	it('renders without crashing', () => {
 		const div = document.createElement('div');
-		ReactDOM.render(<NotFoundPage />, div);
+		ReactDOM.render(<PanelError />, div);
 		ReactDOM.unmountComponentAtNode(div);
 	});
 
 
 	it('renders correctly', () => {
 		const tree = TestRenderer
-			.create(<NotFoundPage />)
+			.create(<PanelError />)
 			.toJSON();
+
 		expect(tree).toMatchSnapshot();
 	});
 

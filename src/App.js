@@ -61,7 +61,6 @@ class App extends React.Component {
 	 * @private
 	 */
 	fetchAllBooks() {
-		console.log('||| 2');
 		return this.async.fetchAllBooks = new Promise( async resolve => {
 			const { STATUS } = this.constructor;
 			let booksInShelves = [];
@@ -102,57 +101,56 @@ class App extends React.Component {
 	 */
 	async updateBookShelf(book, shelf) {
 		const { STATUS } = this.constructor;
+		const { booksInShelves: currBooksInShelves} = this.state;
+
 		let booksInShelves = [];
+		let status = STATUS.BUSY;
 
-		console.log('+ updateBookShelf', book, shelf);
-
-		await this.setState({
-			status: STATUS.BUSY
-		});
+		await this.setState({ status });
 
 		try {
-			await BooksAPI.update(book, shelf);
+			const bookIdsInShelves = await BooksAPI.update(book, shelf);
 
-			const { booksInShelves: currBooksInShelves} = this.state;
+			switch (shelf) {
+				// Removing a book
+				case TShelfKey.NONE:
+					// Checking that the API actually worked
+					const updated = await BooksAPI.get(book.id);
+					if (updated.shelf !== shelf) {
+						throw new Error(`${ERROR.BOOKS_API_FAILED}: update(${book.id}, ${shelf})`);
+					}
 
-			if (shelf === TShelfKey.NONE) {
-				// Removing book
-				booksInShelves = currBooksInShelves.filter( ({ id }) => id !== book.id );
-			} else {
-				const bookIndex = currBooksInShelves.findIndex( ({ id }) => id === book.id );
+					booksInShelves = currBooksInShelves.filter( ({ id }) => id !== book.id );
+					break;
 
-				if (bookIndex === -1) {
-					// Adding a new book
-					book.shelf = shelf;
-					booksInShelves = [...currBooksInShelves, book];
-				} else {
-					// Moving an existing book to a new shelf
-					currBooksInShelves[bookIndex].shelf = shelf;
-					booksInShelves = currBooksInShelves;
-				}
+				default:
+					// Checking that the API actually worked
+					if (!bookIdsInShelves[shelf].find( id => id === book.id)) {
+						throw new Error(`${ERROR.BOOKS_API_FAILED}: update(${book.id}, ${shelf})`);
+					}
+
+					const bookIndex = currBooksInShelves.findIndex( ({ id }) => id === book.id );
+
+					if (bookIndex === -1) {
+						// Adding a new book
+						book.shelf = shelf;
+						booksInShelves = [...currBooksInShelves, book];
+					} else {
+						// Moving an existing book to a new shelf
+						currBooksInShelves[bookIndex].shelf = shelf;
+						booksInShelves = currBooksInShelves;
+					}
+					break;
 			}
 
-
-			// await new Promise(resolve => {
-			// 	setTimeout(()=>{ console.log('TIMEOUT'); resolve(); }, 10000);
-			// });
-
-			await this.setState({
-				status: STATUS.READY,
-				booksInShelves
-			});
-
-			console.log('A DONE');
+			status = STATUS.READY;
 
 		} catch (error) {
 			console.error(error);
-			await this.setState({
-				status: STATUS.ERROR,
-				booksInShelves
-			});
-
-			console.log('B DONE');
+			status = STATUS.ERROR;
 		}
+
+		await this.setState({ status, booksInShelves });
 
 		return booksInShelves;
 	}
@@ -187,8 +185,6 @@ class App extends React.Component {
 	render() {
 		const { STATUS } = this.constructor;
 		const { booksInShelves, status } = this.state;
-
-		console.log('>> APP RENDERED <<', status);
 
 		switch (status) {
 			case STATUS.INITIAL:

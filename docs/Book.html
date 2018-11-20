@@ -26,7 +26,7 @@
 
 <nav>
     
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="App.html">App</a><ul class='methods'><li data-type='method'><a href="App.html#fetchAllBooks">fetchAllBooks</a></li><li data-type='method'><a href="App.html#getBookShelf">getBookShelf</a></li><li data-type='method'><a href="App.html#render">render</a></li><li data-type='method'><a href="App.html#updateBookShelf">updateBookShelf</a></li></ul></li><li><a href="Book.html">Book</a><ul class='methods'><li data-type='method'><a href="Book.html#onShelfChange">onShelfChange</a></li><li data-type='method'><a href="Book.html#render">render</a></li></ul></li><li><a href="BooksGrid.html">BooksGrid</a><ul class='methods'><li data-type='method'><a href="BooksGrid.html#render">render</a></li></ul></li><li><a href="BookShelf.html">BookShelf</a><ul class='methods'><li data-type='method'><a href="BookShelf.html#render">render</a></li></ul></li><li><a href="BookShelfChanger.html">BookShelfChanger</a><ul class='methods'><li data-type='method'><a href="BookShelfChanger.html#render">render</a></li><li data-type='method'><a href="BookShelfChanger.html#selectionChanged">selectionChanged</a></li></ul></li><li><a href="BooksList.html">BooksList</a><ul class='methods'><li data-type='method'><a href="BooksList.html#render">render</a></li></ul></li><li><a href="SearchPage.html">SearchPage</a><ul class='methods'><li data-type='method'><a href="SearchPage.html#render">render</a></li></ul></li></ul><h3>Modules</h3><ul><li><a href="module-Constants.html">Constants</a></li></ul><h3>Namespaces</h3><ul><li><a href="StringUtils.html">StringUtils</a><ul class='methods'><li data-type='method'><a href="StringUtils.html#.makeTitle">makeTitle</a></li><li data-type='method'><a href="StringUtils.html#.ucFirst">ucFirst</a></li><li data-type='method'><a href="StringUtils.html#.ucWords">ucWords</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#TShelfKey">TShelfKey</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="App.html">App</a><ul class='methods'><li data-type='method'><a href="App.html#fetchAllBooks">fetchAllBooks</a></li><li data-type='method'><a href="App.html#getBookShelf">getBookShelf</a></li><li data-type='method'><a href="App.html#render">render</a></li><li data-type='method'><a href="App.html#updateBookShelf">updateBookShelf</a></li></ul></li><li><a href="Book.html">Book</a><ul class='methods'><li data-type='method'><a href="Book.html#render">render</a></li></ul></li><li><a href="BooksGrid.html">BooksGrid</a><ul class='methods'><li data-type='method'><a href="BooksGrid.html#render">render</a></li></ul></li><li><a href="BookShelf.html">BookShelf</a><ul class='methods'><li data-type='method'><a href="BookShelf.html#render">render</a></li></ul></li><li><a href="BookShelfChanger.html">BookShelfChanger</a><ul class='methods'><li data-type='method'><a href="BookShelfChanger.html#onSelectChange">onSelectChange</a></li><li data-type='method'><a href="BookShelfChanger.html#render">render</a></li></ul></li><li><a href="BooksList.html">BooksList</a><ul class='methods'><li data-type='method'><a href="BooksList.html#render">render</a></li></ul></li><li><a href="MyReads.html">MyReads</a><ul class='methods'><li data-type='method'><a href="MyReads.html#render">render</a></li></ul></li><li><a href="SearchPage.html">SearchPage</a><ul class='methods'><li data-type='method'><a href="SearchPage.html#render">render</a></li></ul></li></ul><h3>Modules</h3><ul><li><a href="module-Constants.html">Constants</a></li><li><a href="module-StringUtils.html">StringUtils</a><ul class='methods'><li data-type='method'><a href="module-StringUtils.html#~makeTitle">makeTitle</a></li><li data-type='method'><a href="module-StringUtils.html#~ucFirst">ucFirst</a></li><li data-type='method'><a href="module-StringUtils.html#~ucWords">ucWords</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#TShelfKey">TShelfKey</a></li></ul>
 </nav>
 
 <div id="main">
@@ -267,154 +267,6 @@
 
     
 
-    <h4 class="name" id="onShelfChange"><span class="type-signature"></span>onShelfChange<span class="signature">(shelf)</span><span class="type-signature"> &rarr; {void}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    <p>Handles the change event of the selection in the <a href="@link BookShelfChanger">BookShelfChanger</a> component<br>
-Triggers the <a href="App.html#updateBookShelf">updateBookShelf</a> method of the App component
-to update the list of books in the shelves</p>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>shelf</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#TShelfKey">TShelfKey</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>The shelf key associated with the user selection</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">void</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-        
-            
-
-    
-
     <h4 class="name" id="render"><span class="type-signature"></span>render<span class="signature">()</span><span class="type-signature"> &rarr; {ReactElement}</span></h4>
 
     
@@ -528,7 +380,7 @@ the <a href="BookShelfChanger.html">BookShelfChanger</a> component</p>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Nov 15 2018 23:47:23 GMT+0000 (GMT) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon Nov 19 2018 21:31:44 GMT+0000 (GMT) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>

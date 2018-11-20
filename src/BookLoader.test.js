@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom';
-import renderer from 'react-test-renderer';
+import TestRenderer from 'react-test-renderer';
 import BookLoader from './BookLoader';
 
 describe('BookLoader', () => {
@@ -12,7 +12,8 @@ describe('BookLoader', () => {
 
 
 	it('renders correctly', () => {
-		const tree = renderer.create(<BookLoader />)
+		const tree = TestRenderer
+			.create(<BookLoader />)
 			.toJSON();
 
 		expect(tree).toMatchSnapshot();

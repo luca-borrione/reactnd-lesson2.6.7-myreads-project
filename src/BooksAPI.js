@@ -18,14 +18,13 @@ export const get = bookId =>
 		.then(data => data.book);
 
 export const getAll = () => {
-console.log('==> here');
   return fetch(`${api}/books`, { headers })
     .then(res => res.json())
 	.then(data => data.books);
 }
 
 export const update = (book, shelf) =>
-  fetch(`${api}/books/${book.id}1`, {
+  fetch(`${api}/books/${book.id}`, {
     method: 'PUT',
     headers: {
       ...headers,

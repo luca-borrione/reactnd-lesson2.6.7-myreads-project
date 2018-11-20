@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom';
 import { mount, shallow } from 'enzyme';
-import renderer from 'react-test-renderer';
+import TestRenderer from 'react-test-renderer';
 import { MemoryRouter } from 'react-router';
 import BooksList from './BooksList';
 import * as BooksAPI from './BooksAPI'; // mocked
@@ -40,7 +40,7 @@ describe('BooksList', () => {
 			booksInShelves: [book],
 			updateBookShelf
 		};
-		const tree = renderer.create(
+		const tree = TestRenderer.create(
 			withRouter(<BooksList {...props} />)
 		).toJSON();
 

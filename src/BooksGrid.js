@@ -55,7 +55,6 @@ class BooksGrid extends React.Component {
 	render() {
 		const { books } = this.state;
 		const { updateBookShelf } = this.props;
-		console.log('>> GRID RENDERED <<', books);
 		return (
 			<ol className="books-grid">
 				{books.map( (book, index) => (

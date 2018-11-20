@@ -1,6 +1,6 @@
 import React from 'react';
 import BookShelfChanger from './BookShelfChanger';
-import { makeTitle, ucWords } from './utils/StringUtils';
+import { makeTitle, ucwords } from './utils/StringUtils';
 import PropTypes from 'prop-types';
 import { TBook } from './types';
 
@@ -58,7 +58,7 @@ class Book extends React.Component {
 					<div className="book-title">{makeTitle(book.title)}</div>
 					<div className="book-authors">
 						{(book.authors || []).map( (author, index) => (
-							<span className="author" key={index}>{ucWords(author)}</span>
+							<span className="author" key={index}>{ucwords(author)}</span>
 						))}
 					</div>
 				</div>

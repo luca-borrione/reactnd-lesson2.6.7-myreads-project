@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom';
 import { mount } from 'enzyme';
-import renderer from 'react-test-renderer';
+import TestRenderer from 'react-test-renderer';
 import { MemoryRouter } from 'react-router';
 import MyReads from './MyReads';
 import * as BooksAPI from './BooksAPI'; // mocked
@@ -40,7 +40,7 @@ describe('MyReads', () => {
 			booksInShelves: [book],
 			updateBookShelf
 		};
-		const tree = renderer.create(
+		const tree = TestRenderer.create(
 			withRouter(<MyReads {...props} />)
 		).toJSON();
 
@@ -48,22 +48,7 @@ describe('MyReads', () => {
 	});
 
 
-	it('should contain BookLoader and not BooksList as a child if the booksInShelves are not fetched yet', () => {
-		const props = {
-			booksInShelves: null,
-			updateBookShelf
-		};
-
-		const wrapper = mount(
-			withRouter(<MyReads {...props} />)
-		);
-
-		expect(wrapper.find('BooksList')).toHaveLength(0);
-		expect(wrapper.find('BookLoader')).toHaveLength(1);
-	});
-
-
-	it('should contain BooksList and not BookLoader as a child if the booksInShelves have been fetched', () => {
+	it('should contain BooksList as a child', () => {
 		const props = {
 			booksInShelves: [book],
 			updateBookShelf
@@ -74,7 +59,6 @@ describe('MyReads', () => {
 		);
 
 		expect(wrapper.find('BooksList')).toHaveLength(1);
-		expect(wrapper.find('BookLoader')).toHaveLength(0);
 	});
 
 

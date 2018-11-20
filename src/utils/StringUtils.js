@@ -1,49 +1,40 @@
-
 /**
- * @namespace StringUtils
+ * @module StringUtils
  * @description
- * Provides a set of string utility functions, each of which can also be imported individually.
+ * Provides a set of string utility functions.
  */
 
- const StringUtils = {};
-
-
- /**
-  * @memberof StringUtils
-  * @function ucWords
+/**
+  * @function ucwords
   * @description
   * Uppercases the first character of every word of a given string.<br>
   * All the other characters are lowercased by default.
   * @param {string} str
   * @returns {string}
-  *
   * @example
   * // returns: Hello World
-  * const str = ucWords('heLLO WorLD');
+  * const str = ucwords('heLLO WorLD');
   */
-export const ucWords = StringUtils.ucWords = str =>
+export const ucwords = str =>
 	str.toLowerCase().replace(/\b\S/g, char => char.toUpperCase());
 
 
 /**
- * @memberof StringUtils
- * @function ucFirst
+ * @function ucfirst
  * @description
  * Uppercases the first character of the first word of a given string.<br>
  * All the other characers are lowercased by default.
  * @param {string} str
  * @returns {string}
- *
  * @example
  * // returns: Hello world
- * const str = ucFirst('heLLO WorLD');
+ * const str = ucfirst('heLLO WorLD');
  */
-export const ucFirst = StringUtils.ucFirst = str =>
+export const ucfirst = str =>
 	str.toLowerCase().replace(/\S/, char => char.toUpperCase());
 
 
 /**
- * @memberof StringUtils
  * @function makeTitle
  * @description
  * Uppercases the first character of every word of a given string,
@@ -57,12 +48,11 @@ export const ucFirst = StringUtils.ucFirst = str =>
  * even if they are considered noise.
  * @param {string} str
  * @returns {string}
- *
  * @example
  * // returns: The Complete Guide: The New and the Old
  * const title = makeTitle('the complete guide: the new and the old');
  */
-export const makeTitle = StringUtils.makeTitle = str => {
+export const makeTitle = str => {
 
 	const noiseWords = [
 		'a','abaft','aboard','about','above','absent','across','afore','after','against','along','alongside','amid',
@@ -81,12 +71,10 @@ export const makeTitle = StringUtils.makeTitle = str => {
 				const lcWord = word.toLowerCase();
 				return noiseWords.includes(lcWord)
 					? lcWord			// noise words are kept lowercased
-					: ucFirst(word);	// not noise words are capitalised
+					: ucfirst(word);	// not noise words are capitalised
 
 			})
 			// the first word of the string and the first word after a column are capitalised
 			.replace(/(^\S|:\s*\S)/g, char => char.toUpperCase());
 
 };
-
-export default StringUtils

@@ -140,7 +140,6 @@ class SearchBar extends React.Component {
 	 */
 	render() {
 		const { keywords } = this.state;
-		console.log('>> BAR RENDERED <<', keywords);
 		return (
 			<div className="search-books-input-wrapper">
 				<input type="text" placeholder="Search by title or author"

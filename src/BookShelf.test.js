@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom';
-import renderer from 'react-test-renderer';
+import TestRenderer from 'react-test-renderer';
 import { mount, shallow } from 'enzyme';
 import BookShelf from './BookShelf';
 import * as BooksAPI from './BooksAPI'; // mocked
@@ -39,7 +39,8 @@ describe('BookShelf', () => {
 			books: [book],
 			updateBookShelf
 		};
-		const tree = renderer.create(<BookShelf {...props} />)
+		const tree = TestRenderer
+			.create(<BookShelf {...props} />)
 			.toJSON();
 
 		expect(tree).toMatchSnapshot();

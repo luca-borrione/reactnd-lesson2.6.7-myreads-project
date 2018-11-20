@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PanelError renders correctly 1`] = `
+<div
+  className="panel-error"
+>
+  Something went wrong. Please try again later.
+</div>
+`;
