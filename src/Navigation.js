@@ -2,12 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch } from 'react-router-dom';
 import PropsRoute from './PropsRoute';
-import MyReads from './MyReads';
-import SearchPage from './SearchPage';
+import MyReads from './MyReads/MyReads';
+import SearchPage from './Search/SearchPage';
 import NotFoundPage from './NotFoundPage';
-import { TBook } from './types';
+import { TBook } from './shared/types';
 
-
+/**
+ * @module
+ * @name Navigation
+ * @description
+ * Switches the navigation of the app to:
+ * - [MyReads]{@link module:MyReads} when the browser location path is exactly '/'
+ * - [SearchPage]{@link module:SearchPage} when the browser location path contains '/search'
+ * - [NotFoundPage]{@link module:NotFoundPage} when the browser location contains an unexpected path
+ */
 const Navigation = props => {
 
 	const { booksInShelves, getBookShelf, updateBookShelf} = props;
@@ -28,6 +36,13 @@ const Navigation = props => {
 
 };
 
+/**
+ * @memberof module:Navigation
+ * @description Intended types of the props passed to the component
+ * @property {Array.<TBook>} booksInShelves - see [booksInShelves]{@link module:App~state}
+ * @property {function} getBookShelf - see [getBookShelf]{@link module:App~getBookShelf}
+ * @property {function} updateBookShelf - see [updateBookShelf]{@link module:App~updateBookShelf}
+ */
 Navigation.propTypes = {
 	booksInShelves:	PropTypes.arrayOf(
 		PropTypes.shape(TBook).isRequired

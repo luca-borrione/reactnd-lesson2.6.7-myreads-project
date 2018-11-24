@@ -3,29 +3,30 @@ import Navigation from './Navigation';
 import BookLoader from './BookLoader';
 import PanelError from './PanelError';
 import * as BooksAPI from './BooksAPI';
-import { TShelfKey } from './types';
+import { TShelfKey } from './shared/types';
 import './App.css';
-import { ERROR } from './Constants';
+import { ERROR } from './shared/constants';
 
 /**
- * @class App
+ * @module
+ * @name App
  * @extends React.Component
- * @classdesc
+ * @description
  * When first loaded it automatically fetches all the books in the shelves
  * and it stores them internally as a state.<br>
  * This becomes the source of truth across the different sections of the app.
- * @hideconstructor
  */
 class App extends React.Component {
 
 	/**
-	 * @enum Status
-	 * @description
-	 * Collection of possible status
-	 * @property {string} INITIAL - STATUS.INITIAL
-	 * @property {string} BUSY - STATUS.BUSY
-	 * @property {string} READY - STATUS.READY
-	 * @property {string} ERROR - STATUS.ERROR
+	 * @member
+	 * @name STATUS
+	 * @description Collection of possible status
+	 * @property {string} INITIAL - The app is loading
+	 * @property {string} BUSY - The app is remotely updating the books in the shelves
+	 * @property {string} READY - Either all the books has been fetched initially
+	 * 								or the books has been remotely updated
+	 * @property {string} ERROR - An error occurred when tryng to fetch the books or to update them
 	 * @static
 	 */
 	static STATUS = {
@@ -44,10 +45,9 @@ class App extends React.Component {
 
 	/**
 	 * @member
-	 * @description
-	 * Component state
-	 * @property {Status} status
-	 * @property {TBook[]} state.booksInShelves - List of all the books present in all the shelves
+	 * @name state
+	 * @property {STATUS} status - one of the possible [STATUS]{@link module:App.STATUS}
+	 * @property {TBook[]} booksInShelves - List of all the books present in all the shelves
 	 * @private
 	 */
 	state = {
@@ -58,6 +58,7 @@ class App extends React.Component {
 
 	/**
 	 * @member
+	 * @name async
 	 * @description
 	 * Collection of promises useful when making unit tests.
 	 * @property {Promise} fetchAllBooks - waiting for the books in the shelves to be fetched
@@ -74,9 +75,10 @@ class App extends React.Component {
 
 	/**
 	 * @method
+	 * @name fetchAllBooks
 	 * @description
 	 * Asynchronously retrieves the list of all the books currently in a shelf from remote,
-	 * then it stores them internally in the [state]{@link App#state} as booksInShelves collection.
+	 * then it stores them internally in the [state]{@link module:App~state} as booksInShelves collection.
 	 * @returns {Promise}
 	 * @private
 	 */
@@ -112,9 +114,11 @@ class App extends React.Component {
 
 
 	/**
+	 * @method
+	 * @name updateBookShelf
 	 * @description
 	 * Updates the remote list of books in the shelves,
-	 * then it changes the internal [booksInShelves]{@link App#state}  collection in the state accordingly.
+	 * then it changes the internal [booksInShelves]{@link module:App~state} collection in the state accordingly.
 	 * @param {TBook} book - The book the user selected
 	 * @param {TShelfKey} shelf - The shelf key the user selected
 	 * @returns {TBook[]} booksInShelves
@@ -177,11 +181,13 @@ class App extends React.Component {
 
 
 	/**
+	 * @method
+	 * @name getBookShelf
 	 * @description
 	 * Retrieves the current shelf associated with a book, based on a given book id.
-	 * If the book is not present in the [booksInShelves]{@link App#state} collection
+	 * If the book is not present in the [booksInShelves]{@link module:App~state} collection
 	 * the shelf will be NONE.
-	 * @param {string} bookID - The book id as described in [TBook.id]{@link TBook}
+	 * @param {string} bookID - The book id as described in [TBook.id]{@link module:types.TBook}
 	 * @returns {TShelfKey}
 	 */
 	getBookShelf(bookID) {
@@ -190,19 +196,32 @@ class App extends React.Component {
 		return book ? book.shelf : TShelfKey.NONE;
 	}
 
+
+	/**
+	 * @method
+	 * @name shouldComponentUpdate
+	 * @param {Object} nextProps - ignored as the module does not expect props
+	 * @param {state} nextState - refers to [state]{@link module:App~state}
+	 * @returns {boolean} - false if status is STATUS.BUSY
+	 * @private
+	 */
 	shouldComponentUpdate(nextProps, nextState) {
 		const { STATUS } = this.constructor;
 		return nextState.status !== STATUS.BUSY;
 	}
 
+
 	/**
+	 * @method
+	 * @name render
 	 * @description
 	 * Renders
-	 * - [BookLoader]{@link BookLoader} when the status is INITIAL
-	 * - [Navigation]{@link Navigation} when the status is READY
-	 * - [PanelError]{@link PanelError} when the status is ERROR
+	 * - [BookLoader]{@link module:BookLoader} when the status is STATUS.INITIAL
+	 * - [Navigation]{@link module:Navigation} when the status is STATUS.READY
+	 * - [PanelError]{@link module:PanelError} when the status is STATUS.ERROR
 	 * @throws Error for an unexpected status
 	 * @returns {ReactElement}
+	 * @private
 	 */
 	render() {
 		const { STATUS } = this.constructor;
@@ -225,7 +244,6 @@ class App extends React.Component {
 				throw new Error(ERROR.UNEXPECTED_STATUS, status);
 		}
 	}
-
 }
 
 export default App;

@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>StringUtils - Documentation</title>
+    <title>types - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -31,7 +31,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">StringUtils</h1>
+    <h1 class="page-title">types</h1>
     
 
     
@@ -54,7 +54,7 @@
         <div class="container-overview">
         
             
-                <div class="description"><p>Provides a set of string utility functions.</p></div>
+                <div class="description"><p>Provides a set of types to be used in different components.</p></div>
             
 
             
@@ -142,18 +142,12 @@
     
 
     
-
-    
-        <h3 class="subsection-title">Methods</h3>
+        <h3 class="subsection-title">Members</h3>
 
         
             
+<h4 class="name" id=".TBook"><span class="type-signature">(static, constant) </span>TBook<span class="type-signature"></span></h4>
 
-    
-
-    <h4 class="name" id="~makeTitle"><span class="type-signature">(inner) </span>makeTitle<span class="signature">(str)</span><span class="type-signature"> &rarr; {string}</span></h4>
-
-    
 
 
 
@@ -195,42 +189,11 @@
 
 
 
+    <h5 class="subsection-title">Properties:</h5>
 
-
-<div class="description">
-    <p>Uppercases the first character of every word of a given string,
-except if considered noise words, such as prepositions,
-which are kept lowercased.<br>
-All the other characers are lowercased by default.<br>
-<br>
-It also makes sure to capitalise:</p>
-<ul>
-<li>the first word of the string</li>
-<li>the first word after a column
-even if they are considered noise.</li>
-</ul>
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>// returns: The Complete Guide: The New and the Old
-const title = makeTitle('the complete guide: the new and the old');</code></pre>
-
-
-
-
-    <h5>Parameters:</h5>
     
 
-<table class="params">
+<table class="props">
     <thead>
     <tr>
         
@@ -239,6 +202,8 @@ const title = makeTitle('the complete guide: the new and the old');</code></pre>
 
         <th>Type</th>
 
+        
+        <th>Attributes</th>
         
 
         
@@ -252,7 +217,38 @@ const title = makeTitle('the complete guide: the new and the old');</code></pre>
 
         <tr>
             
-                <td class="name"><code>str</code></td>
+                <td class="name"><code>authors</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;string></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>List of the authors names</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
             
 
             <td class="type">
@@ -265,10 +261,105 @@ const title = makeTitle('the complete guide: the new and the old');</code></pre>
             </td>
 
             
+                <td class="attributes">
+                
+
+                
+                </td>
+            
 
             
 
-            <td class="description last"></td>
+            <td class="description last"><p>The book unique id</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>shelf</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The shelf unique name</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>thumbnail</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>URL for the cover preview image</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>title</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The book's title</p></td>
         </tr>
 
     
@@ -280,42 +371,23 @@ const title = makeTitle('the complete guide: the new and the old');</code></pre>
 
 
 
+<div class="description">
+    <p>Custom type to define a book internally.
+It's filled with properties coming from the
+book literal object fetched using the BooksAPI</p>
+</div>
 
 
 
 
 
 
-
-
-<h5>Returns:</h5>
-
-        
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">string</span>
-
-
-    </dd>
-</dl>
-
-    
 
 
         
             
+<h4 class="name" id=".TShelfKey"><span class="type-signature">(static, constant) </span>TShelfKey<span class="type-signature"></span></h4>
 
-    
-
-    <h4 class="name" id="~ucfirst"><span class="type-signature">(inner) </span>ucfirst<span class="signature">(str)</span><span class="type-signature"> &rarr; {string}</span></h4>
-
-    
 
 
 
@@ -357,33 +429,11 @@ const title = makeTitle('the complete guide: the new and the old');</code></pre>
 
 
 
+    <h5 class="subsection-title">Properties:</h5>
 
-
-<div class="description">
-    <p>Uppercases the first character of the first word of a given string.<br>
-All the other characers are lowercased by default.</p>
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>// returns: Hello world
-const str = ucfirst('heLLO WorLD');</code></pre>
-
-
-
-
-    <h5>Parameters:</h5>
     
 
-<table class="params">
+<table class="props">
     <thead>
     <tr>
         
@@ -405,7 +455,7 @@ const str = ucfirst('heLLO WorLD');</code></pre>
 
         <tr>
             
-                <td class="name"><code>str</code></td>
+                <td class="name"><code>CURRENTLY_READING</code></td>
             
 
             <td class="type">
@@ -421,7 +471,76 @@ const str = ucfirst('heLLO WorLD');</code></pre>
 
             
 
-            <td class="description last"></td>
+            <td class="description last"><p>currentlyReading</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>WANT_TO_READ</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>wantToRead</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>RED</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>read</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>NONE</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>none</p></td>
         </tr>
 
     
@@ -433,88 +552,10 @@ const str = ucfirst('heLLO WorLD');</code></pre>
 
 
 
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">string</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="~ucwords"><span class="type-signature">(inner) </span>ucwords<span class="signature">(str)</span><span class="type-signature"> &rarr; {string}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
 <div class="description">
-    <p>Uppercases the first character of every word of a given string.<br>
-All the other characters are lowercased by default.</p>
+    <p>Collection of shelves keys as they are coming from remote
+as value of the shelf property of the book literal object
+when fetching all the books</p>
 </div>
 
 
@@ -524,97 +565,9 @@ All the other characters are lowercased by default.</p>
 
 
 
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>// returns: Hello World
-const str = ucwords('heLLO WorLD');</code></pre>
-
-
-
-
-    <h5>Parameters:</h5>
+        
     
 
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>str</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">string</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-        
     
 
     
@@ -634,7 +587,7 @@ const str = ucwords('heLLO WorLD');</code></pre>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Nov 24 2018 17:49:54 GMT+0000 (GMT) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Nov 24 2018 17:49:55 GMT+0000 (GMT) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>

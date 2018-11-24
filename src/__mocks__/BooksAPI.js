@@ -1,5 +1,5 @@
 import * as data from './allBooks.json'
-import { TShelfKey } from '../types'
+import { TShelfKey } from '../shared/types'
 
 const DELAY = 10;
 

@@ -5,7 +5,7 @@ import { MemoryRouter } from 'react-router';
 import App from './App';
 import * as BooksAPI from './BooksAPI'; // mocked
 import { diffByKey as ArrayDiffByKey } from './utils/ArrayUtils';
-import { TShelfKey } from './types';
+import { TShelfKey } from './shared/types';
 
 describe('App', () => {
 

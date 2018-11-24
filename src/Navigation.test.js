@@ -2,8 +2,8 @@ import ReactDOM from 'react-dom';
 import { Route, MemoryRouter } from "react-router-dom";
 import Navigation from './Navigation'
 import ReactTestUtils from 'react-dom/test-utils';
-import MyReads from "./MyReads";
-import SearchPage from "./SearchPage";
+import MyReads from "./MyReads/MyReads";
+import SearchPage from "./Search/SearchPage";
 import NotFoundPage from "./NotFoundPage";
 
 describe('Navigation', () => {
