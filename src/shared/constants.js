@@ -21,14 +21,14 @@ import { TShelfKey } from './types';
  * @constant
  */
 export const SHELF_TITLE = Object.freeze({
-	[TShelfKey.CURRENTLY_READING]: 'Currently Reading',
-	[TShelfKey.WANT_TO_READ]: 'Want to Read',
-	[TShelfKey.READ]: 'Read',
-	[TShelfKey.NONE]: 'None',
+  [TShelfKey.CURRENTLY_READING]: 'Currently Reading',
+  [TShelfKey.WANT_TO_READ]: 'Want to Read',
+  [TShelfKey.READ]: 'Read',
+  [TShelfKey.NONE]: 'None',
 });
 
 export const ERROR = {
-	BOOKS_API_FAILED: 'unexpected result from BooksAPI',
-	BOOKS_IN_MULTI_SHELVES: 'the books passed are contained in multiple shelves',
-	UNEXPECTED_STATUS: 'unexpected status'
+  BOOKS_API_FAILED: 'unexpected result from BooksAPI',
+  BOOKS_IN_MULTI_SHELVES: 'the books passed are contained in multiple shelves',
+  UNEXPECTED_STATUS: 'unexpected status',
 };

@@ -15,8 +15,9 @@
   * // returns: Hello World
   * const str = ucwords('heLLO WorLD');
   */
-export const ucwords = str =>
-	str.toLowerCase().replace(/\b\S/g, char => char.toUpperCase());
+export const ucwords = str => (
+  str.toLowerCase().replace(/\b\S/g, char => char.toUpperCase())
+);
 
 
 /**
@@ -30,8 +31,9 @@ export const ucwords = str =>
  * // returns: Hello world
  * const str = ucfirst('heLLO WorLD');
  */
-export const ucfirst = str =>
-	str.toLowerCase().replace(/\S/, char => char.toUpperCase());
+export const ucfirst = str => (
+  str.toLowerCase().replace(/\S/, char => char.toUpperCase())
+);
 
 
 /**
@@ -52,29 +54,26 @@ export const ucfirst = str =>
  * // returns: The Complete Guide: The New and the Old
  * const title = makeTitle('the complete guide: the new and the old');
  */
-export const makeTitle = str => {
+export const makeTitle = (str) => {
+  const noiseWords = [
+    'a', 'abaft', 'aboard', 'about', 'above', 'absent', 'across', 'afore', 'after', 'against', 'along', 'alongside', 'amid',
+    'amidst', 'among', 'amongst', 'an', 'and', 'anenst', 'apropos', 'apud', 'around', 'as', 'aside', 'astride', 'at', 'athwart', 'atop',
+    'barring', 'before', 'behind', 'below', 'beneath', 'beside', 'besides', 'between', 'beyond', 'but', 'by', 'circa',
+    'concerning', 'despite', 'down', 'during', 'except', 'excluding', 'failing', 'following', 'for', 'forenenst', 'from',
+    'given', 'in', 'including', 'inside', 'into', 'like', 'mid', 'midst', 'minus', 'modulo', 'near', 'next', 'notwithstanding',
+    'o', 'of', 'off', 'on', 'onto', 'opposite', 'or', 'out', 'outside', 'over', 'pace', 'past', 'per', 'plus', 'pro', 'qua', 'regarding',
+    'round', 's', 'sans', 'save', 'since', 'so', 'than', 'the', 'through', 'thru', 'throughout', 'thruout', 'till', 'times', 'to', 'toward',
+    'towards', 'under', 'underneath', 'unlike', 'until', 'unto', 'up', 'upon', 'versus', 'vs', 'via', 'vice', 'vis', 'with', 'within',
+    'without', 'worth', 'this',
+  ];
 
-	const noiseWords = [
-		'a','abaft','aboard','about','above','absent','across','afore','after','against','along','alongside','amid',
-		'amidst','among','amongst','an','and','anenst','apropos','apud','around','as','aside','astride','at','athwart','atop',
-		'barring','before','behind','below','beneath','beside','besides','between','beyond','but','by','circa',
-		'concerning','despite','down','during','except','excluding','failing','following','for','forenenst','from',
-		'given','in','including','inside','into','like','mid','midst','minus','modulo','near','next','notwithstanding',
-		'o','of','off','on','onto','opposite','or','out','outside','over','pace','past','per','plus','pro','qua','regarding',
-		'round','s','sans','save','since','so','than','the','through','thru','throughout','thruout','till','times','to','toward',
-		'towards','under','underneath','unlike','until','unto','up','upon','versus','vs','via','vice','vis','with','within',
-		'without','worth','this'
-	];
-
-	return str
-			.replace(/\w+/ig, word => {
-				const lcWord = word.toLowerCase();
-				return noiseWords.includes(lcWord)
-					? lcWord			// noise words are kept lowercased
-					: ucfirst(word);	// not noise words are capitalised
-
-			})
-			// the first word of the string and the first word after a column are capitalised
-			.replace(/(^\S|:\s*\S)/g, char => char.toUpperCase());
-
+  return str
+    .replace(/\w+/ig, (word) => {
+      const lcWord = word.toLowerCase();
+      return noiseWords.includes(lcWord)
+        ? lcWord // noise words are kept lowercased
+        : ucfirst(word); // not noise words are capitalised
+    })
+    // the first word of the string and the first word after a column are capitalised
+    .replace(/(^\S|:\s*\S)/g, char => char.toUpperCase());
 };

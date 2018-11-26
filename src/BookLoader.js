@@ -6,14 +6,12 @@ import React from 'react';
  * @description
  * Shows a flipping book as loader animation.
  */
-const BookLoader = () => {
-	return (
-		<div className="book-loader">
-			<div className="book-page"></div>
-			<div className="book-page"></div>
-			<div className="book-page"></div>
-		</div>
-	);
-};
+const BookLoader = () => (
+  <div className="book-loader">
+    <div className="book-page" />
+    <div className="book-page" />
+    <div className="book-page" />
+  </div>
+);
 
 export default BookLoader;

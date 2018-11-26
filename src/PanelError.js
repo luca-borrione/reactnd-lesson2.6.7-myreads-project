@@ -6,12 +6,10 @@ import React from 'react';
  * @description
  * Shows a red panel with a standard error text.
  */
-const PanelError = () => {
-	return (
-		<div className="panel-error">
-			Something went wrong. Please try again later.
-		</div>
-	);
-};
+const PanelError = () => (
+  <div className="panel-error">
+    Something went wrong. Please try again later.
+  </div>
+);
 
 export default PanelError;

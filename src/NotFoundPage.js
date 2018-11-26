@@ -1,5 +1,5 @@
 
-import React from 'react'
+import React from 'react';
 
 /**
  * @module
@@ -8,13 +8,11 @@ import React from 'react'
  * Displays a simple 404 Not Found page consisting in a green circle with text.
  * The user gets this when typing an unexpected location path in the browser url bar.
  */
-const NotFoundPage = () => {
-	return (
-		<div className="notfound-page-wrap">
-			<h1>404</h1>
-			<h2>Not Found</h2>
-		</div>
-	);
-};
+const NotFoundPage = () => (
+  <div className="notfound-page-wrap">
+    <h1>404</h1>
+    <h2>Not Found</h2>
+  </div>
+);
 
 export default NotFoundPage;

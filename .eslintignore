@@ -1,0 +1,5 @@
+config/
+docs/
+public/
+scripts/
+node_modules/

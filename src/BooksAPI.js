@@ -1,4 +1,4 @@
-
+/* eslint-disable */
 const api = "https://reactnd-books-api.udacity.com"
 
 
@@ -13,14 +13,14 @@ const headers = {
 }
 
 export const get = bookId =>
-	fetch(`${api}/books/${bookId}`, { headers })
-		.then(res => res.ok ? res.json() : {book: undefined})
-		.then(data => data.book);
+  fetch(`${api}/books/${bookId}`, { headers })
+    .then(res => res.ok ? res.json() : {book: undefined})
+    .then(data => data.book);
 
 export const getAll = () => {
   return fetch(`${api}/books`, { headers })
     .then(res => res.json())
-	.then(data => data.books);
+    .then(data => data.books);
 }
 
 export const update = (book, shelf) =>
@@ -43,3 +43,5 @@ export const search = (query, maxResults) =>
     body: JSON.stringify({ query, maxResults })
   }).then(res => res.json())
     .then(data => data.books)
+
+/* eslint-enable */

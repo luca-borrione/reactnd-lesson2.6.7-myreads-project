@@ -1,186 +1,182 @@
+import React from 'react';
 import ReactDOM from 'react-dom';
-import { Route, MemoryRouter } from "react-router-dom";
-import Navigation from './Navigation'
+import PropTypes from 'prop-types';
+import { Route, MemoryRouter } from 'react-router-dom';
 import ReactTestUtils from 'react-dom/test-utils';
-import MyReads from "./MyReads/MyReads";
-import SearchPage from "./Search/SearchPage";
-import NotFoundPage from "./NotFoundPage";
+import Navigation from './Navigation';
+import MyReads from './MyReads/MyReads';
+import SearchPage from './Search/SearchPage';
+import NotFoundPage from './NotFoundPage';
 
+/* eslint-disable react/no-multi-comp */
 describe('Navigation', () => {
+  const renderSubject = (Subject) => {
+    const booksInShelves = [];
+    const getBookShelf = () => {};
+    const updateBookShelf = () => {};
 
-	const renderSubject = Subject => {
-		const booksInShelves = [];
-		const getBookShelf = () => {};
-		const updateBookShelf = () => {};
-
-		return (
-			<Subject
-				booksInShelves={booksInShelves}
-				getBookShelf={getBookShelf}
-				updateBookShelf={updateBookShelf} />
-		);
-	};
-
-
-
-	const renderTestSequence = ({
-		initialEntries,
-		initialIndex,
-		subject: Subject,
-		steps
-	}) => {
-
-		const div = document.createElement("div");
+    return (
+      <Subject
+        booksInShelves={booksInShelves}
+        getBookShelf={getBookShelf}
+        updateBookShelf={updateBookShelf}
+      />
+    );
+  };
 
 
-		class Assert extends React.Component {
-			componentDidMount() {
-				this.assert();
-			}
-
-			componentDidUpdate() {
-				this.assert();
-			}
-
-			assert() {
-				const nextStep = steps.shift();
-				if (nextStep) {
-					nextStep({ ...this.props, div });
-				} else {
-					ReactDOM.unmountComponentAtNode(div);
-				}
-			}
-
-			render() {
-				return this.props.children;
-			}
-		}
+  const renderTestSequence = ({
+    initialEntries,
+    initialIndex,
+    subject: Subject,
+    steps,
+  }) => {
+    const div = document.createElement('div');
 
 
-		class Test extends React.Component {
-			render() {
-				return (
-					<MemoryRouter
-						initialIndex={initialIndex}
-						initialEntries={initialEntries} >
+    class Assert extends React.Component {
+      static propTypes = {
+        children: PropTypes.shape({}).isRequired,
+      };
 
-						<Route
-							render={props => (
-								<Assert {...props}>
-									{renderSubject(Subject)}
-								</Assert>
-							)} />
+      componentDidMount() {
+        this.assert();
+      }
 
-					</MemoryRouter>
-				);
-			}
-		}
+      componentDidUpdate() {
+        this.assert();
+      }
 
-		ReactDOM.render(<Test />, div);
-	};
+      assert() {
+        const nextStep = steps.shift();
+        if (nextStep) {
+          nextStep({ ...this.props, div });
+        } else {
+          ReactDOM.unmountComponentAtNode(div);
+        }
+      }
 
-
-
-	const getRenderedHTML = Subject => {
-		const div = document.createElement("div");
-
-		ReactDOM.render(
-			<MemoryRouter>
-				{renderSubject(Subject)}
-			</MemoryRouter>, div);
-
-		return div.innerHTML;
-	};
+      render() {
+        const { children } = this.props;
+        return children;
+      }
+    }
 
 
+    class Test extends React.Component {
+      render() {
+        return (
+          <MemoryRouter
+            initialIndex={initialIndex}
+            initialEntries={initialEntries}
+          >
 
-	const extended = (() => {
-		const innerHTML = {
-			MyReads: getRenderedHTML(MyReads),
-			SearchPage: getRenderedHTML(SearchPage),
-			NotFoundPage: getRenderedHTML(NotFoundPage),
-		};
+            <Route
+              render={props => (
+                <Assert {...props}>
+                  {renderSubject(Subject)}
+                </Assert>
+              )}
+            />
 
-		return {
-			toBeRenderedAs(div, ComponentName) {
-				const pass = div.innerHTML === innerHTML[ComponentName];
-				if (pass) {
-					return {
-						message: () =>
-							`expected not to rendered as ${ComponentName}`,
-						pass: true,
-					};
-				} else {
-					return {
-						message: () =>
-							`expected to rendered as ${ComponentName}`,
-						pass: false,
-					};
-				}
-			}
-		};
-	})();
-	expect.extend(extended);
+          </MemoryRouter>
+        );
+      }
+    }
+
+    ReactDOM.render(<Test />, div);
+  };
 
 
+  const getRenderedHTML = (Subject) => {
+    const div = document.createElement('div');
 
-	it("navigates around", done => {
+    ReactDOM.render(
+      <MemoryRouter>
+        {renderSubject(Subject)}
+      </MemoryRouter>, div,
+    );
 
-		expect.assertions(8);
+    return div.innerHTML;
+  };
 
-		renderTestSequence({
 
-			initialEntries: [ '/' ],
+  const extended = (() => {
+    const innerHTML = {
+      MyReads: getRenderedHTML(MyReads),
+      SearchPage: getRenderedHTML(SearchPage),
+      NotFoundPage: getRenderedHTML(NotFoundPage),
+    };
 
-			// tell it the subject you're testing
-			subject: Navigation,
+    return {
+      toBeRenderedAs(div, ComponentName) {
+        const pass = div.innerHTML === innerHTML[ComponentName];
+        if (pass) {
+          return {
+            message: () => `expected not to rendered as ${ComponentName}`,
+            pass: true,
+          };
+        }
+        return {
+          message: () => `expected to rendered as ${ComponentName}`,
+          pass: false,
+        };
+      },
+    };
+  })();
+  expect.extend(extended);
 
-			// and the steps to execute each time the location changes
-			steps: [
 
-				// home page
-				({ location, div }) => {
+  it('navigates around', (done) => {
+    renderTestSequence({
 
-					expect(location.pathname).toBe('/');
-					expect(div).toBeRenderedAs('MyReads');
+      initialEntries: ['/'],
 
-					const node = div.querySelector("#goto-search");
-					ReactTestUtils.Simulate.click(node, {
-						button: 0
-					});
-				},
+      // tell it the subject you're testing
+      subject: Navigation,
 
-				// search page
-				({ location, div }) => {
+      // and the steps to execute each time the location changes
+      steps: [
 
-					expect(location.pathname).toBe('/search');
-					expect(div).toBeRenderedAs('SearchPage');
+        // home page
+        ({ location, div }) => {
+          expect(location.pathname).toBe('/');
+          expect(div).toBeRenderedAs('MyReads');
 
-					const node = div.querySelector("#goto-home");
-					ReactTestUtils.Simulate.click(node, {
-						button: 0
-					});
-				},
+          const node = div.querySelector('#goto-search');
+          ReactTestUtils.Simulate.click(node, {
+            button: 0,
+          });
+        },
 
-				// back to home page
-				({ history, location, div }) => {
+        // search page
+        ({ location, div }) => {
+          expect(location.pathname).toBe('/search');
+          expect(div).toBeRenderedAs('SearchPage');
 
-					expect(location.pathname).toBe('/');
-					expect(div).toBeRenderedAs('MyReads');
+          const node = div.querySelector('#goto-home');
+          ReactTestUtils.Simulate.click(node, {
+            button: 0,
+          });
+        },
 
-					history.push("/random");
-				},
+        // back to home page
+        ({ history, location, div }) => {
+          expect(location.pathname).toBe('/');
+          expect(div).toBeRenderedAs('MyReads');
 
-				// 404 error page
-				({ location, div }) => {
+          history.push('/random');
+        },
 
-					expect(location.pathname).toBe('/random');
-					expect(div).toBeRenderedAs('NotFoundPage');
+        // 404 error page
+        ({ location, div }) => {
+          expect(location.pathname).toBe('/random');
+          expect(div).toBeRenderedAs('NotFoundPage');
 
-					done();
-				}
-			]
-		});
-	});
-
+          done();
+        },
+      ],
+    });
+  });
 });
+/* eslint-enable react/no-multi-comp */

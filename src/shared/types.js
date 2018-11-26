@@ -21,11 +21,11 @@ import PropTypes from 'prop-types';
  * @property {string} title - The book's title
  */
 export const TBook = Object.freeze({
-	authors: PropTypes.arrayOf(PropTypes.string.isRequired),
-	id: PropTypes.string.isRequired,
-	shelf: PropTypes.string.isRequired,
-	thumbnail: PropTypes.string,
-	title: PropTypes.string.isRequired
+  authors: PropTypes.arrayOf(PropTypes.string.isRequired),
+  id: PropTypes.string.isRequired,
+  shelf: PropTypes.string.isRequired,
+  thumbnail: PropTypes.string,
+  title: PropTypes.string.isRequired,
 });
 
 
@@ -41,8 +41,8 @@ export const TBook = Object.freeze({
  * @property {string} NONE - none
  */
 export const TShelfKey = Object.freeze({
-	CURRENTLY_READING: 'currentlyReading',
-	WANT_TO_READ: 'wantToRead',
-	READ: 'read',
-	NONE: 'none'
+  CURRENTLY_READING: 'currentlyReading',
+  WANT_TO_READ: 'wantToRead',
+  READ: 'read',
+  NONE: 'none',
 });

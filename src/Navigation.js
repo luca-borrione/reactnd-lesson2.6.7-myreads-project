@@ -16,24 +16,29 @@ import { TBook } from './shared/types';
  * - [SearchPage]{@link module:SearchPage} when the browser location path contains '/search'
  * - [NotFoundPage]{@link module:NotFoundPage} when the browser location contains an unexpected path
  */
-const Navigation = props => {
+const Navigation = (props) => {
+  const { booksInShelves, getBookShelf, updateBookShelf } = props;
 
-	const { booksInShelves, getBookShelf, updateBookShelf} = props;
+  return (
+    <Switch>
+      <PropsRoute
+        exact
+        path="/"
+        component={MyReads}
+        booksInShelves={booksInShelves}
+        updateBookShelf={updateBookShelf}
+      />
 
-	return (
-		<Switch>
-			<PropsRoute exact path='/' component={MyReads}
-				booksInShelves={booksInShelves}
-				updateBookShelf={updateBookShelf} />
+      <PropsRoute
+        path="/search"
+        component={SearchPage}
+        getBookShelf={getBookShelf}
+        updateBookShelf={updateBookShelf}
+      />
 
-			<PropsRoute path='/search' component={SearchPage}
-				getBookShelf={getBookShelf}
-				updateBookShelf={updateBookShelf} />
-
-			<Route component={NotFoundPage} />
-		</Switch>
-	);
-
+      <Route component={NotFoundPage} />
+    </Switch>
+  );
 };
 
 /**
@@ -44,11 +49,11 @@ const Navigation = props => {
  * @property {function} updateBookShelf - see [updateBookShelf]{@link module:App~updateBookShelf}
  */
 Navigation.propTypes = {
-	booksInShelves:	PropTypes.arrayOf(
-		PropTypes.shape(TBook).isRequired
-	).isRequired,
-	getBookShelf: PropTypes.func.isRequired,
-	updateBookShelf: PropTypes.func.isRequired
+  booksInShelves: PropTypes.arrayOf(
+    PropTypes.shape(TBook).isRequired,
+  ).isRequired,
+  getBookShelf: PropTypes.func.isRequired,
+  updateBookShelf: PropTypes.func.isRequired,
 };
 
 export default Navigation;
