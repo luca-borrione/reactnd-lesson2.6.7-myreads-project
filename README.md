@@ -1,6 +1,6 @@
 # MyReads Project
 
-This is my assessment project for Udacity's React Fundamentals course:
+This is my first assessment project for Udacity's React Fundamentals course:
 - I completed the required development
 - I created the documentation under the folder docs
 - I created unit tests using Jest / Enzyme
