@@ -1,14 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import './index.css';
+import { getBasename } from './utils/helpers';
 
 ReactDOM.render(
-  <BrowserRouter>
+  <Router basename={getBasename()}>
     <App />
-  </BrowserRouter>,
+  </Router>,
   document.getElementById('root'),
 );
 
