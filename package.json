@@ -22,7 +22,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "jsdoc": "jsdoc --configure jsdoc.conf.json --recurse --private"
+    "jsdoc": "jsdoc --configure jsdoc.conf.json --recurse --private",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "browserslist": [
     ">0.2%",
